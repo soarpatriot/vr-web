@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
   <el-menu theme="light" :router="true" default-active="1" class="el-menu-demo" mode="horizontal">
     <el-menu-item  index="foo">处理中心</el-menu-item>
     <el-submenu index="2">
@@ -11,7 +11,7 @@
     <el-menu-item index="bar">订单管理</el-menu-item>
   </el-menu>
   <div class="line"></div>
-</div>
+  </div>
 </template>
 <script>
 export default {
@@ -23,5 +23,9 @@ export default {
   }
 }
 </script>
-
+<style>
+  .el-menu-demo{
+    padding-left: 55px;
+  }
+</style>
 
