@@ -1,17 +1,21 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
+    <router-link to="/foo">foo</router-link>
+    <router-link to="/bar">bar</router-link>
     <hello></hello>
   </div>
 </template>
 
 <script>
 import Hello from './components/Hello'
+import Foo from './components/Foo'
 
 export default {
   name: 'app',
   components: {
-    Hello
+    Hello,
+    Foo
   }
 }
 </script>
