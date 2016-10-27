@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" v-md-theme="'default'">
+
     <navbar></navbar>
     <img src="./assets/logo.png">
     <router-link to="/foo">foo</router-link>

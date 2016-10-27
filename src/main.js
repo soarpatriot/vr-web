@@ -1,12 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
-import Element from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
-Vue.use(Element)
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.css'
+
+Vue.use(VueMaterial)
+// import Element from 'element-ui'
+// import 'element-ui/lib/theme-default/index.css'
+// Vue.use(Element)
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
+Vue.material.theme.register('default', {
+  primary: 'cyan',
+  accent: 'pink'
+})
 Vue.config.debug = true
 
 import App from './App'

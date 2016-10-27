@@ -1,16 +1,30 @@
 <template>
-  <div>
-  <el-menu theme="light" :router="true" default-active="1" class="el-menu-demo" mode="horizontal">
-    <el-menu-item  index="foo">处理中心</el-menu-item>
-    <el-submenu index="2">
-      <template slot="title">我的工作台</template>
-      <el-menu-item index="2-1">选项1</el-menu-item>
-      <el-menu-item index="2-2">选项2</el-menu-item>
-      <el-menu-item index="2-3">选项3</el-menu-item>
-    </el-submenu>
-    <el-menu-item index="bar">订单管理</el-menu-item>
-  </el-menu>
-  <div class="line"></div>
+  <div class="example">
+    <md-toolbar class="md-large" v-md-theme="'green'">
+    <div class="md-toolbar-container">
+      <md-button class="md-icon-button">
+        <md-icon>menu</md-icon>
+      </md-button>
+
+      <span style="flex: 1;"></span>
+
+      <md-button class="md-icon-button">
+        <md-icon>search</md-icon>
+      </md-button>
+
+      <md-button class="md-icon-button">
+        <md-icon>filter_list</md-icon>
+      </md-button>
+    </div>
+
+    <div class="md-toolbar-container">
+      <h2 class="md-title">Vue Material</h2>
+
+      <md-button class="md-fab md-fab-bottom-right">
+        <md-icon>add</md-icon>
+      </md-button>
+    </div>
+    </md-toolbar>
   </div>
 </template>
 <script>
