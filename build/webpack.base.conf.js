@@ -58,6 +58,9 @@ module.exports = {
         include: projectRoot,
         exclude: /node_modules/
       },
+      { 
+        test: /\.scss$/, loader: 'style!css!sass'
+      }, 
       {
         test: /\.json$/,
         loader: 'json'
@@ -78,8 +81,31 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       }
-    ]
+    ],
+    postLoaders: [
+      { test: /vue-icons/, loader: "callback-loader"}
+    ], 
   },
+  callbackLoader: require("vue-icons/icon-loader.js")([
+        "fa-glass",
+        "fa-cab",
+        "fa-bullhorn",
+        "fa-camera",
+        "fa-ban",
+        "mdi-account-alert",
+        "material-add",
+        "material-menu",
+        "material-build",
+        "octicon-logo-github",
+        "octicon-heart",
+        "iconic-wrench",
+        "glyphicon-heart",
+        "fa-thumbs-up",
+        "fa-beer",
+        "im-IcoMoon",
+        "ra-download",
+        "ra-and-download"
+        ]),
   eslint: {
     formatter: require('eslint-friendly-formatter')
   },
@@ -89,6 +115,12 @@ module.exports = {
       require('autoprefixer')({
         browsers: ['last 2 versions']
       })
-    ]
+    ],
+    html: {
+      root: path.resolve(__dirname, '../src/assets')
+    }
+  }, 
+  sassLoader: {
+    includePaths: ['../node_modules/breakpoint-sass/stylesheets/']
   }
 }

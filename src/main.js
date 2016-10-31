@@ -2,8 +2,16 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
+// import MaterialIcons from 'material-design-icons'
+import 'aframe'
 import 'vue-material/dist/vue-material.css'
-
+// import 'material-design-icons/iconfonts/MaterialIcons-Regular.eot'
+// import 'material-design-icons/iconfonts/MaterialIcons-Regular.svg'
+// import 'material-design-icons/iconfonts/MaterialIcons-Regular.ttf'
+// import 'material-design-icons/iconfonts/MaterialIcons-Regular.woff'
+// import 'material-design-icons/iconfonts/MaterialIcons-Regular.woff2'
+// import 'material-design-icons/iconfonts/material-icons.css'
+// Vue.use(MaterialIcons)
 Vue.use(VueMaterial)
 // import Element from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'

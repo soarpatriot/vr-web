@@ -1,30 +1,33 @@
 <template>
-  <div id="app" v-md-theme="'default'">
+  <div id="main" v-md-theme="'default'">
 
     <navbar></navbar>
-    <img src="./assets/logo.png">
-    <router-link to="/foo">foo</router-link>
-    <router-link to="/bar">bar</router-link>
-    <hello></hello>
+    <div class="container">
+      <stage></stage>
+    </div>
   </div>
 </template>
 
 <script>
+import Stage from './components/Stage'
 import Navbar from './components/Navbar'
 import Hello from './components/Hello'
-
+import Icon from 'vue-icons'
 export default {
   name: 'app',
   components: {
     Hello,
-    Navbar
+    Navbar,
+    Stage,
+    Icon
   }
 }
 </script>
 
-<style>
-body{
-  margin: 0
+<style lang="scss">
+@import "./assets/scss/break.scss";
+body {
+  margin: 0;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -32,5 +35,16 @@ body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.container{
+  margin: 0 auto;
+  
+  @include breakpoint($md){
+    padding: 0 20px;
+  }
+  @include breakpoint($lg){
+    padding: 0 20px;
+    width:1170px;
+  }
 }
 </style>

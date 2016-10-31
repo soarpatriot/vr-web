@@ -1,35 +1,25 @@
 <template>
-  <div class="example">
-    <md-toolbar class="md-large" v-md-theme="'green'">
-    <div class="md-toolbar-container">
+  <div >
+    <md-toolbar class="md-warn">
       <md-button class="md-icon-button">
-        <md-icon>menu</md-icon>
+        <icon name="material-menu" class="md-48"></icon>
       </md-button>
+      <md-button>浏览</md-button>
+      <h2 class="md-title" style="flex: 1">Vue Material</h2>
 
-      <span style="flex: 1;"></span>
-
-      <md-button class="md-icon-button">
-        <md-icon>search</md-icon>
-      </md-button>
-
-      <md-button class="md-icon-button">
-        <md-icon>filter_list</md-icon>
-      </md-button>
-    </div>
-
-    <div class="md-toolbar-container">
-      <h2 class="md-title">Vue Material</h2>
-
-      <md-button class="md-fab md-fab-bottom-right">
-        <md-icon>add</md-icon>
-      </md-button>
-    </div>
+      <md-button>Add</md-button>
+      <md-button>Remove</md-button>
     </md-toolbar>
   </div>
 </template>
 <script>
+import Icon from 'vue-icons'
 export default {
   name: 'navbar',
+  components: {
+    Icon
+  },
+
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
