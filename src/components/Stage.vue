@@ -42,7 +42,7 @@ export default {
     height: 300px;
   }
   @include breakpoint($lg){
-    height: 300px;
+    height: 450px;
   }
 
 }
@@ -63,7 +63,7 @@ export default {
   @include breakpoint($lg){
     float: left;
     width: 60%;
-    height: 300px;
+    height: 450px;
   }
 
 }

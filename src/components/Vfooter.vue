@@ -16,3 +16,9 @@ export default {
 
 </script>
 
+<style lang="scss" scoped>
+.footer{
+  text-align:left;
+  margin: 30px 20px;
+}
+</style>

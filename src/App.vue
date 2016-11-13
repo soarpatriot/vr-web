@@ -64,7 +64,7 @@ body {
 }
 .home-model{
   color: #eee;
-  background: #333 url(/images/conbg.png) left top repeat-x;
+  background: #333 url(/static/images/conbg.png) left top repeat-x;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -77,20 +77,32 @@ body {
 .why{
   padding: 30px 0;
   color: #eee;
-  background: #1caad9 url(/intro.png) left bottom repeat-x;
+  background: #1caad9 url(/static/images/intro.png) left bottom repeat-x;
   img{
     width: 64px;
   }
 }
 .site-intro{
-  
-  padding-top: 120px;
-  @include breakpoint($xs){
-    padding-top: 5px;
+  background: #333 url(/static/images/conbg.png) top bottom repeat-y;
+  width: 100%;
+  height: 60px;
+  padding-top: 5px;
+
+  @include breakpoint($lg){
+		float:left; 
+		width: 40%;
+		height: 450px;
+		padding-top: 120px;
+ 
   }
-  @include breakpoint($sm){
-    padding-top: 5px;
+  @include breakpoint($md){
+		float:left; 
+		width: 40%;
+		height: 300px;
+		padding-top: 100px;
+ 
   }
  
+
 }
 </style>
