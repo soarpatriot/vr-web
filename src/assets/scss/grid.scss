@@ -1,0 +1,37 @@
+
+
+@import "./utils";
+@import "~susy/sass/susy";
+$susy: (
+  columns: 12,
+  gutters: 1/4,
+  math: fluid,
+  output: float,
+  gutter-position: inside,
+);
+.row{
+  @include container;
+  @include clearfix;
+}
+.col-4{
+  float: left;
+  width: span(4)
+}
+.container{
+  margin: 0 auto;
+  position: relative;  
+  @include breakpoint($md){
+    padding: 0 20px;
+  }
+  @include breakpoint($lg){
+    padding: 0 20px;
+    width:1024px;
+  }
+}
+.fluid-container{
+  @include clearfix;
+  margin: 0 auto;
+  position: relative;  
+  width: 100%
+}
+

@@ -1,54 +1,73 @@
 <template>
   <div class="stage">
     <a-scene class="scene" embedded>
-      <a-sky src="/static/images/street.jpg"></a-sky>
+      <sky></sky>
     </a-scene>
+
+
   </div>
+
 </template>
 <script>
+import Sky from './Sky'
 export default {
   name: 'stage',
   components: {
+    Sky
   },
 
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      content: '美丽的街景'
     }
+  },
+  created: function () {
   }
 }
 </script>
 <style lang="scss" scoped>
 @import "../assets/scss/break.scss";
-.stage {
-  @include breakpoint($md){
-    margin-top: 50px;
-  }
-  @include breakpoint($lg){
-    margin-top: 50px;
-  }
 
- 
-}
 .scene {
   display: block;
   width: 100%;
-  height: 200px;
+   
+  height: 240px;
   position: relative;
   @include breakpoint($sm){
-    height: 300px;
+    height: 330px;
   }
  
   @include breakpoint($md){
-    width: 500px;
     height: 300px;
   }
   @include breakpoint($lg){
-    width: 500px;
     height: 300px;
   }
 
 }
+.stage {
+  display: block;
+  width: 100%;
+  height: 240px;
+  position: relative;
+  @include breakpoint($sm){
+    height: 330px;
+  }
+ 
+  @include breakpoint($md){
+    float: left;
+    width: 500px;
+    height: 300px;
+  }
+  @include breakpoint($lg){
+    float: left;
+    width: 60%;
+    height: 300px;
+  }
+
+}
+
 
 </style>
 

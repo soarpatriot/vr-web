@@ -1,16 +1,10 @@
 <template>
-  <div >
-    <md-toolbar class="md-warn">
+    <md-toolbar class="md-warn my-navbar">
       <md-button class="md-icon-button">
         <icon name="material-menu" class="md-48"></icon>
       </md-button>
       <md-button>浏览</md-button>
-      <h2 class="md-title" style="flex: 1">Vue Material</h2>
-
-      <md-button>Add</md-button>
-      <md-button>Remove</md-button>
     </md-toolbar>
-  </div>
 </template>
 <script>
 import Icon from 'vue-icons'
@@ -28,8 +22,12 @@ export default {
 }
 </script>
 <style>
-  .el-menu-demo{
-    padding-left: 55px;
-  }
+.my-navbar{
+  color: #fff;
+  background: rgba(0,0,0,.9);
+  box-shadow: 0 1px 5px rgba(0,0,0,.15)
+}
+
+ 
 </style>
 
