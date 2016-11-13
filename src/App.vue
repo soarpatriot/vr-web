@@ -91,14 +91,13 @@ body {
   @include breakpoint($lg){
 		float:left; 
 		width: 40%;
-		height: 450px;
 		padding-top: 120px;
  
   }
   @include breakpoint($md){
 		float:left; 
-		width: 40%;
-		height: 300px;
+		width: 30%;
+    padding-left: 30px;
 		padding-top: 100px;
  
   }
