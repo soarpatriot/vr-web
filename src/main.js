@@ -26,6 +26,7 @@ Vue.material.theme.register('default', {
 Vue.config.debug = true
 
 import App from './App'
+import Upload from './Upload'
 
 import Foo from './components/Foo'
 const Bar = { template: '<div>bar</div>' }
@@ -46,8 +47,11 @@ const router = new VueRouter({
     {
       path: '/bar',
       component: Bar
+    },
+    {
+      path: '/upload',
+      component: Upload
     }
-
   ]
 })
 
