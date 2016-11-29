@@ -4,7 +4,7 @@
         <icon name="material-menu" class="md-48"></icon>
       </md-button>
       <md-button>浏览</md-button>
-      <md-button v-on:click="upload">上传</md-button>
+      <md-button href="/upload">上传</md-button>
     </md-toolbar>
 </template>
 <script>
@@ -18,11 +18,6 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
-    }
-  },
-  methods: {
-    upload: function (e) {
-      window.location.href = '/upload'
     }
   }
 }
