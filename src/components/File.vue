@@ -11,10 +11,18 @@
 			<label>描述</label>
 			<md-textarea></md-textarea>
 		</md-input-container>
+    <img :src="image" class="file-img"/>
+		<p class="file-tip" v-if="name">
+       {{name}}, {{size}}M, 类型：{{type}}
+    </p>
+    <p class="progress">
+	    <progress class="prgoress-bar" min="0" max="100" v-bind:value="progress">{{progress}}</progress>
+      {{progress}}%
+    </p>
 		<md-input-container>
       <span class="up-span md-raised md-primary"> 
          选择文件 
-			  <input class="up-btn" type="file"></input>
+				<input class="up-btn" @change="onFileChange" type="file"></input>
       <span>
 		</md-input-container>
 
@@ -28,9 +36,79 @@ export default {
   name: 'foo',
   data () {
     return {
+      image: '',
+      name: '',
+      size: '',
+      type: '',
+      progress: 0,
+      url: 'http://localhost:8888/files',
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  methods: {
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      var file = files[0]
+      this.name = file.name
+      this.size = (file.size / 1024 / 1024).toFixed(2)
+      this.type = file.type
+      if (this.isImage(files[0])) {
+        this.createImage(files[0])
+      } else {
+        this.removeImage()
+      }
+      this.upload(file)
+    },
+    createImage (file) {
+      // var image = new Image()
+      var reader = new window.FileReader()
+      var vm = this
+
+      reader.onload = (e) => {
+        vm.image = e.target.result
+      }
+      reader.readAsDataURL(file)
+    },
+    removeImage: function (e) {
+      this.image = ''
+    },
+    isImage: function (file) {
+      var acceptedTypes = {
+        'image/png': true,
+        'image/jpeg': true,
+        'image/gif': true
+      }
+      return acceptedTypes[file.type] === true
+    },
+    upload: function (file) {
+      var that = this
+      if (window.FormData) {
+        var formData = new window.FormData()
+        formData.append('upload', file)
+      }
+      var xhr = new window.XMLHttpRequest()
+      xhr.open('POST', this.url)
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          console.log('上传成功')
+        } else {
+          console.log('出错了')
+        }
+      }
+      xhr.upload.onprogress = function (event) {
+        if (event.lengthComputable) {
+          var complete = (event.loaded / event.total * 100 | 0)
+          console.log(complete)
+          that.progress = complete
+        }
+      }
+      xhr.send(formData)
+    }
   }
+
 }
 </script>
 
@@ -62,5 +140,16 @@ export default {
   direction: ltr;
   cursor: pointer;
 }
+.file-img{
+  max-width: 200px;
+  display:block;
+}
+.file-tip{
+  text-align: left;
+}
+.progress{
+  text-align: left;
+}
+
 </style>
 
