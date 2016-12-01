@@ -25,7 +25,8 @@
 				<input class="up-btn" @change="onFileChange" type="file"></input>
       <span>
 		</md-input-container>
-    <div class="drag-area"  
+    <div 
+      v-bind:class="['drag-area', { over: isDragOver}]"  
       @dragover="onDragOver"
       @drop="onDrop">
 
@@ -42,6 +43,7 @@ export default {
   name: 'foo',
   data () {
     return {
+      isDragOver: false,
       image: '',
       name: '',
       size: '',
@@ -76,10 +78,12 @@ export default {
     },
     onDragOver (e) {
       e.preventDefault()
+      this.isDragOver = true
       console.log('end')
     },
     onDrop (e) {
       e.preventDefault()
+      this.isDragOver = false
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
         return
@@ -192,8 +196,9 @@ export default {
   border: dashed 3px #eee;
   display: flex
 }
-.drag-area:hover{
-  border: dashed 3px #red;
+.drag-area.over {
+    border: dashed 3px #red;
 }
+
 </style>
 
