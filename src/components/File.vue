@@ -25,6 +25,12 @@
 				<input class="up-btn" @change="onFileChange" type="file"></input>
       <span>
 		</md-input-container>
+    <div class="drag-area"  
+      @dragover="onDragOver"
+      @drop="onDrop">
+
+    </div>
+
 
 
     </form> 
@@ -57,6 +63,36 @@ export default {
       this.type = file.type
       if (this.isImage(files[0])) {
         this.createImage(files[0])
+      } else {
+        this.removeImage()
+      }
+      this.upload(file)
+    },
+    onDragStart (e) {
+      console.log('start')
+    },
+    onDragEnd (e) {
+      console.log('end')
+    },
+    onDragOver (e) {
+      e.preventDefault()
+      console.log('end')
+    },
+    onDrop (e) {
+      e.preventDefault()
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      var file = files[0]
+      this.optFile(file)
+    },
+    optFile (file) {
+      this.name = file.name
+      this.size = (file.size / 1024 / 1024).toFixed(2)
+      this.type = file.type
+      if (this.isImage(file)) {
+        this.createImage(file)
       } else {
         this.removeImage()
       }
@@ -151,5 +187,13 @@ export default {
   text-align: left;
 }
 
+.drag-area{
+  height: 100px;
+  border: dashed 3px #eee;
+  display: flex
+}
+.drag-area:hover{
+  border: dashed 3px #red;
+}
 </style>
 
