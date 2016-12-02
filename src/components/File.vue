@@ -1,7 +1,7 @@
 <template>
   <div class="container">
    <h1>上传我的VR</h1>
-   <form novalidate @submit.stop.prevent="submit">
+   <form class="upload-form" novalidate @submit.stop.prevent="submit">
 		<md-input-container>
 			<label>标题</label>
 			<md-input></md-input>
@@ -19,6 +19,9 @@
 	    <progress class="prgoress-bar" min="0" max="100" v-bind:value="progress">{{progress}}</progress>
       {{progress}}%
     </p>
+    <p class="md-body-2">
+      {{msg}}
+    </p>
 		<md-input-container>
       <span class="up-span md-raised md-primary"> 
          选择文件 
@@ -26,10 +29,10 @@
       <span>
 		</md-input-container>
     <div 
-      v-bind:class="['drag-area', { over: isDragOver}]"  
+      v-bind:class="[{'drag-over': isDragOver}, 'drag-area']"
       @dragover="onDragOver"
       @drop="onDrop">
-
+      拖拽文件到此次上传文件
     </div>
 
 
@@ -50,7 +53,7 @@ export default {
       type: '',
       progress: 0,
       url: 'http://localhost:8888/files',
-      msg: 'Welcome to Your Vue.js App'
+      msg: ''
     }
   },
   methods: {
@@ -70,16 +73,9 @@ export default {
       }
       this.upload(file)
     },
-    onDragStart (e) {
-      console.log('start')
-    },
-    onDragEnd (e) {
-      console.log('end')
-    },
     onDragOver (e) {
       e.preventDefault()
       this.isDragOver = true
-      console.log('end')
     },
     onDrop (e) {
       e.preventDefault()
@@ -133,10 +129,16 @@ export default {
       xhr.open('POST', this.url)
       xhr.onload = function () {
         if (xhr.status === 200) {
+          that.msg = '上传成功！'
           console.log('上传成功')
         } else {
+          that.msg = '上传出错，请重试！'
           console.log('出错了')
         }
+      }
+      xhr.onerror = function () {
+        that.msg = '服务没有响应！'
+        console.log('远程服务器错误')
       }
       xhr.upload.onprogress = function (event) {
         if (event.lengthComputable) {
@@ -194,11 +196,16 @@ export default {
 .drag-area{
   height: 100px;
   border: dashed 3px #eee;
+  font-size: 24px;
+  justify-content: center;
+  align-items: center;
   display: flex
 }
-.drag-area.over {
-    border: dashed 3px #red;
+.drag-over {
+  border: dashed 3px #5cb85c;
 }
-
+.upload-form{
+  text-align: left;
+}
 </style>
 
