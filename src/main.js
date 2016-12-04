@@ -19,9 +19,15 @@ Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
-Vue.material.theme.register('default', {
-  primary: 'cyan',
-  accent: 'pink'
+Vue.material.theme.registerAll({
+  default: {
+    primary: 'indigo',
+    accent: 'pink'
+  },
+  phone: {
+    primary: 'indigo',
+    accent: 'pink'
+  }
 })
 Vue.config.debug = true
 

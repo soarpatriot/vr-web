@@ -1,28 +1,31 @@
 <template>
-  <div class="container">
+  <div class="container upload-container">
    <h1>上传我的VR</h1>
    <form class="upload-form" novalidate @submit.stop.prevent="submit">
 		<md-input-container>
 			<label>标题</label>
-			<md-input></md-input>
+			<md-input required></md-input>
 		</md-input-container>
 
 		<md-input-container>
 			<label>描述</label>
-			<md-textarea></md-textarea>
+			<md-textarea required></md-textarea>
 		</md-input-container>
-    <img :src="image" class="file-img"/>
-		<p class="file-tip" v-if="name">
-       {{name}}, {{size}}M, 类型：{{type}}
-    </p>
-    <p class="progress">
-	    <progress class="prgoress-bar" min="0" max="100" v-bind:value="progress">{{progress}}</progress>
-      {{progress}}%
-    </p>
-    <p class="md-body-2">
-      {{msg}}
-    </p>
-		<md-input-container>
+    <div v-if="name" class="img-show">
+			<img :src="image" class="file-img"/>
+			<p class="file-tip">
+				 {{name}}, {{size}}M, 类型：{{type}}
+			</p>
+			<p class="progress">
+				<progress class="prgoress-bar" min="0" max="100" v-bind:value="progress">{{progress}}</progress>
+				{{progress}}%
+			</p>
+			<p class="md-body-2">
+				{{msg}}
+			</p>
+	
+    </div>
+	  <md-input-container>
       <span class="up-span md-raised md-primary"> 
          选择文件 
 				<input class="up-btn" @change="onFileChange" type="file"></input>
@@ -34,7 +37,9 @@
       @drop="onDrop">
       拖拽文件到此次上传文件
     </div>
-
+    <div class="opt-area">
+      <md-button type="submit" v-md-theme="'phone'" class="md-raised md-primary">发布</md-button>
+    </div>
 
 
     </form> 
@@ -57,6 +62,8 @@ export default {
     }
   },
   methods: {
+    submit (e) {
+    },
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
       if (!files.length) {
@@ -157,9 +164,23 @@ export default {
 <style lang="scss">
 @import "../assets/scss/break.scss";
 @import "../assets/scss/grid.scss";
+.upload-container{
+  padding-top: 30px;
+  @include breakpoint($lg){
+		width: 50%;
+ 
+  }
+  @include breakpoint($md){
+		width: 80%;
+ 
+  }
+ 
+
+}
 .up-span{
   position: relative;
   overflow: hidden;
+  text-align: center;
   background-color:#5cb85c;
   width: 100px; 
   display: block;
@@ -168,7 +189,7 @@ export default {
   vertical-align: middle;
   white-space: nowrap;
   color: #fff;
-  padding:6px 12px;
+  padding:8px 10px 8px 14px;
   marign: 0;
 }
 .md-input-container .up-btn{
@@ -206,6 +227,10 @@ export default {
 }
 .upload-form{
   text-align: left;
+}
+.opt-area{
+  margin-top: 20px;
+  text-align: center;
 }
 </style>
 
