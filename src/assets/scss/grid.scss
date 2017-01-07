@@ -17,6 +17,14 @@ $susy: (
   float: left;
   width: span(4)
 }
+.col-sm-4{
+  float: left;
+  width: span(4);
+  @include breakpoint($xs){
+    width: span(12)
+  }
+ 
+}
 .container{
   margin: 0 auto;
   position: relative;  

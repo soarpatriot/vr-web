@@ -12,19 +12,19 @@
     </div>
     <div class="fluid-container why">
 			<div class="row">
-				<div class="intro col-4">
+				<div class="intro col-sm-4">
           <img src="/static/images/upload.png"/>
           <p>
 					无限上传你的VR，模型 
           </p>
 				</div>  
-				<div class="intro col-4">
+				<div class="intro col-sm-4">
           <img src="/static/images/univer.png"/>
           <p>
 					支持3D模型和VR  
           </p>
 				</div>  
-				<div class="intro col-4">
+				<div class="intro col-sm-4">
           <img src="/static/images/univer.png"/>
           <p>
 					嵌入VR到你的网站
