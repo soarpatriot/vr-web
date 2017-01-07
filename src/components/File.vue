@@ -57,7 +57,7 @@ export default {
       size: '',
       type: '',
       progress: 0,
-      url: 'http://localhost:8888/files',
+      url: 'http://assets.dreamreality.cn/files',
       msg: ''
     }
   },
