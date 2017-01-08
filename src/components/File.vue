@@ -35,7 +35,7 @@
       v-bind:class="[{'drag-over': isDragOver}, 'drag-area']"
       @dragover="onDragOver"
       @drop="onDrop">
-      拖拽文件到此次上传文件
+      拖拽到这里上传
     </div>
     <div class="opt-area">
       <md-button type="submit" v-md-theme="'phone'" class="md-raised md-primary">发布</md-button>

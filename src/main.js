@@ -12,27 +12,32 @@ import 'vue-material/dist/vue-material.css'
 // import 'material-design-icons/iconfonts/MaterialIcons-Regular.woff2'
 // import 'material-design-icons/iconfonts/material-icons.css'
 // Vue.use(MaterialIcons)
-Vue.use(VueMaterial)
 // import Element from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
+Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
-Vue.material.theme.registerAll({
+Vue.material.registerTheme({
   default: {
-    primary: 'indigo',
-    accent: 'pink'
+    primary: 'blue',
+    accent: 'black',
+    warn: 'red',
+    background: 'white'
   },
-  phone: {
-    primary: 'indigo',
+  black: {
+    primary: 'black',
     accent: 'pink'
   }
 })
+// Vue.material.setCurrentTheme('black')
 Vue.config.debug = true
 
 import App from './App'
 import Upload from './Upload'
+import Login from './Login'
+import Register from './Register'
 
 import Foo from './components/Foo'
 const Bar = { template: '<div>bar</div>' }
@@ -53,6 +58,14 @@ const router = new VueRouter({
     {
       path: '/bar',
       component: Bar
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/register',
+      component: Register
     },
     {
       path: '/upload',

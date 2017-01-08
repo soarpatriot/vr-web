@@ -43,15 +43,14 @@ import Stage from './components/Stage'
 import Vfooter from './components/Vfooter'
 import Navbar from './components/Navbar'
 import Hello from './components/Hello'
-import Icon from 'vue-icons'
+// import Icon from 'vue-icons'
 export default {
   name: 'app',
   components: {
     Hello,
     Navbar,
     Stage,
-    Vfooter,
-    Icon
+    Vfooter
   }
 }
 </script>
