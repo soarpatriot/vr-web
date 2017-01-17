@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
+import VeeValidate from 'vee-validate'
 // import MaterialIcons from 'material-design-icons'
 import 'aframe'
 import 'vue-material/dist/vue-material.css'
@@ -15,6 +16,7 @@ import 'vue-material/dist/vue-material.css'
 // import Element from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
+Vue.use(VeeValidate)
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(VueResource)
