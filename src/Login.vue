@@ -6,13 +6,13 @@
       <form class="upload-form" novalidate @submit.stop.prevent="submit">
         <md-input-container>
           <label>用户名／邮箱</label>
-          <md-input required></md-input>
+          <md-input v-model="user.email" required></md-input>
         </md-input-container>
         <md-input-container md-has-password>
           <label>密码</label>
-          <md-input type="password"></md-input>
+          <md-input v-model="user.password" type="password"></md-input>
         </md-input-container> 
-        <md-button type="submit" v-md-theme="'phone'" class="md-raised md-primary">登录</md-button>
+        <md-button type="submit" class="md-raised md-primary">登录</md-button>
 
 
       </form> 
@@ -31,6 +31,26 @@ export default {
     Navbar,
     Vfooter,
     Icon
+  },
+  data () {
+    return {
+      user: {
+        email: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    submit () {
+      const REG_URL = 'http://localhost:4000/login'
+      this.$http.post(REG_URL, { session: this.user }).then((response) => {
+        // console.log(`success: ${JSON.parse(response)}`)
+        // window.localStorage.setItem('token', response.token)
+        this.$router.push('/')
+      }, (response) => {
+        console.log(`error: ${response}`)
+      })
+    }
   }
 }
 </script>
