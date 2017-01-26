@@ -44,8 +44,9 @@ export default {
     submit () {
       const REG_URL = 'http://localhost:4000/login'
       this.$http.post(REG_URL, { session: this.user }).then((response) => {
-        // console.log(`success: ${JSON.parse(response)}`)
-        // window.localStorage.setItem('token', response.token)
+        // console.log(`success: ${JSON.stringify(response)}`)
+        // console.log(`success: ${response.body.token}`)
+        window.localStorage.setItem('token', response.body.token)
         this.$router.push('/')
       }, (response) => {
         console.log(`error: ${response}`)

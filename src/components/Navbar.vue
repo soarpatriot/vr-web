@@ -17,11 +17,27 @@ export default {
   name: 'navbar',
   components: {
   },
-
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  created () {
+    let token = window.localStorage.getItem('token')
+    const USER_URL = 'http://localhost:4000/validate'
+    if (token) {
+      let tokenStr = `Token: ${token}`
+      console.log(`token: ${tokenStr}`)
+      this.$http.get(USER_URL, { headers: {
+        'api-token': tokenStr
+      } }).then((response) => {
+        console.log(`token success: ${JSON.stringify(response)}`)
+      }, (response) => {
+        console.log(`error: ${JSON.stringify(response)}`)
+      })
+    }
+  },
+  methods: {
   }
 }
 </script>
