@@ -41,7 +41,6 @@ import Upload from './Upload'
 import Login from './Login'
 import Register from './Register'
 
-import Foo from './components/Foo'
 const Bar = { template: '<div>bar</div>' }
 // 创建一个路由器实例
 // 并且配置路由规则
@@ -52,10 +51,6 @@ const router = new VueRouter({
     {
       path: '/',
       component: App
-    },
-    {
-      path: '/foo',
-      component: Foo
     },
     {
       path: '/bar',

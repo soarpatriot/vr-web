@@ -7,10 +7,26 @@
       <md-button>浏览</md-button>
       <md-button href="/upload">上传</md-button>
       <span style="flex: 1;"></span>
-      <md-button href="/login">登录</md-button>
-      <span>/</span>
-      <md-button href="/register">注册</md-button>
-    </md-toolbar>
+      <template v-if="logined">
+				<md-menu md-direction="bottom left">
+					<md-button md-menu-trigger>
+            {{user.name}}
+						<md-icon class="md-primary">people</md-icon>
+          </md-button>
+					<md-menu-content>
+						<md-menu-item>我</md-menu-item>
+						<md-menu-item>我的模型</md-menu-item>
+						<md-menu-item @click="logout">退出</md-menu-item>
+					</md-menu-content>
+				</md-menu>
+      </template>
+      <template v-else>
+        <md-button href="/login">登录</md-button>
+        <span>/</span>
+        <md-button href="/register">注册</md-button>
+      </template>
+ 
+   </md-toolbar>
 </template>
 <script>
 export default {
@@ -19,7 +35,8 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      user: {},
+      logined: false
     }
   },
   created () {
@@ -31,6 +48,8 @@ export default {
       this.$http.get(USER_URL, { headers: {
         'api-token': tokenStr
       } }).then((response) => {
+        this.logined = true
+        this.user = response.body
         console.log(`token success: ${JSON.stringify(response)}`)
       }, (response) => {
         console.log(`error: ${JSON.stringify(response)}`)
@@ -38,6 +57,11 @@ export default {
     }
   },
   methods: {
+    logout () {
+      window.localStorage.removeItem('token')
+      this.logind = false
+      this.$router.push('/')
+    }
   }
 }
 </script>

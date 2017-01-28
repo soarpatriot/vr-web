@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "aframe": "^0.3.2",
+    "aframe": "^0.4.0",
     "blueimp-file-upload": "^9.14.1",
     "breakpoint-sass": "^2.7.0",
     "element-ui": "^1.0.0-rc.7",

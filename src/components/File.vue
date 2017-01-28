@@ -4,12 +4,12 @@
    <form class="upload-form" novalidate @submit.stop.prevent="submit">
 		<md-input-container>
 			<label>标题</label>
-			<md-input required></md-input>
+			<md-input v-model="post.title" required></md-input>
 		</md-input-container>
 
 		<md-input-container>
 			<label>描述</label>
-			<md-textarea required></md-textarea>
+			<md-textarea v-model="post.description" required></md-textarea>
 		</md-input-container>
     <div v-if="name" class="img-show">
 			<img :src="image" class="file-img"/>
@@ -38,7 +38,7 @@
       拖拽到这里上传
     </div>
     <div class="opt-area">
-      <md-button type="submit" v-md-theme="'phone'" class="md-raised md-primary">发布</md-button>
+      <md-button type="submit" class="md-raised md-primary">发布</md-button>
     </div>
 
 
@@ -48,9 +48,10 @@
 
 <script>
 export default {
-  name: 'foo',
+  name: 'file',
   data () {
     return {
+      post: {},
       isDragOver: false,
       image: '',
       name: '',
@@ -63,6 +64,35 @@ export default {
   },
   methods: {
     submit (e) {
+      let files = window.localStorage.getItem('files')
+      let token = window.localStorage.getItem('token')
+      let tokenStr = `Token: ${token}`
+      if (files) {
+        let fileArr = JSON.parse(files)
+        let file = fileArr[0]
+        this.post.file = file
+        console.log(`file: ${file.filename}`)
+      }
+      const POST_URL = 'http://localhost:4000/posts'
+      if (!this.any()) {
+        this.$http.post(POST_URL, { post: this.post },
+        { headers: {
+          'api-token': tokenStr
+        }
+        }).then((response) => {
+          console.log(`success: ${response}`)
+          // window.localStorage.setItem('token', response.data token)
+          this.done = true
+          // this.$route._router.go('/')
+        }, (response) => {
+          console.log(`error: ${response}`)
+        })
+        console.log(`data: ${this.post}`)
+      }
+      console.log(files)
+    },
+    any () {
+      return false
     },
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
@@ -137,7 +167,8 @@ export default {
       xhr.onload = function () {
         if (xhr.status === 200) {
           that.msg = '上传成功！'
-          console.log('上传成功')
+          window.localStorage.setItem('files', xhr.responseText)
+          console.log(`上传成功: ${xhr.responseText}`)
         } else {
           that.msg = '上传出错，请重试！'
           console.log('出错了')
