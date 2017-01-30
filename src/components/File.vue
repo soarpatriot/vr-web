@@ -1,5 +1,6 @@
 <template>
   <div class="container upload-container">
+   <template v-if="!done">
    <h1>上传我的VR</h1>
    <form class="upload-form" novalidate @submit.stop.prevent="submit">
 		<md-input-container :class="{ 'md-input-invalid': hasError('post.title') }">
@@ -45,6 +46,10 @@
       <md-button type="submit" class="md-raised md-primary">发布</md-button>
     </div>
     </form> 
+    </template>
+    <template v-else>
+      <p>模型已上传成功</p>
+    </template>
   </div>
 </template>
 
@@ -66,6 +71,7 @@ export default {
       type: '',
       progress: 0,
       url: 'http://assets.dreamreality.cn/files',
+      done: false,
       msg: ''
     }
   },

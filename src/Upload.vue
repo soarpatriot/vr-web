@@ -1,6 +1,5 @@
 <template>
   <div id="main">
-
     <navbar></navbar>
     <file/>
     <vfooter></vfooter>
