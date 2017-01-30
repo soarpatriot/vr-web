@@ -2,14 +2,16 @@
   <div class="container upload-container">
    <h1>上传我的VR</h1>
    <form class="upload-form" novalidate @submit.stop.prevent="submit">
-		<md-input-container>
+		<md-input-container :class="{ 'md-input-invalid': hasError('post.title') }">
 			<label>标题</label>
-			<md-input v-model="post.title" required></md-input>
+			<md-input v-model.trim="post.title" @change="validate" debounce="500" required></md-input>
+      <span v-show="hasError('post.title')" class="md-error">{{errorOne('post.title')}}</span>
 		</md-input-container>
 
-		<md-input-container>
+		<md-input-container :class="{ 'md-input-invalid': hasError('post.description') }">
 			<label>描述</label>
-			<md-textarea v-model="post.description" required></md-textarea>
+			<md-textarea v-model.trim="post.description" @change="validate" debounce="500" required></md-textarea>
+      <span v-show="hasError('post.description')" class="md-error">{{errorOne('post.description')}}</span>
 		</md-input-container>
     <div v-if="name" class="img-show">
 			<img :src="image" class="file-img"/>
@@ -25,11 +27,12 @@
 			</p>
 	
     </div>
-	  <md-input-container>
+    <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
       <span class="up-span md-raised md-primary"> 
          选择文件 
 				<input class="up-btn" @change="onFileChange" type="file"></input>
-      <span>
+      </span>
+      <span v-show="hasError('post.file')" class="md-error">{{errorOne('post.file')}}</span>
 		</md-input-container>
     <div 
       v-bind:class="[{'drag-over': isDragOver}, 'drag-area']"
@@ -40,8 +43,6 @@
     <div class="opt-area">
       <md-button type="submit" class="md-raised md-primary">发布</md-button>
     </div>
-
-
     </form> 
   </div>
 </template>
@@ -51,7 +52,12 @@ export default {
   name: 'file',
   data () {
     return {
-      post: {},
+      post: {
+        title: '',
+        description: '',
+        file: null
+      },
+      errors: [],
       isDragOver: false,
       image: '',
       name: '',
@@ -63,25 +69,59 @@ export default {
     }
   },
   methods: {
+    validate () {
+      this.errors = []
+      if (this.post.title === '') {
+        let error = {field: 'post.title', type: 'required', tip: '请填写标题！'}
+        this.errors.push(error)
+      }
+      if (this.post.description === '') {
+        let error = {field: 'post.description', type: 'required', tip: '请填写描述！'}
+        this.errors.push(error)
+      }
+      console.log(`file: ${this.post.file}`)
+      if (this.post.file === null || this.post.file === '') {
+        let error = {field: 'post.file', type: 'required', tip: '请上传文件！'}
+        this.errors.push(error)
+      }
+      console.log(`errors: ${this.errors.length}`)
+    },
+    any () {
+      return this.errors.length > 0
+    },
+    hasError (field) {
+      let errors = this.errorArray(field)
+      return errors.length > 0
+    },
+    errorOne (field) {
+      let errors = this.errorArray(field)
+      if (errors && errors.length > 0) {
+        return errors[0].tip
+      }
+    },
+    errorArray (field) {
+      return this.errors.filter(error => error.field === field)
+    },
     submit (e) {
       let files = window.localStorage.getItem('files')
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
+      const POST_URL = 'http://localhost:4000/posts'
       if (files) {
         let fileArr = JSON.parse(files)
         let file = fileArr[0]
         this.post.file = file
-        console.log(`file: ${file.filename}`)
+        console.log(`ready file: ${file.filename}`)
       }
-      const POST_URL = 'http://localhost:4000/posts'
+      this.validate()
       if (!this.any()) {
+        console.log('aa')
         this.$http.post(POST_URL, { post: this.post },
         { headers: {
           'api-token': tokenStr
         }
         }).then((response) => {
           console.log(`success: ${response}`)
-          // window.localStorage.setItem('token', response.data token)
           this.done = true
           // this.$route._router.go('/')
         }, (response) => {
@@ -90,9 +130,6 @@ export default {
         console.log(`data: ${this.post}`)
       }
       console.log(files)
-    },
-    any () {
-      return false
     },
     onFileChange (e) {
       var files = e.target.files || e.dataTransfer.files
