@@ -7,8 +7,7 @@
 			<md-input v-model.trim="post.title" @change="validate" debounce="500" required></md-input>
       <span v-show="hasError('post.title')" class="md-error">{{errorOne('post.title')}}</span>
 		</md-input-container>
-
-		<md-input-container :class="{ 'md-input-invalid': hasError('post.description') }">
+	  <md-input-container :class="{ 'md-input-invalid': hasError('post.description') }">
 			<label>描述</label>
 			<md-textarea v-model.trim="post.description" @change="validate" debounce="500" required></md-textarea>
       <span v-show="hasError('post.description')" class="md-error">{{errorOne('post.description')}}</span>
@@ -27,13 +26,15 @@
 			</p>
 	
     </div>
-    <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
+	  <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
       <span class="up-span md-raised md-primary"> 
          选择文件 
 				<input class="up-btn" @change="onFileChange" type="file"></input>
       </span>
       <span v-show="hasError('post.file')" class="md-error">{{errorOne('post.file')}}</span>
 		</md-input-container>
+
+
     <div 
       v-bind:class="[{'drag-over': isDragOver}, 'drag-area']"
       @dragover="onDragOver"
@@ -123,7 +124,7 @@ export default {
         }).then((response) => {
           console.log(`success: ${response}`)
           this.done = true
-          // this.$route._router.go('/')
+          window.localStorage.removeItem('files')
         }, (response) => {
           console.log(`error: ${response}`)
         })

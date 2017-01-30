@@ -24,3 +24,11 @@
     </div>
     </md-toolbar>
 
+    <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
+      <span class="up-span md-raised md-primary"> 
+         选择文件 
+				<input class="up-btn" @change="onFileChange" type="file"></input>
+      </span>
+      <span v-show="hasError('post.file')" class="md-error">{{errorOne('post.file')}}</span>
+		</md-input-container>
+
