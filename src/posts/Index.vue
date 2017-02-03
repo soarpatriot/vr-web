@@ -95,37 +95,21 @@ export default {
    
     margin-bottom: 20px;
   }
-  .omega{
-    @include omega(4n);
-    @include breakpoint($xs){
-      @include span-columns(12);
-    }
-    @include breakpoint($sm){
-      // @include span-columns(6);
-      @include omega();
-    }
-    @include breakpoint($md){
-      // @include span-columns(4);
-      @include omega(3n);
-    }
- 
-  }
 }
 .scene {
   display: block;
   width: 100%;
-   
   height: 240px;
   position: relative;
   @include breakpoint($sm){
-    height: 330px;
+    height: 230px;
   }
  
   @include breakpoint($md){
-    height: 300px;
+    height: 240px;
   }
   @include breakpoint($lg){
-    height: 260px;
+    height: 200px;
   }
 
 }
@@ -135,18 +119,16 @@ export default {
   height: 240px;
   position: relative;
   @include breakpoint($sm){
-    height: 330px;
+    height: 230px;
   }
  
   @include breakpoint($md){
     float: left;
-    width: 500px;
-    height: 300px;
+    height: 240px;
   }
   @include breakpoint($lg){
     float: left;
-    width: 100%;
-    height: 260px;
+    height: 200px;
   }
 
 }
