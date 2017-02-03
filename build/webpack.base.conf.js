@@ -121,6 +121,7 @@ module.exports = {
     }
   }, 
   sassLoader: {
-    includePaths: ['../node_modules/breakpoint-sass/stylesheets/']
+    includePaths: require('node-neat').includePaths.concat('./node_modules/breakpoint-sass/stylesheets/')
+   
   }
 }

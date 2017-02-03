@@ -4,7 +4,8 @@
         <md-icon class="md-primary">menu</md-icon>
       </md-button>
       <h2 class="md-title">唯美VR</h2>
-      <md-button>浏览</md-button>
+      <md-button href="/">首页</md-button>
+      <md-button href="/posts">浏览</md-button>
       <md-button href="/upload">上传</md-button>
       <span style="flex: 1;"></span>
       <template v-if="logined">

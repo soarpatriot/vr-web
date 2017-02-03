@@ -3,6 +3,7 @@
 @import "./utils";
 @import "~susy/sass/susy";
 $susy: (
+  global-box-sizing: border-box,
   columns: 12,
   gutters: 1/4,
   math: fluid,
@@ -10,13 +11,32 @@ $susy: (
   gutter-position: inside,
 );
 .row{
+  margin: 15px 0;
   @include container;
   @include clearfix;
 }
 .col-4{
   float: left;
-  width: span(4)
+  width: span(4);
+  margin-right: gutter();
 }
+.col-md-3{
+  float: left;
+  @include breakpoint($md){
+    @include span(3 of 12)
+  }
+
+  @include breakpoint($lg){
+    @include span(3 of 12)
+  }
+}
+.col-lg-3{
+  @include breakpoint($lg){
+    width: span(3)
+  }
+}
+
+
 .col-sm-4{
   float: left;
   width: span(4);

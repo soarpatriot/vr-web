@@ -1,16 +1,13 @@
 <template>
   <div id="main">
     <navbar></navbar>
-    <div class="stage">
-      <a-scene class="scene" embedded>
-        <a-sky id="picture-sky" v-bind:src="pictureUrl"></a-sky>
-      </a-scene>
-
-
+    <div class="container">
+      <div class="stage">
+        <a-scene class="scene" embedded>
+          <a-sky id="picture-sky" v-bind:src="pictureUrl"></a-sky>
+        </a-scene>
+      </div>
     </div>
-
-
-    <div>{{$route.params.id}}</div>
     <vfooter></vfooter>
   </div>
 </template>
@@ -51,7 +48,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "../assets/scss/break.scss";
-@import "../assets/scss/grid.scss";
+<style lang="scss" scoped>
+.stage{
+  margin-top: 50px;
+  width: 400px;
+  height: 300px;  
+}
 </style>

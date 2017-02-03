@@ -42,6 +42,7 @@ import Login from './Login'
 import Register from './Register'
 
 import PostShow from './posts/Show'
+import Display from './posts/Index'
 
 const Bar = { template: '<div>bar</div>' }
 // 创建一个路由器实例
@@ -69,6 +70,10 @@ const router = new VueRouter({
     {
       path: '/upload',
       component: Upload
+    },
+    {
+      path: '/posts',
+      component: Display
     },
     {
       path: '/posts/:id',
