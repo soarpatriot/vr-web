@@ -43,8 +43,9 @@ import Register from './Register'
 
 import PostShow from './posts/Show'
 import Display from './posts/Index'
+import One from './posts/One'
 
-const Bar = { template: '<div>bar</div>' }
+// const Bar = { template: '<div>bar</div>' }
 // 创建一个路由器实例
 // 并且配置路由规则
 const router = new VueRouter({
@@ -57,7 +58,7 @@ const router = new VueRouter({
     },
     {
       path: '/bar',
-      component: Bar
+      component: One
     },
     {
       path: '/login',

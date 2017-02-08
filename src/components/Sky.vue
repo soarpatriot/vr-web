@@ -9,7 +9,7 @@ export default {
 
   data () {
     return {
-      src: '/static/images/street.jpg'
+      src: 'http://static.dreamreality.cn/20171/1485830367334.jpg'
     }
   },
   created: function () {

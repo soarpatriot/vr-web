@@ -32,3 +32,32 @@
       <span v-show="hasError('post.file')" class="md-error">{{errorOne('post.file')}}</span>
 		</md-input-container>
 
+      // THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
+      let manager = new THREE.LoadingManager()
+      manager.onProgress = function (item, loaded, total) {
+        console.log(item, loaded, total)
+      }
+      let texture = new THREE.Texture()
+      let loader = new THREE.ImageLoader(manager)
+      loader.load('textures/UV_Grid_Sm.jpg', function (image) {
+        texture.image = image
+        texture.needsUpdate = true
+      })
+      let objLoader = new THREE.ObjectLoader(manager)
+      objLoader.load('http://localhost:8080/static/model/male02.obj', function (object) {
+        object.traverse(function (child) {
+          if (child instanceof THREE.Mesh) {
+            child.material.map = texture
+          }
+        })
+        object.position.y = -95
+        this.scene.add(object)
+      }, this.progress, this.error)
+
+      // let mtlLoader = new THREE.MTLLoader()
+      // mtlLoader.setPath('obj/male02/')
+      // mtlLoader.load('http://localhost:8080/static/model/male02_dds.mtl', function (materials) {
+      // materials.preload()
+      // })
+
+ 

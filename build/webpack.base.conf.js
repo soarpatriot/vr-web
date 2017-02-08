@@ -44,7 +44,8 @@ module.exports = {
         test: /\.js$/,
         loader: 'eslint',
         include: projectRoot,
-        exclude: /node_modules/
+        exclude: '/[node_modules|javascripts]/', 
+     
       }
     ],
     loaders: [
@@ -55,7 +56,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        include: projectRoot,
+        include: [projectRoot, '../../node_modules/three/src/loaders/'],
         exclude: /node_modules/
       },
       { 
