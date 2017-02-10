@@ -1,6 +1,7 @@
 <template>
-  <div class="foo">
-    {{renderer.domElement}}
+  <div class="foo" ref="foo">
+    <canvas ref="modelOne">
+    </canvas>
   </div>
 </template>
 <script>
@@ -15,11 +16,10 @@ export default {
       windowHalfX: 0,
       windowHalfY: 0,
       mouseX: 0,
-      mouseY: 0,
-      msg: 'Welcome to Your Vue.js App'
+      mouseY: 0
     }
   },
-  created () {
+  mounted () {
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
     this.first()
@@ -31,10 +31,13 @@ export default {
       this.show()
     },
     first () {
-      let container = document.createElement('div')
-      document.body.appendChild(container)
+      // let container = document.createElement('div')
+      // let container = document.getElementById('model')
+      let container = this.$refs.foo
+      console.log(`container: ${container}`)
+      // document.body.appendChild(container)
       this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
-      this.camera.position.z = 50
+      this.camera.position.z = 10
       this.scene = new THREE.Scene()
       let ambient = new THREE.AmbientLight(0x444444)
       this.scene.add(ambient)
