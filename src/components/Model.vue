@@ -1,6 +1,6 @@
 <template>
   <div class="foo" ref="foo">
-    <canvas ref="modelOne">
+    <canvas ref="model">
     </canvas>
   </div>
 </template>
@@ -33,7 +33,7 @@ export default {
     first () {
       // let container = document.createElement('div')
       // let container = document.getElementById('model')
-      let container = this.$refs.foo
+      let container = this.$refs.model
       console.log(`container: ${container}`)
       // document.body.appendChild(container)
       this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
@@ -48,13 +48,13 @@ export default {
 
       let that = this
       let objectLoader = new THREE.ObjectLoader()
-      objectLoader.load('http://localhost:8080/static/model/teapot-claraio.json', function (obj) {
+      objectLoader.load('http://192.168.31.174:8080/static/model/teapot-claraio.json', function (obj) {
         that.scene.add(obj)
       })
-      this.renderer = new THREE.WebGLRenderer()
+      this.renderer = new THREE.WebGLRenderer({canvas: container})
       this.renderer.setPixelRatio(window.devicePixelRatio)
       this.renderer.setSize(window.innerWidth, window.innerHeight)
-      container.appendChild(this.renderer.domElement)
+      // container.appendChild(this.renderer.domElement)
       document.addEventListener('mousemove', this.onDocumentMouseMove, false)
     },
     onDocumentMouseMove (event) {
