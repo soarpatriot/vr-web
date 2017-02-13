@@ -2,14 +2,17 @@
   <div class="foo" ref="foo">
     <canvas ref="model">
     </canvas>
+    <img :src="modelPhotoData">
   </div>
 </template>
 <script>
+import {toBlob} from '../assets/javascripts/file.js'
 import * as THREE from 'three'
 export default {
   name: 'model',
   data () {
     return {
+      modelPhotoData: '',
       camera: null,
       scene: null,
       renderer: null,
@@ -51,7 +54,7 @@ export default {
       objectLoader.load('http://192.168.31.174:8080/static/model/teapot-claraio.json', function (obj) {
         that.scene.add(obj)
       })
-      this.renderer = new THREE.WebGLRenderer({canvas: container})
+      this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true})
       this.renderer.setPixelRatio(window.devicePixelRatio)
       this.renderer.setSize(window.innerWidth, window.innerHeight)
       // container.appendChild(this.renderer.domElement)
@@ -74,6 +77,9 @@ export default {
       this.camera.position.y += (-this.mouseY - this.camera.position.y) * 0.05
       this.camera.lookAt(this.scene.position)
       this.renderer.render(this.scene, this.camera)
+      this.modelPhotoData = this.renderer.domElement.toDataURL()
+      const blob = toBlob(this.modelPhotoData)
+      console.log(blob)
     }
   }
 }

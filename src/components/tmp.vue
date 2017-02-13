@@ -1,4 +1,9 @@
-    <md-toolbar class="md-large" v-md-theme="'green'">
+                   <a-scene class="scene" embedded>
+                    <a-sky :src="post.full"></a-sky>
+                  </a-scene>
+	   
+
+<md-toolbar class="md-large" v-md-theme="'green'">
     <div class="md-toolbar-container">
       <md-button class="md-icon-button">
         <icon name="material-menu"></icon>

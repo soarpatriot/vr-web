@@ -6,10 +6,8 @@
           <div class="post" v-for="(post, index) in posts">
 						<md-card md-with-hover>
 								<md-card-media class="stage">
-                  <a-scene class="scene" embedded>
-                    <a-sky :src="post.full"></a-sky>
-                  </a-scene>
-									<md-ink-ripple></md-ink-ripple>
+                  <model></model>
+								<md-ink-ripple></md-ink-ripple>
 								</md-card-media>
 
 								<md-card-actions>
@@ -35,12 +33,14 @@
   </div>
 </template>
 <script>
+import Model from '../components/Model'
 import Vfooter from '../components/Vfooter'
 import Navbar from '../components/Navbar'
 export default {
   name: 'post-show',
   components: {
     Navbar,
+    Model,
     Vfooter
   },
   data () {
