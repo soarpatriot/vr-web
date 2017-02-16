@@ -1,17 +1,26 @@
 <template>
-  <div class="foo" ref="foo">
-    <canvas ref="model">
+  <div class="model-area">
+    <canvas ref="model" class="model">
     </canvas>
-    <img :src="modelPhotoData">
   </div>
 </template>
+
+<style lang="scss">
+.model-area{
+  height: 100%;
+}
+.model{
+  height: 100%;
+}
+</style>
 <script>
-import {toBlob} from '../assets/javascripts/file.js'
+import * as file from '../assets/javascripts/file.js'
 import * as THREE from 'three'
 export default {
   name: 'model',
   data () {
     return {
+      count: 0,
       modelPhotoData: '',
       camera: null,
       scene: null,
@@ -37,9 +46,11 @@ export default {
       // let container = document.createElement('div')
       // let container = document.getElementById('model')
       let container = this.$refs.model
-      console.log(`container: ${container}`)
+      let height = container.height
+      let width = container.width
+      console.log(`container: ${height}`)
       // document.body.appendChild(container)
-      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000)
+      this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000)
       this.camera.position.z = 10
       this.scene = new THREE.Scene()
       let ambient = new THREE.AmbientLight(0x444444)
@@ -51,14 +62,14 @@ export default {
 
       let that = this
       let objectLoader = new THREE.ObjectLoader()
-      objectLoader.load('http://192.168.31.174:8080/static/model/teapot-claraio.json', function (obj) {
+      objectLoader.load('http://localhost:8080/static/model/teapot-claraio.json', function (obj) {
         that.scene.add(obj)
       })
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true})
       this.renderer.setPixelRatio(window.devicePixelRatio)
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
+      this.renderer.setSize(width, height)
       // container.appendChild(this.renderer.domElement)
-      document.addEventListener('mousemove', this.onDocumentMouseMove, false)
+      // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
     },
     onDocumentMouseMove (event) {
       this.mouseX = (event.clientX - this.windowHalfX) / 2
@@ -77,9 +88,11 @@ export default {
       this.camera.position.y += (-this.mouseY - this.camera.position.y) * 0.05
       this.camera.lookAt(this.scene.position)
       this.renderer.render(this.scene, this.camera)
-      this.modelPhotoData = this.renderer.domElement.toDataURL()
-      const blob = toBlob(this.modelPhotoData)
-      console.log(blob)
+      if (this.count === 0) {
+        this.modelPhotoData = this.renderer.domElement.toDataURL()
+        const blob = file.toBlob(this.modelPhotoData)
+        console.log(blob)
+      }
     }
   }
 }

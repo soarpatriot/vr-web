@@ -6,7 +6,9 @@
           <div class="post" v-for="(post, index) in posts">
 						<md-card md-with-hover>
 								<md-card-media class="stage">
-                  <model></model>
+                  <router-link :to="{ path: '/posts/'+ post.id, params: { id: 1 }}">
+                    <model></model>
+                  </router-link> 
 								<md-ink-ripple></md-ink-ripple>
 								</md-card-media>
 
