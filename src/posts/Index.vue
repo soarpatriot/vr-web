@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <navbar></navbar>
-    <div class="container">
+    <div class="container md-table-card">
       <div class="list">
           <div class="post" v-for="(post, index) in posts">
 						<md-card md-with-hover>
@@ -29,7 +29,15 @@
 	
 					</div>
 				</div>
-		 
+	      <md-table-pagination
+        md-size="5"
+        md-total="10"
+        md-page="1"
+        md-label="Rows"
+        md-separator="of"
+        :md-page-options="[5, 10, 25, 50]"
+        @pagination="onPagination"></md-table-pagination>
+ 	 
       </div>
    <vfooter></vfooter>
   </div>
@@ -61,6 +69,8 @@ export default {
     })
   },
   methods: {
+    onPagination () {
+    }
   }
 }
 </script>
@@ -118,19 +128,15 @@ export default {
 .stage {
   display: block;
   width: 100%;
-  height: 240px;
   position: relative;
   @include breakpoint($sm){
-    height: 230px;
   }
  
   @include breakpoint($md){
     float: left;
-    height: 240px;
   }
   @include breakpoint($lg){
     float: left;
-    height: 200px;
   }
 
 }

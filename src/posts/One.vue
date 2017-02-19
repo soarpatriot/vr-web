@@ -3,6 +3,14 @@
     <navbar></navbar>
     <div class="container">
       <model></model>
+      <md-table-pagination
+        md-size="5"
+        md-total="10"
+        md-page="1"
+        md-label="Rows"
+        md-separator="of"
+        :md-page-options="[5, 10, 25, 50]"
+        @pagination="onPagination"></md-table-pagination>
     </div>
     <vfooter></vfooter>
   </div>
@@ -24,6 +32,8 @@ export default {
     }
   },
   methods: {
+    onPagination () {
+    }
   }
 }
 </script>

@@ -10,11 +10,11 @@
   height: 100%;
 }
 .model{
-  height: 100%;
+  width: 100%;
 }
 </style>
 <script>
-import * as file from '../assets/javascripts/file.js'
+// import * as file from '../assets/javascripts/file.js'
 import * as THREE from 'three'
 export default {
   name: 'model',
@@ -67,7 +67,7 @@ export default {
       })
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true})
       this.renderer.setPixelRatio(window.devicePixelRatio)
-      this.renderer.setSize(width, height)
+      // this.renderer.setSize(width, height)
       // container.appendChild(this.renderer.domElement)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
     },
@@ -89,9 +89,9 @@ export default {
       this.camera.lookAt(this.scene.position)
       this.renderer.render(this.scene, this.camera)
       if (this.count === 0) {
-        this.modelPhotoData = this.renderer.domElement.toDataURL()
-        const blob = file.toBlob(this.modelPhotoData)
-        console.log(blob)
+        // this.modelPhotoData = this.renderer.domElement.toDataURL()
+        // const blob = file.toBlob(this.modelPhotoData)
+        // console.log(blob)
       }
     }
   }

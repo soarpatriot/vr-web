@@ -2,22 +2,40 @@
   <div id="main">
     <navbar></navbar>
     <div class="container">
-      <div class="stage">
-        <a-scene class="scene" embedded>
-          <a-sky id="picture-sky" v-bind:src="pictureUrl"></a-sky>
-        </a-scene>
+      <div class="my-model">
+        <md-card md-with-hover>
+          <md-card-media class="stage">
+            <model></model>
+          <md-ink-ripple></md-ink-ripple>
+          </md-card-media>
+          <md-card-actions>
+            <md-button class="md-icon-button">
+              <md-icon>favorite</md-icon>
+            </md-button>
+
+            <md-button class="md-icon-button">
+              <md-icon>bookmark</md-icon>
+            </md-button>
+
+            <md-button class="md-icon-button">
+              <md-icon>share</md-icon>
+            </md-button>
+          </md-card-actions>
+        </md-card> 
       </div>
     </div>
     <vfooter></vfooter>
   </div>
 </template>
 <script>
+import Model from '../components/Model'
 import Vfooter from '../components/Vfooter'
 import Navbar from '../components/Navbar'
 export default {
   name: 'post-show',
   components: {
     Navbar,
+    Model,
     Vfooter
   },
   data () {
@@ -49,9 +67,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.stage{
+.my-model{
   margin-top: 50px;
-  width: 400px;
-  height: 300px;  
+  width: 80%;
 }
 </style>
