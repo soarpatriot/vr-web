@@ -4,30 +4,30 @@
         <md-icon class="md-primary">menu</md-icon>
       </md-button>
       <h2 class="md-title">唯美VR</h2>
-      <md-button href="/">首页</md-button>
-      <md-button href="/posts">浏览</md-button>
-      <md-button href="/upload">上传</md-button>
-      <span style="flex: 1;"></span>
-      <template v-if="logined">
-				<md-menu md-direction="bottom left">
-					<md-button md-menu-trigger>
-            {{user.name}}
-						<md-icon class="md-primary">people</md-icon>
-          </md-button>
-					<md-menu-content>
-						<md-menu-item>我</md-menu-item>
-						<md-menu-item>我的模型</md-menu-item>
-						<md-menu-item @click="logout">退出</md-menu-item>
-					</md-menu-content>
-				</md-menu>
-      </template>
-      <template v-else>
-        <md-button href="/login">登录</md-button>
-        <span>/</span>
-        <md-button href="/register">注册</md-button>
-      </template>
- 
-   </md-toolbar>
+        <md-button href="/">首页</md-button>
+        <md-button href="/posts">浏览</md-button>
+        <md-button href="/upload">上传</md-button>
+        <span style="flex: 1;"></span>
+        <template v-if="logined">
+          <md-menu md-direction="bottom left">
+            <md-button md-menu-trigger>
+              {{user.name}}
+              <md-icon class="md-primary">people</md-icon>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item>我</md-menu-item>
+              <md-menu-item>我的模型</md-menu-item>
+              <md-menu-item @click="logout">退出</md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </template>
+        <template v-else>
+          <md-button href="/login">登录</md-button>
+          <span>/</span>
+          <md-button href="/register">注册</md-button>
+        </template>
+   
+    </md-toolbar>
 </template>
 <script>
 export default {

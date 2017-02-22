@@ -7,8 +7,6 @@
 		  <div class="site-intro">
 		  	<h3>发布，分享，发现唯美3D模型，在线VR</h3>
 		  </div>  
-
-
     </div>
     <div class="fluid-container why">
 			<div class="row">
@@ -55,7 +53,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "./assets/scss/break.scss";
 @import "./assets/scss/grid.scss";
 body {
