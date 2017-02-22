@@ -48,13 +48,10 @@ $susy: (
 .container{
   margin: 0 auto;
   position: relative;  
-  padding: 0 20px;
   @include breakpoint($md){
-    padding: 0 20px;
   }
   @include breakpoint($lg){
-    padding: 0 20px;
-    width:1024px;
+    width:85%;
   }
 }
 .fluid-container{

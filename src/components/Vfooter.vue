@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="container footer">
     <a class="link">关于</a>
   </div>
 </template>

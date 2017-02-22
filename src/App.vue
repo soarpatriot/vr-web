@@ -1,34 +1,46 @@
 <template>
   <div id="main">
-
     <navbar></navbar>
-    <div class="fluid-container home-model">
-      <stage></stage>
-		  <div class="site-intro">
-		  	<h3>发布，分享，发现唯美3D模型，在线VR</h3>
-		  </div>  
+    <div class="container home-model">
+      <md-layout md-gutter>
+          <md-layout md-flex-xsmall="100" md-flex-small="60" md-flex-medium="60">
+            <model></model>
+          </md-layout>
+          <md-layout md-flex-xsmall="100" md-flex-small="40" md-flex-medium="40">
+            <div class="site-intro">
+              <h3>发布，分享，发现唯美3D模型，在线VR</h3>
+            </div>  
+          </md-layout>
+      </md-layout>
     </div>
-    <div class="fluid-container why">
-			<div class="row">
-				<div class="intro col-sm-4">
+    <div class="container why">
+      <md-layout md-gutter>
+        <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
+          <p class="tip-img-p">
           <img src="/static/images/upload.png"/>
-          <p>
+          </p>
+          <p class="tip-text-p">
 					无限上传你的VR，模型 
           </p>
-				</div>  
-				<div class="intro col-sm-4">
+        </md-layout>
+        <md-layout md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
+          <p class="tip-img-p">
           <img src="/static/images/univer.png"/>
-          <p>
+          </p>
+          <p class="tip-text-p">
 					支持3D模型和VR  
           </p>
-				</div>  
-				<div class="intro col-sm-4">
+		
+        </md-layout>
+        <md-layout  md-flex-xsmall="100" md-flex-small="50" md-flex-medium="33">
+          <p class="tip-img-p">
           <img src="/static/images/univer.png"/>
-          <p>
+          </p>
+          <p class="tip-text-p">
 					嵌入VR到你的网站
           </p>
-				</div>  
-			</div>
+        </md-layout>
+      </md-layout>
     </div>
 
 
@@ -37,7 +49,7 @@
 </template>
 
 <script>
-import Stage from './components/Stage'
+import Model from './components/Model'
 import Vfooter from './components/Vfooter'
 import Navbar from './components/Navbar'
 import Hello from './components/Hello'
@@ -47,7 +59,7 @@ export default {
   components: {
     Hello,
     Navbar,
-    Stage,
+    Model,
     Vfooter
   }
 }
@@ -60,6 +72,7 @@ body {
   margin: 0;
 }
 .home-model{
+  margin-top: 40px;
   color: #eee;
   background: #333 url(/static/images/conbg.png) left top repeat-x;
 }
@@ -72,33 +85,42 @@ body {
   color: #2c3e50;
 }
 .why{
+  margin-top: 40px;
   padding: 30px 0;
   color: #eee;
   background: #1caad9 url(/static/images/intro.png) left bottom repeat-x;
   img{
     width: 64px;
+    height: 64px;
+    display: block;
   }
 }
+
 .site-intro{
   background: #333 url(/static/images/conbg.png) top bottom repeat-y;
-  width: 100%;
   height: 60px;
   padding-top: 5px;
 
   @include breakpoint($lg){
-		float:left; 
-		width: 40%;
 		padding-top: 120px;
  
   }
   @include breakpoint($md){
-		float:left; 
-		width: 30%;
     padding-left: 30px;
 		padding-top: 100px;
  
   }
  
-
+}
+.tip-img-p{
+  display: block;
+  width: 100%;
+  img{
+    margin: 0 auto;
+  }
+}
+.tip-text-p{
+  width: 100%;
+  text-align: center;
 }
 </style>
