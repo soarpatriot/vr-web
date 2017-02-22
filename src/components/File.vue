@@ -123,8 +123,7 @@ export default {
       this.validate()
       if (!this.any()) {
         console.log('aa')
-        this.$http.post(POST_URL, { post: this.post },
-        { headers: {
+        this.$http.post(POST_URL, { post: this.post }, { headers: {
           'api-token': tokenStr
         }
         }).then((response) => {
