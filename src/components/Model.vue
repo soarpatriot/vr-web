@@ -16,6 +16,10 @@
 <script>
 // import * as file from '../assets/javascripts/file.js'
 import * as THREE from 'three'
+var OrbitControls = require('three-orbit-controls')(THREE)
+// import OrbitControls from 'orbit-controls-es6'
+// import * as OrbitControls from 'three-orbit-controls'
+// import * as OrbitControls from '../../node_modules/three/examples/js/controls/OrbitControls.js'
 export default {
   name: 'model',
   data () {
@@ -53,7 +57,7 @@ export default {
       this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000)
       this.camera.position.z = 10
       this.scene = new THREE.Scene()
-      let ambient = new THREE.AmbientLight(0x444444)
+      let ambient = new THREE.AmbientLight(0x888888)
       this.scene.add(ambient)
 
       let directionalLight = new THREE.DirectionalLight(0xffeedd)
@@ -67,6 +71,11 @@ export default {
       })
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true})
       this.renderer.setPixelRatio(window.devicePixelRatio)
+      let controls = new OrbitControls(this.camera, container)
+      controls.enabled = true
+      controls.maxDistance = 20
+      controls.minDistance = 3
+      controls.addEventListener('change', this.show)
       // this.renderer.setSize(width, height)
       // container.appendChild(this.renderer.domElement)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
@@ -84,8 +93,8 @@ export default {
     error (xhr) {
     },
     show () {
-      this.camera.position.x += (this.mouseX - this.camera.position.x) * 0.05
-      this.camera.position.y += (-this.mouseY - this.camera.position.y) * 0.05
+      // this.camera.position.x += (this.mouseX - this.camera.position.x) * 0.05
+      // this.camera.position.y += (-this.mouseY - this.camera.position.y) * 0.05
       this.camera.lookAt(this.scene.position)
       this.renderer.render(this.scene, this.camera)
       if (this.count === 0) {
