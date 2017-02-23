@@ -74,7 +74,6 @@ body {
 .home-model{
   margin-top: 40px;
   color: #eee;
-  background: #333 url(/static/images/conbg.png) left top repeat-x;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -97,17 +96,19 @@ body {
 }
 
 .site-intro{
-  background: #333 url(/static/images/conbg.png) top bottom repeat-y;
-  height: 60px;
-  padding-top: 5px;
+  width: 100%;
 
+  padding-left: 10px;
+  background: #333 url(/static/images/conbg.png) top bottom repeat-y;
   @include breakpoint($lg){
+    padding-left: 20px;
 		padding-top: 120px;
- 
+    background: #333 url(/static/images/conbg.png) left top repeat-x;
   }
   @include breakpoint($md){
     padding-left: 30px;
 		padding-top: 100px;
+    background: #333 url(/static/images/conbg.png) left top repeat-x;
  
   }
  

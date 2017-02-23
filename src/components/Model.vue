@@ -69,7 +69,8 @@ export default {
       objectLoader.load('http://localhost:8080/static/model/teapot-claraio.json', function (obj) {
         that.scene.add(obj)
       })
-      this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true})
+      this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true, alpha: true})
+      this.renderer.setClearColor(0x000, 0.6)
       this.renderer.setPixelRatio(window.devicePixelRatio)
       let controls = new OrbitControls(this.camera, container)
       controls.enabled = true
