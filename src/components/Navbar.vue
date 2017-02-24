@@ -15,8 +15,6 @@
               <md-icon class="md-primary">people</md-icon>
             </md-button>
             <md-menu-content>
-              <md-menu-item>我</md-menu-item>
-              <md-menu-item>我的模型</md-menu-item>
               <md-menu-item @click="logout">退出</md-menu-item>
             </md-menu-content>
           </md-menu>
@@ -52,7 +50,7 @@ export default {
       } }).then((response) => {
         this.logined = true
         this.user = response.body
-        console.log(`token success: ${JSON.stringify(response)}`)
+        // console.log(`token success: ${JSON.stringify(response)}`)
       }, (response) => {
         console.log(`error: ${JSON.stringify(response)}`)
       })
@@ -60,6 +58,7 @@ export default {
   },
   methods: {
     logout () {
+      console.log('fff')
       window.localStorage.removeItem('token')
       this.logind = false
       this.$router.push('/')

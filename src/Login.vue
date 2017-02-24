@@ -2,8 +2,11 @@
   <div id="main">
     <navbar></navbar>
     <div class="container login-container">
-      <h1>登录</h1>
+      <h1 class="h1">登录</h1>
       <form class="upload-form" novalidate @submit.stop.prevent="submit">
+        <div class="tip" v-show="!!msg"> 
+          <label class="md-error">{{msg}}</label>
+        </div>
         <md-input-container>
           <label>用户名／邮箱</label>
           <md-input v-model="user.email" required></md-input>
@@ -13,7 +16,6 @@
           <md-input v-model="user.password" type="password"></md-input>
         </md-input-container> 
         <md-button type="submit" class="md-raised md-primary">登录</md-button>
-
 
       </form> 
      
@@ -34,6 +36,7 @@ export default {
   },
   data () {
     return {
+      msg: '',
       user: {
         email: '',
         password: ''
@@ -49,7 +52,8 @@ export default {
         window.localStorage.setItem('token', response.body.token)
         this.$router.push('/')
       }, (response) => {
-        console.log(`error: ${response}`)
+        console.log(`error: ${JSON.stringify(response.body)}`)
+        this.msg = response.body.msg
       })
     }
   }
@@ -59,8 +63,19 @@ export default {
 <style lang="scss">
 @import "./assets/scss/break.scss";
 @import "./assets/scss/grid.scss";
+.h1{
+ text-align: center;
+}
+.tip{
+ color: #ff5722;
+ padding: 10px 20px;
+ background-color: rgba(0, 0, 0, 0.15);
+}
 .login-container{
   padding-top: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  
   @include breakpoint($lg){
 		width: 50%;
   }
