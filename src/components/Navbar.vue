@@ -15,6 +15,7 @@
               <md-icon class="md-primary">people</md-icon>
             </md-button>
             <md-menu-content>
+              <md-menu-item>我的</md-menu-item>
               <md-menu-item @click="logout">退出</md-menu-item>
             </md-menu-content>
           </md-menu>
@@ -61,7 +62,7 @@ export default {
       console.log('fff')
       window.localStorage.removeItem('token')
       this.logind = false
-      this.$router.push('/')
+      // this.$router.push('/')
     }
   }
 }

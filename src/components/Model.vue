@@ -22,6 +22,7 @@ var OrbitControls = require('three-orbit-controls')(THREE)
 // import * as OrbitControls from '../../node_modules/three/examples/js/controls/OrbitControls.js'
 export default {
   name: 'model',
+  props: ['url'],
   data () {
     return {
       count: 0,
@@ -66,7 +67,7 @@ export default {
 
       let that = this
       let objectLoader = new THREE.ObjectLoader()
-      objectLoader.load('http://localhost:8080/static/model/teapot-claraio.json', function (obj) {
+      objectLoader.load(this.url, function (obj) {
         that.scene.add(obj)
       })
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true, alpha: true})

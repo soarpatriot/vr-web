@@ -5,8 +5,7 @@
       <div class="my-model">
         <md-card md-with-hover>
           <md-card-media class="stage">
-            <model></model>
-          <md-ink-ripple></md-ink-ripple>
+            <model v-if="!!url" :url="url"></model>
           </md-card-media>
           <md-card-actions>
             <md-button class="md-icon-button">
@@ -40,7 +39,7 @@ export default {
   },
   data () {
     return {
-      pictureUrl: ''
+      url: ''
     }
   },
   created () {
@@ -54,7 +53,7 @@ export default {
         'api-token': tokenStr
       } }).then((response) => {
         let pictureUrl = response.body.data.full
-        this.pictureUrl = pictureUrl
+        this.url = pictureUrl
         console.log(`post success: ${JSON.stringify(response.body)}`)
       }, (response) => {
         console.log(`error: ${JSON.stringify(response)}`)
