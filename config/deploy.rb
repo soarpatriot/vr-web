@@ -39,7 +39,6 @@ namespace :deploy do
   task :build do
     on roles(:all), in: :sequence do
       within release_path  do
-        execute  "npm install && npm run build"
       end
     end
   end
