@@ -9,7 +9,6 @@ export default {
   name: 'vfooter',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
     }
   }
 }
@@ -19,6 +18,7 @@ export default {
 <style lang="scss" scoped>
 .footer{
   text-align:left;
-  margin: 30px 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 </style>

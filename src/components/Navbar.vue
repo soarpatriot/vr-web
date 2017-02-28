@@ -9,14 +9,13 @@
         <md-button href="/upload">上传</md-button>
         <span style="flex: 1;"></span>
         <template v-if="logined">
-          <md-menu md-direction="bottom left">
+          <md-menu  md-align-trigger md-direction="bottom left">
             <md-button md-menu-trigger>
               {{user.name}}
               <md-icon class="md-primary">people</md-icon>
             </md-button>
             <md-menu-content>
-              <md-menu-item>我的</md-menu-item>
-              <md-menu-item @click="logout">退出</md-menu-item>
+              <md-button @click.native="logout">退出</md-button>
             </md-menu-content>
           </md-menu>
         </template>
@@ -60,8 +59,10 @@ export default {
   methods: {
     logout () {
       console.log('fff')
+      this.logined = false
       window.localStorage.removeItem('token')
-      this.logind = false
+      window.location.href = '/'
+      // this.$route.router.go('/')
       // this.$router.push('/')
     }
   }
