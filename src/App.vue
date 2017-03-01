@@ -1,6 +1,5 @@
 <template>
   <div id="main">
-    <navbar></navbar>
     <div class="container home-model">
       <md-layout md-gutter>
           <md-layout md-flex-xsmall="100" md-flex-small="60" md-flex-medium="60">
@@ -43,14 +42,11 @@
       </md-layout>
     </div>
 
-
-    <vfooter></vfooter>
   </div>
 </template>
 
 <script>
 import Model from './components/Model'
-import Vfooter from './components/Vfooter'
 import Navbar from './components/Navbar'
 import Hello from './components/Hello'
 // import Icon from 'vue-icons'
@@ -59,8 +55,7 @@ export default {
   components: {
     Hello,
     Navbar,
-    Model,
-    Vfooter
+    Model
   }
 }
 </script>

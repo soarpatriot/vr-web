@@ -1,6 +1,5 @@
 <template>
   <div id="main">
-    <navbar></navbar>
     <div class="container login-container">
       <h1>注册</h1>
       <div v-show="done">
@@ -52,14 +51,10 @@
 </template>
 
 <script>
-import Vfooter from './components/Vfooter'
-import Navbar from './components/Navbar'
 import Icon from 'vue-icons'
 export default {
   name: 'app',
   components: {
-    Navbar,
-    Vfooter,
     Icon
   },
   data () {

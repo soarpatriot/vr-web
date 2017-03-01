@@ -1,6 +1,5 @@
 <template>
   <div id="main">
-    <navbar></navbar>
     <div class="container login-container">
       <h1 class="h1">登录</h1>
       <form class="upload-form" novalidate @submit.stop.prevent="submit">

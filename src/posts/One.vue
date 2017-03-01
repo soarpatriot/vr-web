@@ -1,6 +1,5 @@
 <template>
   <div id="main">
-    <navbar></navbar>
     <div class="container">
       <model></model>
       <md-table-pagination
@@ -12,19 +11,14 @@
         :md-page-options="[5, 10, 25, 50]"
         @pagination="onPagination"></md-table-pagination>
     </div>
-    <vfooter></vfooter>
   </div>
 </template>
 <script>
-import Vfooter from '../components/Vfooter'
-import Navbar from '../components/Navbar'
 import Model from '../components/Model'
 export default {
   name: 'one',
   components: {
-    Navbar,
-    Model,
-    Vfooter
+    Model
   },
   data () {
     return {

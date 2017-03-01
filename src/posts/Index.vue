@@ -1,6 +1,5 @@
 <template>
   <div id="main">
-    <navbar></navbar>
     <div class="container md-table-card">
       <div class="list">
           <div class="post" v-for="(post, index) in posts">
@@ -44,14 +43,10 @@
 </template>
 <script>
 import Model from '../components/Model'
-import Vfooter from '../components/Vfooter'
-import Navbar from '../components/Navbar'
 export default {
   name: 'post-show',
   components: {
-    Navbar,
-    Model,
-    Vfooter
+    Model
   },
   data () {
     return {

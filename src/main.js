@@ -44,7 +44,11 @@ import Register from './Register'
 import PostShow from './posts/Show'
 import Display from './posts/Index'
 import One from './posts/One'
+import Navbar from './components/Navbar'
+import Vfooter from './components/Vfooter'
 
+Vue.component('navbar', Navbar)
+Vue.component('vfooter', Vfooter)
 // const Bar = { template: '<div>bar</div>' }
 // 创建一个路由器实例
 // 并且配置路由规则

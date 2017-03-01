@@ -1,6 +1,5 @@
 <template>
   <div id="main">
-    <navbar></navbar>
     <div class="container">
       <div class="my-model">
         <md-card md-with-hover>
@@ -23,19 +22,14 @@
         </md-card> 
       </div>
     </div>
-    <vfooter></vfooter>
   </div>
 </template>
 <script>
 import Model from '../components/Model'
-import Vfooter from '../components/Vfooter'
-import Navbar from '../components/Navbar'
 export default {
   name: 'post-show',
   components: {
-    Navbar,
-    Model,
-    Vfooter
+    Model
   },
   data () {
     return {
