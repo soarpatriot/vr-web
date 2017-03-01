@@ -38,7 +38,6 @@
         @pagination="onPagination"></md-table-pagination>
  	 
       </div>
-   <vfooter></vfooter>
   </div>
 </template>
 <script>
