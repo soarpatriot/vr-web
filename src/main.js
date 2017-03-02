@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
@@ -16,6 +17,7 @@ import 'vue-material/dist/vue-material.css'
 // import Element from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
+Vue.use(Vuex)
 Vue.use(VeeValidate)
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
@@ -87,9 +89,25 @@ const router = new VueRouter({
   ]
 })
 
+// vue store
+const store = new Vuex.Store({
+  state: {
+    logined: false
+  },
+  mutations: {
+    login (state) {
+      state.logined = true
+    },
+    logout (state) {
+      state.logined = false
+    }
+  }
+})
 // 现在我们可以启动应用了！
 // 路由器会创建一个 App 实例，并且挂载到选择符 #app 匹配的元素上。
+
 new Vue({
+  store,
   router: router
 }).$mount('#app')
 /* eslint-disable no-new new Vue({

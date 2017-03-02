@@ -93,6 +93,11 @@ export default {
       logined: false
     }
   },
+  computed: {
+    // logined () {
+    //  return this.$store.state.logined
+    // }
+  },
   created () {
     let token = window.localStorage.getItem('token')
     // const USER_URL = 'http://localhost:4000/validate'

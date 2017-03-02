@@ -44,8 +44,10 @@ export default {
       this.$http.post(REG_URL, { session: this.user }).then((response) => {
         // console.log(`success: ${JSON.stringify(response)}`)
         // console.log(`success: ${response.body.token}`)
+        // this.$store.commit('login')
         window.localStorage.setItem('token', response.body.token)
-        this.$router.push('/')
+        window.location.href = '/'
+        // this.$router.push('/')
       }, (response) => {
         const status = response.status
         if (status === 0) {
