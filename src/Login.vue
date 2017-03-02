@@ -23,14 +23,10 @@
 </template>
 
 <script>
-import Vfooter from './components/Vfooter'
-import Navbar from './components/Navbar'
 import Icon from 'vue-icons'
 export default {
   name: 'app',
   components: {
-    Navbar,
-    Vfooter,
     Icon
   },
   data () {
@@ -51,8 +47,14 @@ export default {
         window.localStorage.setItem('token', response.body.token)
         this.$router.push('/')
       }, (response) => {
-        console.log(`error: ${JSON.stringify(response.body)}`)
-        this.msg = response.body.msg
+        const status = response.status
+        if (status === 0) {
+          this.msg = '服务暂时连接不上，请重试！'
+        } else {
+          this.msg = response.body.msg
+        }
+        // console.log(`error: ${JSON.stringify(response)}`)
+        // console.log(`error: ${JSON.stringify(response.body)}`)
       })
     }
   }
