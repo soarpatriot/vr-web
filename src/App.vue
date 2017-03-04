@@ -3,7 +3,7 @@
     <div class="container home-model">
       <md-layout md-gutter>
           <md-layout md-flex-xsmall="100" md-flex-small="60" md-flex-medium="60">
-            <model url="http://localhost:8080/static/model/teapot-claraio.json"></model>
+            <model v-if="!!url" :url="url"></model>
           </md-layout>
           <md-layout md-flex-xsmall="100" md-flex-small="40" md-flex-medium="40">
             <div class="site-intro">
@@ -47,16 +47,30 @@
 
 <script>
 import Model from './components/Model'
-import Navbar from './components/Navbar'
-import Hello from './components/Hello'
 // import Icon from 'vue-icons'
 export default {
   name: 'app',
   components: {
-    Hello,
-    Navbar,
     Model
+  },
+  data () {
+    return {
+      url: ''
+    }
+  },
+
+  created () {
+    const HIGH_URL = `${process.env.API_URL}/highlights/lastest`
+
+    this.$http.get(HIGH_URL).then((response) => {
+      let modelUrl = response.body.data.full
+      this.url = modelUrl
+      console.log(`post success: ${JSON.stringify(response.body)}`)
+    }, (response) => {
+      console.log(`error: ${JSON.stringify(response)}`)
+    })
   }
+
 }
 </script>
 
