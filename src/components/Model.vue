@@ -2,20 +2,32 @@
   <div class="model-area">
     <canvas ref="model" class="model">
     </canvas>
+    <div class="extra">
+      <md-button class="md-icon-button" @click.native="full">
+        <icon name="full-screen" scale="20"></icon>
+      </md-button>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 .model-area{
+  position: relative;
   height: 100%;
 }
 .model{
   width: 100%;
 }
+.extra{
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+}
 </style>
 <script>
 // import * as file from '../assets/javascripts/file.js'
 import * as THREE from 'three'
+import * as full from '../assets/javascripts/full.js'
 var OrbitControls = require('three-orbit-controls')(THREE)
 // import OrbitControls from 'orbit-controls-es6'
 // import * as OrbitControls from 'three-orbit-controls'
@@ -43,6 +55,10 @@ export default {
     this.animate()
   },
   methods: {
+    full () {
+      let element = this.$refs.model
+      full.requestFull(element)
+    },
     animate () {
       window.requestAnimationFrame(this.animate)
       this.show()
@@ -71,7 +87,7 @@ export default {
         that.scene.add(obj)
       })
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true, alpha: true})
-      this.renderer.setClearColor(0x000, 0.6)
+      this.renderer.setClearColor(0x000000, 0.1)
       this.renderer.setPixelRatio(window.devicePixelRatio)
       let controls = new OrbitControls(this.camera, container)
       controls.enabled = true

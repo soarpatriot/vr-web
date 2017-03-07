@@ -78,9 +78,10 @@ export default {
 .list{
   margin: 0 auto;
   margin-top: 30px;
-
+  width: 100%;
   @include outer-container
   @include fill-parent();
+  max-width: none;
   .post{
     @include span-columns(3);
     @include breakpoint($xs){

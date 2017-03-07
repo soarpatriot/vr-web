@@ -93,6 +93,7 @@
     "vue-icons": "^2.0.0",
     "vue-loader": "^10.0.0",
     "vue-style-loader": "^1.0.0",
+    "vue-svg-icon": "^1.0.10",
     "vue-template-compiler": "^2.1.6",
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.8.3",

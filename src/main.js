@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
 import VeeValidate from 'vee-validate'
+import Icon from 'vue-svg-icon/Icon.vue'
 // import MaterialIcons from 'material-design-icons'
 import 'aframe'
 import 'vue-material/dist/vue-material.css'
@@ -22,6 +23,9 @@ Vue.use(VeeValidate)
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(VueResource)
+
+Vue.component('icon', Icon)
+Icon.inject('full-screen')
 
 Vue.material.registerTheme({
   default: {
