@@ -39,6 +39,7 @@ namespace :deploy do
   task :build do
     on roles(:all), in: :sequence do
       within current_path  do
+        execute 'docker run --rm -v /data:/data soar/vr-web install'     
         execute 'docker run --rm -v /data:/data --name vr-web soar/vr-web run build'     
       end
  
