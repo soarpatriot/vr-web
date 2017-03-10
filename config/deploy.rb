@@ -38,20 +38,14 @@ set :keep_releases, 5
 namespace :deploy do
   task :build do
     on roles(:all), in: :sequence do
-      within release_path  do
+      within current_path  do
+        execute 'docker run --rm -v /data:/data --name vr-web soar/vr-web run build'     
       end
+ 
     end
   end
  
-  desc 'restart phoenix app'
-  task :restart do
-    on roles(:all), in: :sequence do
-      within current_path  do
-
-      end
-    end
-  end
   after :publishing, "build"
-  after :published, "restart"
+  #  after :published, "restart"
 end
 

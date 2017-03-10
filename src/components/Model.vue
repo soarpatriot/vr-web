@@ -58,6 +58,7 @@ export default {
     full () {
       let element = this.$refs.model
       full.requestFull(element)
+      this.fullSize()
     },
     animate () {
       window.requestAnimationFrame(this.animate)
@@ -67,8 +68,8 @@ export default {
       // let container = document.createElement('div')
       // let container = document.getElementById('model')
       let container = this.$refs.model
-      let height = container.height
-      let width = container.width
+      let height = container.clientHeight
+      let width = container.clientWidth
       console.log(`container: ${height}`)
       // document.body.appendChild(container)
       this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000)
@@ -96,7 +97,19 @@ export default {
       controls.addEventListener('change', this.show)
       // this.renderer.setSize(width, height)
       // container.appendChild(this.renderer.domElement)
+      document.addEventListener('resize', this.resize, false)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
+    },
+    fullSize (event) {
+      this.camera.aspect = window.innerWidth / window.innerHeight
+      this.camera.updateProjectionMatrix()
+      this.renderer.setSize(window.innerWidth, window.innerHeight)
+    },
+    resize (event) {
+      let container = this.$refs.model
+      let height = container.height
+      let width = container.width
+      this.renderer.setSize(width, height)
     },
     onDocumentMouseMove (event) {
       this.mouseX = (event.clientX - this.windowHalfX) / 2
