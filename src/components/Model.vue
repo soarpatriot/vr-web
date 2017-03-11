@@ -1,5 +1,5 @@
 <template>
-  <div class="model-area">
+  <div class="model-area" ref="area">
     <canvas ref="model" class="model">
     </canvas>
     <div class="extra">
@@ -12,6 +12,7 @@
 
 <style lang="scss">
 .model-area{
+  width: 100%;
   position: relative;
   height: 100%;
 }
@@ -44,6 +45,8 @@ export default {
       renderer: null,
       windowHalfX: 0,
       windowHalfY: 0,
+      width: 800,
+      height: 360,
       mouseX: 0,
       mouseY: 0
     }
@@ -52,6 +55,7 @@ export default {
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
     this.first()
+    this.addFullListener()
     this.animate()
   },
   methods: {
@@ -68,13 +72,17 @@ export default {
       // let container = document.createElement('div')
       // let container = document.getElementById('model')
       let container = this.$refs.model
-      let height = container.clientHeight
-      let width = container.clientWidth
+      let area = this.$refs.area
+      let width = area.clientWidth
+      let height = width * 0.55
       console.log(`container: ${height}`)
       // document.body.appendChild(container)
       this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000)
+      this.camera.position.x = 0
+      this.camera.position.y = 6
       this.camera.position.z = 10
       this.scene = new THREE.Scene()
+      // this.scene.position.y = -20
       let ambient = new THREE.AmbientLight(0x888888)
       this.scene.add(ambient)
 
@@ -95,20 +103,23 @@ export default {
       controls.maxDistance = 20
       controls.minDistance = 3
       controls.addEventListener('change', this.show)
-      // this.renderer.setSize(width, height)
+      // this.renderer.setSize(this.width, this.height)
+      this.renderer.setSize(width, height)
       // container.appendChild(this.renderer.domElement)
-      document.addEventListener('resize', this.resize, false)
+      window.addEventListener('resize', this.resize, false)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
     },
     fullSize (event) {
       this.camera.aspect = window.innerWidth / window.innerHeight
       this.camera.updateProjectionMatrix()
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
+      this.renderer.setSize(window.screen.availWidth, window.screen.availHeight)
     },
     resize (event) {
-      let container = this.$refs.model
-      let height = container.height
-      let width = container.width
+      let container = this.$refs.area
+      let width = container.clientWidth
+      let height = width * 0.6
+      console.log(`height: ${height}`)
+      console.log(`width: ${width}`)
       this.renderer.setSize(width, height)
     },
     onDocumentMouseMove (event) {
@@ -133,9 +144,21 @@ export default {
         // const blob = file.toBlob(this.modelPhotoData)
         // console.log(blob)
       }
+    },
+    addFullListener () {
+      document.addEventListener('fullscreenchange', this.exitFull)
+      document.addEventListener('mozfullscreenchange', this.exitFull)
+      document.addEventListener('webkitfullscreenchange', this.exitFull)
+    },
+    exitFull () {
+      if (document.fullscreenElement ||
+        document.mozFullScreenElement ||
+        document.msFullscreenElement ||
+        document.webkitFullscreenElement) {
+      } else {
+        this.renderer.setSize(this.width, this.height)
+      }
     }
   }
 }
 </script>
-
-
