@@ -108,7 +108,7 @@ body {
   width: 100%;
 
   padding-left: 10px;
-  background: #333 url(/static/images/conbg.png) top bottom repeat-y;
+  background: #333 url(/static/images/conbg.png) left top repeat-x;
   @include breakpoint($lg){
     padding-left: 20px;
 		padding-top: 120px;
