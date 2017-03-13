@@ -2,10 +2,14 @@
   <div class="model-area" ref="area">
     <canvas ref="model" class="model">
     </canvas>
-    <div class="extra">
+    <div class="extra" v-show="fullScreen">
       <md-button class="md-icon-button" @click.native="full">
         <icon name="full-screen" scale="20"></icon>
       </md-button>
+    </div>
+    <div class="progress-bar" v-show="showProgress">
+      <div>{{progress}}%</div>
+      <md-progress :md-progress="progress" class="progress"></md-progress>
     </div>
   </div>
 </template>
@@ -21,8 +25,16 @@
 }
 .extra{
   position: absolute;
-  right: 10px;
+  right: 0;
   bottom: 5px;
+}
+.progress-bar{
+  position: absolute;
+  text-align: center;
+  color: #2196f3;
+  left: 25%;
+  width: 50%;
+  top: 45%; 
 }
 </style>
 <script>
@@ -35,9 +47,11 @@ var OrbitControls = require('three-orbit-controls')(THREE)
 // import * as OrbitControls from '../../node_modules/three/examples/js/controls/OrbitControls.js'
 export default {
   name: 'model',
-  props: ['url'],
+  props: ['url', 'fullScreen'],
   data () {
     return {
+      progress: 0,
+      showProgress: true,
       count: 0,
       modelPhotoData: '',
       camera: null,
@@ -91,10 +105,23 @@ export default {
       this.scene.add(directionalLight)
 
       let that = this
+      // let manager = new THREE.LoadingManager()
+      // manager.onProgress = function (url, loaded, total) {
+      //  console.log(`loaded: ${loaded}`)
+      // }
+      THREE.DefaultLoadingManager.onProgress = function (item, loaded, total) {
+        console.log(item, loaded, total)
+      }
       let objectLoader = new THREE.ObjectLoader()
       objectLoader.load(this.url, function (obj) {
+        that.showProgress = false
         that.scene.add(obj)
+      }, function (xhr) {
+        that.progress = parseInt(xhr.loaded / xhr.total * 100)
+        // that.progress = (xhr.loaded / xhr.total * 100).toFixed(2)
+        console.log(`loaded: ${that.progress}`)
       })
+
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true, alpha: true})
       this.renderer.setClearColor(0x000000, 0.1)
       this.renderer.setPixelRatio(window.devicePixelRatio)

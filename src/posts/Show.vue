@@ -4,7 +4,7 @@
       <div class="my-model">
         <md-card md-with-hover>
           <md-card-media class="stage">
-            <model v-if="!!url" :url="url"></model>
+            <model v-if="!!url" :url="url" :fullScreen="true"></model>
           </md-card-media>
           <md-card-actions>
             <md-button class="md-icon-button">
@@ -38,21 +38,20 @@ export default {
   },
   created () {
     let id = this.$route.params.id
-    let token = window.localStorage.getItem('token')
+    // let token = window.localStorage.getItem('token')
     const POST_URL = `http://localhost:4000/posts/${id}`
-    if (token) {
-      let tokenStr = `Token: ${token}`
-      console.log(`token: ${tokenStr}`)
-      this.$http.get(POST_URL, { headers: {
-        'api-token': tokenStr
-      } }).then((response) => {
-        let pictureUrl = response.body.data.full
-        this.url = pictureUrl
-        console.log(`post success: ${JSON.stringify(response.body)}`)
-      }, (response) => {
-        console.log(`error: ${JSON.stringify(response)}`)
-      })
-    }
+    // if (token) {
+    //  let tokenStr = `Token: ${token}`
+    //  console.log(`token: ${tokenStr}`)
+    this.$http.get(POST_URL, { headers: {
+      // 'api-token': tokenStr
+    } }).then((response) => {
+      let pictureUrl = response.body.data.full
+      this.url = pictureUrl
+      console.log(`post success: ${JSON.stringify(response.body)}`)
+    }, (response) => {
+      console.log(`error: ${JSON.stringify(response)}`)
+    })
   },
   methods: {
   }

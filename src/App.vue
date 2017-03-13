@@ -3,7 +3,7 @@
     <div class="container home-model">
       <md-layout md-gutter>
           <md-layout md-flex-xsmall="100" md-flex-small="60" md-flex-medium="60">
-            <model v-if="!!url" :url="url"></model>
+            <model v-if="!!url" :url="url" :fullScreen="true"></model>
           </md-layout>
           <md-layout md-flex-xsmall="100" md-flex-small="40" md-flex-medium="40">
             <div class="site-intro">
