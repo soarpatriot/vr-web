@@ -41,6 +41,8 @@
 // import * as file from '../assets/javascripts/file.js'
 import * as THREE from 'three'
 import * as full from '../assets/javascripts/full.js'
+var OBJLoader = require('../assets/venders/OBJLoader.js')
+OBJLoader(THREE)
 var OrbitControls = require('three-orbit-controls')(THREE)
 // import OrbitControls from 'orbit-controls-es6'
 // import * as OrbitControls from 'three-orbit-controls'
@@ -62,7 +64,8 @@ export default {
       width: 800,
       height: 360,
       mouseX: 0,
-      mouseY: 0
+      mouseY: 0,
+      controls: null
     }
   },
   mounted () {
@@ -80,6 +83,7 @@ export default {
     },
     animate () {
       window.requestAnimationFrame(this.animate)
+      this.controls.update()
       this.show()
     },
     first () {
@@ -95,6 +99,7 @@ export default {
       this.camera.position.x = 0
       this.camera.position.y = 6
       this.camera.position.z = 10
+      this.controls = new OrbitControls(this.camera)
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
       let ambient = new THREE.AmbientLight(0x888888)
@@ -105,6 +110,7 @@ export default {
       this.scene.add(directionalLight)
 
       let that = this
+
       // let manager = new THREE.LoadingManager()
       // manager.onProgress = function (url, loaded, total) {
       //  console.log(`loaded: ${loaded}`)
@@ -112,29 +118,44 @@ export default {
       THREE.DefaultLoadingManager.onProgress = function (item, loaded, total) {
         console.log(item, loaded, total)
       }
-      let objectLoader = new THREE.ObjectLoader()
-      objectLoader.load(this.url, function (obj) {
-        that.showProgress = false
-        that.scene.add(obj)
-      }, function (xhr) {
-        that.progress = parseInt(xhr.loaded / xhr.total * 100)
-        // that.progress = (xhr.loaded / xhr.total * 100).toFixed(2)
-        console.log(`loaded: ${that.progress}`)
-      })
 
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true, alpha: true})
       this.renderer.setClearColor(0x000000, 0.1)
       this.renderer.setPixelRatio(window.devicePixelRatio)
-      let controls = new OrbitControls(this.camera, container)
-      controls.enabled = true
-      controls.maxDistance = 20
-      controls.minDistance = 3
-      controls.addEventListener('change', this.show)
+      // let controls = new OrbitControls(this.camera, container)
+      // let controls = new THREE.TrackballControls(this.camera, container)
+      this.controls.enabled = true
+      this.controls.maxDistance = 800
+      this.controls.minDistance = 200
+      this.controls.addEventListener('change', this.show)
       // this.renderer.setSize(this.width, this.height)
       this.renderer.setSize(width, height)
       // container.appendChild(this.renderer.domElement)
       window.addEventListener('resize', this.resize, false)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
+      let loader = new THREE.OBJLoader()
+      // let threeModel = null
+      // const renderArea = this.renderer.domElement
+      loader.load('http://localhost:8080/static/model/male02.obj', function (object) {
+        object.traverse(function (child) {
+          // if (child instanceof THREE.mesh) {
+          // child.material.map = texture
+          // }
+        })
+        // threeModel = object
+        // object.position.x = 0
+        object.position.y = -95
+        // object.position.z = -200
+        that.scene.add(object)
+      })
+      // let objectLoader = new THREE.ObjectLoader()
+      // objectLoader.load(this.url, function (obj) {
+      //  that.showProgress = false
+      //  that.scene.add(obj)
+      // }, function (xhr) {
+      //  that.progress = parseInt(xhr.loaded / xhr.total * 100)
+      //  console.log(`loaded: ${that.progress}`)
+      // })
     },
     fullSize (event) {
       this.camera.aspect = window.innerWidth / window.innerHeight
@@ -166,6 +187,7 @@ export default {
       // this.camera.position.y += (-this.mouseY - this.camera.position.y) * 0.05
       this.camera.lookAt(this.scene.position)
       this.renderer.render(this.scene, this.camera)
+      // this.controls.updata()
       if (this.count === 0) {
         // this.modelPhotoData = this.renderer.domElement.toDataURL()
         // const blob = file.toBlob(this.modelPhotoData)

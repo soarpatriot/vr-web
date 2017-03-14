@@ -44,7 +44,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'eslint',
         include: projectRoot,
-        exclude: '/[node_modules|javascripts]/', 
+        exclude: /[node_modules|javascripts|.\/src\/assets\/venders]/, 
      
       }
     ],

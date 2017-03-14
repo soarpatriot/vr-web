@@ -65,4 +65,50 @@
       // materials.preload()
       // })
 
+
+
+
+        renderArea.addEventListener('mousemove', function (e) {
+          console.log(`loaded: move`)
+          previousMousePosition = {
+            x: e.offsetX,
+            y: e.offsetY
+          }
+          let deltaMove = {
+            x: e.offsetX - previousMousePosition.x,
+            y: e.offsetY - previousMousePosition.y
+          }
+
+          if (isDragging) {
+            console.log(`loaded: drag`)
+            let deltaRotationQuaternion = new THREE.Quaternion()
+              .setFromEuler(new THREE.Euler(
+                  toRadians(deltaMove.y * 1),
+                  toRadians(deltaMove.x * 1),
+                  0,
+                  'XYZ'
+              ))
+            object.quaternion.multiplyQuaternions(deltaRotationQuaternion, object.quaternion)
+          }
+        })
+ 
+       function toRadians (angle) {
+        return angle * (Math.PI / 180)
+      }
+      // function toDegrees (angle) {
+      //  return angle * (180 / Math.PI)
+      // }
+      let isDragging = false
+      let previousMousePosition = {
+        x: 0,
+        y: 0
+      }
+      renderArea.addEventListener('mousedown', function (e) {
+        console.log(`loaded: down`)
+        isDragging = true
+      })
+      renderArea.addEventListener('mouseup', function (e) {
+        console.log(`loaded: up`)
+        isDragging = false
+      })
  
