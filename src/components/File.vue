@@ -13,21 +13,9 @@
 			<md-textarea v-model.trim="post.description" @change="validate" debounce="500" required></md-textarea>
       <span v-show="hasError('post.description')" class="md-error">{{errorOne('post.description')}}</span>
 		</md-input-container>
-    <div v-if="name" class="img-show">
-			<img :src="image" class="file-img"/>
-			<p class="file-tip">
-				 {{name}}, {{size}}M, 类型：{{type}}
-			</p>
-			<p class="progress">
-				<progress class="prgoress-bar" min="0" max="100" v-bind:value="progress">{{progress}}</progress>
-				{{progress}}%
-			</p>
-			<p class="md-body-2">
-				{{msg}}
-			</p>
-	
-    </div>
-	  <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
+    <bar v-for="file in files" :file="file"></bar>
+
+    <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
       <span class="up-span md-raised md-primary"> 
          选择文件 
 				<input class="up-btn" @change="onFileChange" type="file"></input>
@@ -54,8 +42,13 @@
 </template>
 
 <script>
+import Bar from './Bar'
 export default {
   name: 'file',
+  components: {
+    Bar
+  },
+
   data () {
     return {
       post: {
@@ -63,6 +56,7 @@ export default {
         description: '',
         file: null
       },
+      files: [],
       errors: [],
       isDragOver: false,
       image: '',
@@ -76,6 +70,9 @@ export default {
     }
   },
   methods: {
+    add (file) {
+      this.files.push(file)
+    },
     validate () {
       this.errors = []
       if (this.post.title === '') {
@@ -143,15 +140,26 @@ export default {
         return
       }
       var file = files[0]
-      this.name = file.name
-      this.size = (file.size / 1024 / 1024).toFixed(2)
-      this.type = file.type
+      const name = file.name
+      const size = (file.size / 1024 / 1024).toFixed(2)
+      const type = file.type
+      let fileObj = {
+        image: false,
+        name: name,
+        size: size,
+        type: type,
+        progress: 20,
+        msg: 'ok'
+      }
+      // this.files.push(fileObj)
+      // const len = this.files.length
       if (this.isImage(files[0])) {
         this.createImage(files[0])
       } else {
         this.removeImage()
       }
-      this.upload(file)
+      this.add(fileObj)
+      this.upload(file, fileObj)
     },
     onDragOver (e) {
       e.preventDefault()
@@ -199,7 +207,7 @@ export default {
       }
       return acceptedTypes[file.type] === true
     },
-    upload: function (file) {
+    upload: function (file, fileObj) {
       var that = this
       if (window.FormData) {
         var formData = new window.FormData()
@@ -209,11 +217,12 @@ export default {
       xhr.open('POST', this.url)
       xhr.onload = function () {
         if (xhr.status === 200) {
-          that.msg = '上传成功！'
+          fileObj.msg = '上传成功！'
           window.localStorage.setItem('files', xhr.responseText)
           console.log(`上传成功: ${xhr.responseText}`)
         } else {
-          that.msg = '上传出错，请重试！'
+          fileObj.msg = '上传出错，请重试！'
+          // fileObj.msg = '上传出错，请重试！'
           console.log('出错了')
         }
       }
@@ -226,6 +235,7 @@ export default {
           var complete = (event.loaded / event.total * 100 | 0)
           console.log(complete)
           that.progress = complete
+          fileObj.progress = complete
         }
       }
       xhr.send(formData)

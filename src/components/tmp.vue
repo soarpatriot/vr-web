@@ -112,3 +112,4 @@
         isDragging = false
       })
  
+    //<img :src="image" class="file-img"/>
