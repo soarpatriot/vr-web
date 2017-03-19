@@ -18,7 +18,7 @@
     <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
       <span class="up-span md-raised md-primary"> 
          选择文件 
-				<input class="up-btn" @change="onFileChange" type="file"></input>
+				<input class="up-btn" @change="onFileChange" type="file" multiple></input>
       </span>
       <span v-show="hasError('post.file')" class="md-error">{{errorOne('post.file')}}</span>
 		</md-input-container>
@@ -58,19 +58,20 @@ export default {
       },
       files: [],
       errors: [],
+      url: 'http://localhost:3000/files',
       isDragOver: false,
       image: '',
       name: '',
       size: '',
       type: '',
       progress: 0,
-      url: 'http://assets.dreamreality.cn/files',
       done: false,
       msg: ''
     }
   },
   methods: {
     add (file) {
+      // url: 'http://assets.dreamreality.cn/files',
       this.files.push(file)
     },
     validate () {
@@ -149,7 +150,8 @@ export default {
         size: size,
         type: type,
         progress: 20,
-        msg: 'ok'
+        msg: 'ok',
+        relative: ''
       }
       // this.files.push(fileObj)
       // const len = this.files.length
@@ -217,6 +219,9 @@ export default {
       xhr.open('POST', this.url)
       xhr.onload = function () {
         if (xhr.status === 200) {
+          const result = JSON.parse(xhr.responseText)
+          console.log(`上传成功: ${result[0].relative}`)
+          fileObj.relative = result[0].relative
           fileObj.msg = '上传成功！'
           window.localStorage.setItem('files', xhr.responseText)
           console.log(`上传成功: ${xhr.responseText}`)
