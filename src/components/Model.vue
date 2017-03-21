@@ -137,6 +137,7 @@ export default {
       // let threeModel = null
       // const renderArea = this.renderer.domElement
       loader.load('http://localhost:8080/static/model/male02.obj', function (object) {
+        that.showProgress = false
         object.traverse(function (child) {
           // if (child instanceof THREE.mesh) {
           // child.material.map = texture
@@ -147,6 +148,9 @@ export default {
         object.position.y = -95
         // object.position.z = -200
         that.scene.add(object)
+      }, function (xhr) {
+        that.progress = parseInt(xhr.loaded / xhr.total * 100)
+        console.log(`loaded: ${that.progress}`)
       })
       // let objectLoader = new THREE.ObjectLoader()
       // objectLoader.load(this.url, function (obj) {
