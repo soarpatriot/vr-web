@@ -13,7 +13,7 @@
 			<md-textarea v-model.trim="post.description" @change="validate" debounce="500" required></md-textarea>
       <span v-show="hasError('post.description')" class="md-error">{{errorOne('post.description')}}</span>
 		</md-input-container>
-    <bar v-for="file in files" :file="file"></bar>
+    <bar v-for="(file, index) in files" :file="file" @remove="remove"></bar>
 
     <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
       <span class="up-span md-raised md-primary"> 
@@ -135,33 +135,15 @@ export default {
       }
       console.log(files)
     },
+    remove (index) {
+      this.files.splice(index, 1)
+    },
     onFileChange (e) {
-      var files = e.target.files || e.dataTransfer.files
+      let files = e.target.files || e.dataTransfer.files
       if (!files.length) {
         return
       }
-      var file = files[0]
-      const name = file.name
-      const size = (file.size / 1024 / 1024).toFixed(2)
-      const type = file.type
-      let fileObj = {
-        image: false,
-        name: name,
-        size: size,
-        type: type,
-        progress: 20,
-        msg: 'ok',
-        relative: ''
-      }
-      // this.files.push(fileObj)
-      // const len = this.files.length
-      if (this.isImage(files[0])) {
-        this.createImage(files[0])
-      } else {
-        this.removeImage()
-      }
-      this.add(fileObj)
-      this.upload(file, fileObj)
+      this.optFile(files)
     },
     onDragOver (e) {
       e.preventDefault()
@@ -174,19 +156,30 @@ export default {
       if (!files.length) {
         return
       }
-      var file = files[0]
-      this.optFile(file)
+      this.optFile(files)
     },
-    optFile (file) {
-      this.name = file.name
-      this.size = (file.size / 1024 / 1024).toFixed(2)
-      this.type = file.type
-      if (this.isImage(file)) {
-        this.createImage(file)
-      } else {
-        this.removeImage()
+    optFile (files) {
+      for (let file of files) {
+        const name = file.name
+        const size = (file.size / 1024 / 1024).toFixed(2)
+        const type = file.type
+        let fileObj = {
+          image: false,
+          name: name,
+          size: size,
+          type: type,
+          progress: 0,
+          msg: 'ok',
+          relative: ''
+        }
+        if (this.isImage(files[0])) {
+          this.createImage(files[0])
+        } else {
+          this.removeImage()
+        }
+        this.add(fileObj)
+        this.upload(file, fileObj)
       }
-      this.upload(file)
     },
     createImage (file) {
       // var image = new Image()
@@ -209,6 +202,22 @@ export default {
       }
       return acceptedTypes[file.type] === true
     },
+    saveFileToDb: function (file, success, error) {
+      let token = window.localStorage.getItem('token')
+      let tokenStr = `Token: ${token}`
+      const FILE_URL = 'http://localhost:4000/files'
+      const fileObj = {
+        filename: file.filename,
+        mimetype: file.mimetype,
+        relative: file.relative,
+        full: file.full,
+        size: file.size
+      }
+      // const fileResult = response.body.data
+      // console.log(`success: ${JSON.stringify(fileResult)}`)
+      this.$http.post(FILE_URL, { file: fileObj },
+        { headers: {'api-token': tokenStr} }).then(success, error)
+    },
     upload: function (file, fileObj) {
       var that = this
       if (window.FormData) {
@@ -223,7 +232,14 @@ export default {
           console.log(`上传成功: ${result[0].relative}`)
           fileObj.relative = result[0].relative
           fileObj.msg = '上传成功！'
-          window.localStorage.setItem('files', xhr.responseText)
+          that.saveFileToDb(result[0], function (response) {
+            const id = response.body.data.id
+            fileObj.id = id
+            console.log(`id: ${id}`)
+          }, function (response) {
+            console.log('response')
+          })
+          // window.localStorage.setItem('files', xhr.responseText)
           console.log(`上传成功: ${xhr.responseText}`)
         } else {
           fileObj.msg = '上传出错，请重试！'

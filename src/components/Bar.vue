@@ -47,19 +47,23 @@ export default {
       console.log('Opened')
     },
     onClose (type) {
+      let token = window.localStorage.getItem('token')
+      let tokenStr = `Token: ${token}`
       const REG_URL = 'http://localhost:3000/files/aa'
+      const FILE_DB_URL = `http://localhost:4000/files/${this.file.id}`
       console.log(`success: ${this.file.relative}`)
       const FILE_URL = `${REG_URL}?relative=${this.file.relative}`
       this.$http.delete(FILE_URL, {body: {file: 'assdb'}}).then((response) => {
         console.log(`success: ${JSON.stringify(response)}`)
-        // console.log(`success: ${response.body.token}`)
-        // this.$store.commit('login')
-        // window.location.href = '/'
       }, (response) => {
-        // const status = response.status
-        // console.log(`error: ${JSON.stringify(response)}`)
-        // console.log(`error: ${JSON.stringify(response.body)}`)
+        console.log(`delete db fail: ${JSON.stringify(response)}`)
       })
+      this.$http.delete(FILE_DB_URL, { headers: {'api-token': tokenStr} }).then((response) => {
+        console.log(`delete db success: ${JSON.stringify(response)}`)
+      }, (response) => {
+        console.log(`delete db fail: ${JSON.stringify(response)}`)
+      })
+      this.$emit('remove', this.index)
       console.log('Closed', type)
     }
   }
