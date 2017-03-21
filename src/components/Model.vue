@@ -4,6 +4,7 @@
     </canvas>
     <div class="extra" v-show="fullScreen">
       <md-button class="md-icon-button" @click.native="full">
+        <md-icon md-src="/static/images/full-screen.svg"></md-icon>
         <icon name="full-screen" scale="20"></icon>
       </md-button>
     </div>
