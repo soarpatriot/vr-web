@@ -84,8 +84,8 @@ export default {
         let error = {field: 'post.description', type: 'required', tip: '请填写描述！'}
         this.errors.push(error)
       }
-      console.log(`file: ${this.post.file}`)
-      if (this.post.file === null || this.post.file === '') {
+      // console.log(`file: ${this.post.file}`)
+      if (this.files.length <= 0) {
         let error = {field: 'post.file', type: 'required', tip: '请上传文件！'}
         this.errors.push(error)
       }
@@ -108,16 +108,14 @@ export default {
       return this.errors.filter(error => error.field === field)
     },
     submit (e) {
-      let files = window.localStorage.getItem('files')
+      // let files = window.localStorage.getItem('files')
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
       const POST_URL = 'http://localhost:4000/posts'
-      if (files) {
-        let fileArr = JSON.parse(files)
-        let file = fileArr[0]
-        this.post.file = file
-        console.log(`ready file: ${file.filename}`)
-      }
+      const idArr = this.files.map((file) => file.id)
+      const ids = idArr.join(',')
+      console.log(`ready file: ${ids}`)
+      this.post.file_ids = idArr
       this.validate()
       if (!this.any()) {
         console.log('aa')
@@ -133,7 +131,6 @@ export default {
         })
         console.log(`data: ${this.post}`)
       }
-      console.log(files)
     },
     remove (index) {
       this.files.splice(index, 1)

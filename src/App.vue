@@ -63,9 +63,22 @@ export default {
     const HIGH_URL = `${process.env.API_URL}/highlights/lastest`
 
     this.$http.get(HIGH_URL).then((response) => {
-      let modelUrl = response.body.data.full
-      this.url = modelUrl
-      console.log(`post success: ${JSON.stringify(response.body)}`)
+      let files = response.body.data.files
+      console.log(`post success: ${JSON.stringify(files)}`)
+      const modelFiles = files.filter((file) => {
+        console.log(`file: ${JSON.stringify(file)}`)
+        console.log(`full: ${file.full}`)
+        const REGEX = /(.json|.obj)$/gi
+        const match = REGEX.test(file.full)
+        console.log(`match: ${match}`)
+        if (match) {
+          return file
+        }
+      })
+      console.log(`full: ${modelFiles}`)
+      if (modelFiles.length > 0) {
+        this.url = modelFiles[0].full
+      }
     }, (response) => {
       console.log(`error: ${JSON.stringify(response)}`)
     })
