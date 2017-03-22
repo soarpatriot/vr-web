@@ -4,7 +4,7 @@
       <div class="my-model">
         <md-card md-with-hover>
           <md-card-media class="stage">
-            <model v-if="!!url" :url="url" :fullScreen="true"></model>
+            <model v-if="post" :files="post.files" :fullScreen="true"></model>
           </md-card-media>
           <md-card-actions>
             <md-button class="md-icon-button">
@@ -33,21 +33,20 @@ export default {
   },
   data () {
     return {
-      url: ''
+      post: null
     }
   },
   created () {
     let id = this.$route.params.id
     // let token = window.localStorage.getItem('token')
-    const POST_URL = `http://localhost:4000/posts/${id}`
+    const POST_URL = `${process.env.API_URL}/posts/${id}`
     // if (token) {
     //  let tokenStr = `Token: ${token}`
     //  console.log(`token: ${tokenStr}`)
     this.$http.get(POST_URL, { headers: {
       // 'api-token': tokenStr
     } }).then((response) => {
-      let pictureUrl = response.body.data.full
-      this.url = pictureUrl
+      this.post = response.body.data
       console.log(`post success: ${JSON.stringify(response.body)}`)
     }, (response) => {
       console.log(`error: ${JSON.stringify(response)}`)

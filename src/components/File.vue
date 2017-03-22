@@ -109,9 +109,9 @@ export default {
     },
     submit (e) {
       // let files = window.localStorage.getItem('files')
+      const POST_URL = `${process.env.API_URL}/posts`
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
-      const POST_URL = 'http://localhost:4000/posts'
       const idArr = this.files.map((file) => file.id)
       const ids = idArr.join(',')
       console.log(`ready file: ${ids}`)
@@ -202,7 +202,7 @@ export default {
     saveFileToDb: function (file, success, error) {
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
-      const FILE_URL = 'http://localhost:4000/files'
+      const FILE_URL = `${process.env.API_URL}/files`
       const fileObj = {
         filename: file.filename,
         mimetype: file.mimetype,

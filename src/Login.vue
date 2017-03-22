@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     submit () {
-      const REG_URL = 'http://localhost:4000/login'
+      const REG_URL = `${process.env.API_URL}/login`
       this.$http.post(REG_URL, { session: this.user }).then((response) => {
         // console.log(`success: ${JSON.stringify(response)}`)
         // console.log(`success: ${response.body.token}`)
@@ -55,8 +55,6 @@ export default {
         } else {
           this.msg = response.body.msg
         }
-        // console.log(`error: ${JSON.stringify(response)}`)
-        // console.log(`error: ${JSON.stringify(response.body)}`)
       })
     }
   }

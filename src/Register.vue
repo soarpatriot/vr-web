@@ -72,9 +72,9 @@ export default {
   methods: {
     submit () {
       // this.$validator.validateAll()
+      const REG_URL = `${process.env.API_URL}/users`
       this.validate()
       let formData = { user: this.user }
-      const REG_URL = 'http://localhost:4000/users'
       if (!this.any()) {
         this.$http.post(REG_URL, { user: this.user }).then((response) => {
           console.log(`success: ${response}`)

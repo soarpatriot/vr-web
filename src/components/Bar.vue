@@ -49,8 +49,8 @@ export default {
     onClose (type) {
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
-      const REG_URL = 'http://localhost:3000/files/aa'
-      const FILE_DB_URL = `http://localhost:4000/files/${this.file.id}`
+      const FILE_DB_URL = `${process.env.API_URL}/files/${this.file.id}`
+      const REG_URL = `${process.env.ASSETS_URL}/files/aa`
       console.log(`success: ${this.file.relative}`)
       const FILE_URL = `${REG_URL}?relative=${this.file.relative}`
       this.$http.delete(FILE_URL, {body: {file: 'assdb'}}).then((response) => {

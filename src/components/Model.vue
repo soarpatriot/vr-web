@@ -49,9 +49,10 @@ var OrbitControls = require('three-orbit-controls')(THREE)
 // import * as OrbitControls from '../../node_modules/three/examples/js/controls/OrbitControls.js'
 export default {
   name: 'model',
-  props: ['url', 'fullScreen'],
+  props: ['files', 'fullScreen'],
   data () {
     return {
+      url: '',
       progress: 0,
       showProgress: true,
       count: 0,
@@ -71,6 +72,7 @@ export default {
   mounted () {
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
+    this.modelUrl()
     this.first()
     this.addFullListener()
     this.animate()
@@ -85,6 +87,22 @@ export default {
       window.requestAnimationFrame(this.animate)
       this.controls.update()
       this.show()
+    },
+    modelUrl () {
+      const modelFiles = this.files.filter((file) => {
+        console.log(`file: ${JSON.stringify(file)}`)
+        console.log(`full: ${file.full}`)
+        const REGEX = /(.json|.obj)$/gi
+        const match = REGEX.test(file.full)
+        console.log(`match: ${match}`)
+        if (match) {
+          return file
+        }
+      })
+      console.log(`full: ${modelFiles}`)
+      if (modelFiles.length > 0) {
+        this.url = modelFiles[0].full
+      }
     },
     first () {
       // let container = document.createElement('div')
@@ -133,33 +151,40 @@ export default {
       // container.appendChild(this.renderer.domElement)
       window.addEventListener('resize', this.resize, false)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
-      let loader = new THREE.OBJLoader()
-      // let threeModel = null
-      // const renderArea = this.renderer.domElement
-      loader.load('http://localhost:8080/static/model/male02.obj', function (object) {
-        that.showProgress = false
-        object.traverse(function (child) {
-          // if (child instanceof THREE.mesh) {
-          // child.material.map = texture
-          // }
+
+      if (this.url.endsWith('.obj')) {
+        let loader = new THREE.OBJLoader()
+        // let threeModel = null
+        // const renderArea = this.renderer.domElement
+        loader.load(this.url, function (object) {
+          that.showProgress = false
+          object.traverse(function (child) {
+            // if (child instanceof THREE.mesh) {
+            // child.material.map = texture
+            // }
+          })
+          // threeModel = object
+          // object.position.x = 0
+          object.position.y = -95
+          // object.position.z = -200
+          that.scene.add(object)
+        }, function (xhr) {
+          that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          console.log(`loaded: ${that.progress}`)
         })
-        // threeModel = object
-        // object.position.x = 0
-        object.position.y = -95
-        // object.position.z = -200
-        that.scene.add(object)
-      }, function (xhr) {
-        that.progress = parseInt(xhr.loaded / xhr.total * 100)
-        console.log(`loaded: ${that.progress}`)
-      })
-      // let objectLoader = new THREE.ObjectLoader()
-      // objectLoader.load(this.url, function (obj) {
-      //  that.showProgress = false
-      //  that.scene.add(obj)
-      // }, function (xhr) {
-      //  that.progress = parseInt(xhr.loaded / xhr.total * 100)
-      //  console.log(`loaded: ${that.progress}`)
-      // })
+      }
+      if (this.url.endsWith('.json')) {
+        this.controls.maxDistance = 80
+        this.controls.minDistance = 5
+        let objectLoader = new THREE.ObjectLoader()
+        objectLoader.load(this.url, function (obj) {
+          that.showProgress = false
+          that.scene.add(obj)
+        }, function (xhr) {
+          that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          console.log(`loaded: ${that.progress}`)
+        })
+      }
     },
     fullSize (event) {
       this.camera.aspect = window.innerWidth / window.innerHeight

@@ -100,7 +100,6 @@ export default {
   },
   created () {
     let token = window.localStorage.getItem('token')
-    // const USER_URL = 'http://localhost:4000/validate'
     const USER_URL = `${process.env.API_URL}/validate`
     if (token) {
       let tokenStr = `Token: ${token}`
