@@ -54,7 +54,7 @@ export default {
     }
   },
   created () {
-    const POST_URL = `http://localhost:4000/posts`
+    const POST_URL = `${process.env.API_URL}/posts`
     this.$http.get(POST_URL).then((response) => {
       this.posts = response.body.data
       console.log(`post success: ${JSON.stringify(this.posts)}`)

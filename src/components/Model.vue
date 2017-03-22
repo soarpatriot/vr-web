@@ -142,7 +142,7 @@ export default {
       this.renderer.setPixelRatio(window.devicePixelRatio)
       // let controls = new OrbitControls(this.camera, container)
       // let controls = new THREE.TrackballControls(this.camera, container)
-      this.controls.enabled = true
+      // this.controls.enabled = true
       this.controls.maxDistance = 800
       this.controls.minDistance = 200
       this.controls.addEventListener('change', this.show)
