@@ -39,6 +39,7 @@
 </style>
 <script>
 // import * as file from '../assets/javascripts/file.js'
+import * as light from '../assets/javascripts/light.js'
 import * as THREE from 'three'
 import * as full from '../assets/javascripts/full.js'
 var OBJLoader = require('../assets/venders/OBJLoader.js')
@@ -119,11 +120,10 @@ export default {
       this.camera.position.z = 10
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
-      let ambient = new THREE.AmbientLight(0x888888)
+      const ambient = light.ambientLight()
       this.scene.add(ambient)
 
-      let directionalLight = new THREE.DirectionalLight(0xffeedd)
-      directionalLight.position.set(0, 0, 1).normalize()
+      let directionalLight = light.directLight()
       this.scene.add(directionalLight)
 
       let that = this
