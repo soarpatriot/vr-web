@@ -117,7 +117,6 @@ export default {
       this.camera.position.x = 0
       this.camera.position.y = 6
       this.camera.position.z = 10
-      this.controls = new OrbitControls(this.camera)
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
       let ambient = new THREE.AmbientLight(0x888888)
@@ -140,6 +139,7 @@ export default {
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true, alpha: true})
       this.renderer.setClearColor(0x000000, 0.1)
       this.renderer.setPixelRatio(window.devicePixelRatio)
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement)
       // let controls = new OrbitControls(this.camera, container)
       // let controls = new THREE.TrackballControls(this.camera, container)
       // this.controls.enabled = true
