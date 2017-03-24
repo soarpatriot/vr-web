@@ -3,7 +3,7 @@ export {directLight, ambientLight}
 
 function directLight () {
   const d = 300
-  let light = new THREE.DirectionalLight(0xdfebff, 1.75)
+  let light = new THREE.DirectionalLight(0xffffff, 1.75)
   light.position.set(50, 200, 100)
   light.position.multiplyScalar(1.3)
   light.castShadow = true

@@ -120,8 +120,8 @@ export default {
       this.camera.position.z = 10
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
-      const ambient = light.ambientLight()
-      this.scene.add(ambient)
+      // const ambient = light.ambientLight()
+      // this.scene.add(ambient)
 
       let directionalLight = light.directLight()
       this.scene.add(directionalLight)
@@ -140,6 +140,8 @@ export default {
       this.renderer.setClearColor(0x000000, 0.1)
       this.renderer.setPixelRatio(window.devicePixelRatio)
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+      this.controls.target.set(0, 0, 0)
+      this.controls.update()
       // let controls = new OrbitControls(this.camera, container)
       // let controls = new THREE.TrackballControls(this.camera, container)
       // this.controls.enabled = true
@@ -189,7 +191,7 @@ export default {
     fullSize (event) {
       this.camera.aspect = window.innerWidth / window.innerHeight
       this.camera.updateProjectionMatrix()
-      this.renderer.setSize(window.screen.availWidth, window.screen.availHeight)
+      this.renderer.setSize(window.innerWidth, window.innerHeight)
     },
     resize (event) {
       let container = this.$refs.area
@@ -216,7 +218,7 @@ export default {
       // this.camera.position.y += (-this.mouseY - this.camera.position.y) * 0.05
       this.camera.lookAt(this.scene.position)
       this.renderer.render(this.scene, this.camera)
-      // this.controls.updata()
+      // this.controls.update()
       if (this.count === 0) {
         // this.modelPhotoData = this.renderer.domElement.toDataURL()
         // const blob = file.toBlob(this.modelPhotoData)
