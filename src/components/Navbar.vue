@@ -14,7 +14,9 @@
 				 <h2 class="md-title">三维云</h2>
 					<md-button href="/">首页</md-button>
 					<md-button href="/posts">浏览</md-button>
-					<md-button href="/upload">上传</md-button>
+					<template v-if="logined">
+					  <md-button href="/upload">上传</md-button>
+					</template>
 					<span style="flex: 1;"></span>
 					<template v-if="logined">
 						<md-menu  md-align-trigger md-direction="bottom left">
