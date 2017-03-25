@@ -216,13 +216,14 @@ export default {
         { headers: {'api-token': tokenStr} }).then(success, error)
     },
     upload: function (file, fileObj) {
+      const UPLOAD_URL = `${process.env.ASSETS_URL}/files` 
       var that = this
       if (window.FormData) {
         var formData = new window.FormData()
         formData.append('upload', file)
       }
       var xhr = new window.XMLHttpRequest()
-      xhr.open('POST', this.url)
+      xhr.open('POST', UPLOAD_URL)
       xhr.onload = function () {
         if (xhr.status === 200) {
           const result = JSON.parse(xhr.responseText)
