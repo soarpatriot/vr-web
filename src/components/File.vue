@@ -216,7 +216,7 @@ export default {
         { headers: {'api-token': tokenStr} }).then(success, error)
     },
     upload: function (file, fileObj) {
-      const UPLOAD_URL = `${process.env.ASSETS_URL}/files` 
+      const UPLOAD_URL = `${process.env.ASSETS_URL}/files`
       var that = this
       if (window.FormData) {
         var formData = new window.FormData()
