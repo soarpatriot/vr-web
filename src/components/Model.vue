@@ -105,6 +105,9 @@ export default {
         this.url = modelFiles[0].full
       }
     },
+    percent () {
+      return window.innerHeight / window.innerWidth
+    },
     first () {
       // let container = document.createElement('div')
       // let container = document.getElementById('model')
@@ -189,14 +192,14 @@ export default {
       }
     },
     fullSize (event) {
-      this.camera.aspect = window.innerWidth / window.innerHeight
+      // this.camera.aspect = window.clientWidth / window.clientHeight
       this.camera.updateProjectionMatrix()
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
+      this.renderer.setSize(window.clientWidth, window.clientHeight)
     },
     resize (event) {
       let container = this.$refs.area
       let width = container.clientWidth
-      let height = width * 0.6
+      let height = width * 0.55
       console.log(`height: ${height}`)
       console.log(`width: ${width}`)
       this.renderer.setSize(width, height)
