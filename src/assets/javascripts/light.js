@@ -20,5 +20,5 @@ function directLight () {
 }
 
 function ambientLight () {
-  new THREE.AmbientLight(0x666666)
+  return new THREE.AmbientLight(0xffffff)
 }

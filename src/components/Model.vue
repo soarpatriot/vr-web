@@ -117,17 +117,18 @@ export default {
       let height = width * 0.55
       console.log(`container: ${height}`)
       // document.body.appendChild(container)
-      this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 1000)
+      this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000)
       this.camera.position.x = 0
-      this.camera.position.y = 6
+      this.camera.position.y = 0
       this.camera.position.z = 10
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
-      // const ambient = light.ambientLight()
-      // this.scene.add(ambient)
+      const ambient = light.ambientLight()
+      // const ambient = new THREE.AmbientLight(0xffffff)
+      this.scene.add(ambient)
 
-      let directionalLight = light.directLight()
-      this.scene.add(directionalLight)
+      // let directionalLight = light.directLight()
+      // this.scene.add(directionalLight)
 
       let that = this
 
@@ -150,7 +151,7 @@ export default {
       // this.controls.enabled = true
       this.controls.maxDistance = 800
       this.controls.minDistance = 200
-      this.controls.addEventListener('change', this.show)
+      this.controls.addEventListener('mousemove', this.show)
       // this.renderer.setSize(this.width, this.height)
       this.renderer.setSize(width, height)
       // container.appendChild(this.renderer.domElement)
@@ -192,7 +193,7 @@ export default {
       }
     },
     fullSize (event) {
-      // this.camera.aspect = window.clientWidth / window.clientHeight
+      this.camera.aspect = window.clientWidth / window.clientHeight
       this.camera.updateProjectionMatrix()
       this.renderer.setSize(window.clientWidth, window.clientHeight)
     },
