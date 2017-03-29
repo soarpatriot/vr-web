@@ -82,7 +82,7 @@ export default {
     full () {
       let element = this.$refs.model
       full.requestFull(element)
-      this.fullSize()
+      // this.fullSize()
     },
     animate () {
       window.requestAnimationFrame(this.animate)
@@ -109,14 +109,13 @@ export default {
       return window.innerHeight / window.innerWidth
     },
     first () {
-      // let container = document.createElement('div')
-      // let container = document.getElementById('model')
       let container = this.$refs.model
       let area = this.$refs.area
       let width = area.clientWidth
       let height = width * 0.55
-      console.log(`container: ${height}`)
-      // document.body.appendChild(container)
+      // console.log(`container: ${height}`)
+      const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+      console.log(`client: ${w}`)
       this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000)
       this.camera.position.x = 0
       this.camera.position.y = 0
@@ -193,17 +192,27 @@ export default {
       }
     },
     fullSize (event) {
-      this.camera.aspect = window.clientWidth / window.clientHeight
-      this.camera.updateProjectionMatrix()
+      // this.camera.aspect = window.clientWidth / window.clientHeight
+      // this.camera.updateProjectionMatrix()
+      console.log(`client: ${window.clientWidth}`)
       this.renderer.setSize(window.clientWidth, window.clientHeight)
     },
     resize (event) {
+      const activated = full.activated()
       let container = this.$refs.area
-      let width = container.clientWidth
-      let height = width * 0.55
-      console.log(`height: ${height}`)
-      console.log(`width: ${width}`)
-      this.renderer.setSize(width, height)
+      if (container) {
+        console.log(`container resize: ${container.clientWidth}`)
+        let width = container.clientWidth
+        let height = width * 0.55
+        if (activated) {
+          width = window.innerWidth
+          height = window.innerHeight
+        }
+        // console.log(`client in resize: ${window.clientWidth}`)
+        console.log(`height: ${height}`)
+        console.log(`width: ${width}`)
+        this.renderer.setSize(width, height)
+      }
     },
     onDocumentMouseMove (event) {
       this.mouseX = (event.clientX - this.windowHalfX) / 2
@@ -234,13 +243,14 @@ export default {
       document.addEventListener('mozfullscreenchange', this.exitFull)
       document.addEventListener('webkitfullscreenchange', this.exitFull)
     },
-    exitFull () {
+    exitFull (event) {
       if (document.fullscreenElement ||
         document.mozFullScreenElement ||
         document.msFullscreenElement ||
         document.webkitFullscreenElement) {
       } else {
-        this.renderer.setSize(this.width, this.height)
+        this.resize(event)
+        // this.renderer.setSize(this.width, this.height)
       }
     }
   }
