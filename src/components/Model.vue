@@ -54,6 +54,7 @@ export default {
   data () {
     return {
       url: '',
+      textureUrl: '',
       progress: 0,
       showProgress: true,
       count: 0,
@@ -74,6 +75,7 @@ export default {
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
     this.modelUrl()
+    this.textUrl()
     this.first()
     this.addFullListener()
     this.animate()
@@ -88,6 +90,23 @@ export default {
       window.requestAnimationFrame(this.animate)
       this.controls.update()
       this.show()
+    },
+    textUrl () {
+      const textureFiles = this.files.filter((file) => {
+        console.log(`file: ${JSON.stringify(file)}`)
+        console.log(`full: ${file.full}`)
+        const REGEX = /(.jpg|.jpeg)$/gi
+        const match = REGEX.test(file.full)
+        console.log(`match: ${match}`)
+        if (match) {
+          return file
+        }
+      })
+      console.log(`full: ${textureFiles}`)
+      if (textureFiles.length > 0) {
+        console.log(`full: texture`)
+        this.textureUrl = textureFiles[0].full
+      }
     },
     modelUrl () {
       const modelFiles = this.files.filter((file) => {
@@ -113,9 +132,6 @@ export default {
       let area = this.$refs.area
       let width = area.clientWidth
       let height = width * 0.55
-      // console.log(`container: ${height}`)
-      const w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-      console.log(`client: ${w}`)
       this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000)
       this.camera.position.x = 0
       this.camera.position.y = 0
@@ -130,11 +146,17 @@ export default {
       // this.scene.add(directionalLight)
 
       let that = this
-
-      // let manager = new THREE.LoadingManager()
-      // manager.onProgress = function (url, loaded, total) {
-      //  console.log(`loaded: ${loaded}`)
-      // }
+      let manager = new THREE.LoadingManager()
+      let texture = new THREE.Texture()
+      let imageLoader = new THREE.ImageLoader(manager)
+      imageLoader.crossOrigin = ''
+      imageLoader.load(this.textureUrl, function (image) {
+        texture.image = image
+        texture.needsUpdate = true
+      })
+      manager.onProgress = function (url, loaded, total) {
+        console.log(`loaded: ${loaded}`)
+      }
       THREE.DefaultLoadingManager.onProgress = function (item, loaded, total) {
         console.log(item, loaded, total)
       }
@@ -158,15 +180,15 @@ export default {
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
 
       if (this.url.endsWith('.obj')) {
-        let loader = new THREE.OBJLoader()
+        let loader = new THREE.OBJLoader(manager)
         // let threeModel = null
         // const renderArea = this.renderer.domElement
         loader.load(this.url, function (object) {
           that.showProgress = false
           object.traverse(function (child) {
-            // if (child instanceof THREE.mesh) {
-            // child.material.map = texture
-            // }
+            if (child instanceof THREE.Mesh) {
+              child.material.map = texture
+            }
           })
           // threeModel = object
           // object.position.x = 0
