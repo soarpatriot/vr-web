@@ -212,7 +212,7 @@ export default {
       }
       // const fileResult = response.body.data
       // console.log(`success: ${JSON.stringify(fileResult)}`)
-      this.$http.post(FILE_URL, { file: fileObj },
+      this.$http.post(FILE_URL, { asset: fileObj },
         { headers: {'api-token': tokenStr} }).then(success, error)
     },
     upload: function (file, fileObj) {

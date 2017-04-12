@@ -63,7 +63,7 @@ export default {
     const HIGH_URL = `${process.env.API_URL}/highlights/lastest`
 
     this.$http.get(HIGH_URL).then((response) => {
-      this.files = response.body.data.files
+      this.files = response.body.data.assets
     }, (response) => {
       console.log(`error: ${JSON.stringify(response)}`)
     })
