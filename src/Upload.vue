@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <div class="upload" id="main">
     <file/>
   </div>
 </template>
@@ -18,4 +18,7 @@ export default {
 <style lang="scss">
 @import "./assets/scss/break.scss";
 @import "./assets/scss/grid.scss";
+.upload {
+  margin: 0 15px;
+}
 </style>

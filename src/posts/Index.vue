@@ -11,20 +11,7 @@
 								<md-ink-ripple></md-ink-ripple>
 								</md-card-media>
 
-								<md-card-actions>
-									<md-button class="md-icon-button">
-										<md-icon>favorite</md-icon>
-									</md-button>
-
-									<md-button class="md-icon-button">
-										<md-icon>bookmark</md-icon>
-									</md-button>
-
-									<md-button class="md-icon-button">
-										<md-icon>share</md-icon>
-									</md-button>
-								</md-card-actions>
-							</md-card> 
+						</md-card> 
 	
 					</div>
 				</div>

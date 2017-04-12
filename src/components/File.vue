@@ -202,7 +202,7 @@ export default {
     saveFileToDb: function (file, success, error) {
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
-      const FILE_URL = `${process.env.API_URL}/files`
+      const FILE_URL = `${process.env.API_URL}/assets`
       const fileObj = {
         filename: file.filename,
         mimetype: file.mimetype,

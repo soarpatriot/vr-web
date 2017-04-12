@@ -18,7 +18,8 @@
 .model-area{
   width: 100%;
   position: relative;
-  height: 100%;
+  height: 0;
+  padding-bottom: 75%;
 }
 .model{
   width: 100%;
@@ -131,7 +132,7 @@ export default {
       let container = this.$refs.model
       let area = this.$refs.area
       let width = area.clientWidth
-      let height = width * 0.55
+      let height = width * 0.75
       this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000)
       this.camera.position.x = 0
       this.camera.position.y = 0
@@ -225,7 +226,7 @@ export default {
       if (container) {
         console.log(`container resize: ${container.clientWidth}`)
         let width = container.clientWidth
-        let height = width * 0.55
+        let height = width * 0.75
         if (activated) {
           width = window.innerWidth
           height = window.innerHeight

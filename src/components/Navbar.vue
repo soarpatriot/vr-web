@@ -10,13 +10,13 @@
 		      </md-toolbar>
         </div>  
         <div class="md-hide-small container">
-			   <md-toolbar class="md-accent">
-				 <h2 class="md-title">三维云</h2>
-					<md-button href="/">首页</md-button>
-					<md-button href="/posts">浏览</md-button>
-					<template v-if="logined">
-					  <md-button href="/upload">上传</md-button>
-					</template>
+			    <md-toolbar class="md-accent">
+				    <h2 class="md-title">三维云</h2>
+					    <md-button href="/" class="md-toggle">首页</md-button>
+					    <md-button href="/posts">浏览</md-button>
+					    <template v-if="logined">
+					      <md-button href="/upload">上传</md-button>
+					    </template>
 					<span style="flex: 1;"></span>
 					<template v-if="logined">
 						<md-menu  md-align-trigger md-direction="bottom left">
@@ -47,14 +47,7 @@
 
 						<span style="flex: 1"></span>
 
-						<md-avatar>
-							<img src="https://placeimg.com/40/40/people/3" alt="People">
-						</md-avatar>
-
-						<md-avatar>
-							<img src="https://placeimg.com/40/40/people/4" alt="People">
-						</md-avatar>
-					</md-list-item>
+				  </md-list-item>
 
 					<md-list-item>
 						<div class="md-list-text-container">

@@ -104,21 +104,16 @@ body {
 
 .site-intro{
   width: 100%;
-
   padding-left: 10px;
   background: #333 url(/static/images/conbg.png) left top repeat-x;
   @include breakpoint($lg){
     padding-left: 20px;
 		padding-top: 120px;
-    background: #333 url(/static/images/conbg.png) left top repeat-x;
   }
   @include breakpoint($md){
     padding-left: 30px;
 		padding-top: 100px;
-    background: #333 url(/static/images/conbg.png) left top repeat-x;
- 
   }
- 
 }
 .tip-img-p{
   display: block;
