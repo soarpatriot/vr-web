@@ -69,7 +69,11 @@ export default {
       height: 360,
       mouseX: 0,
       mouseY: 0,
-      controls: null
+      controls: null,
+      radius: 600,
+      theta: 0,
+      prevTime: new Date(),
+      mixer: null
     }
   },
   mounted () {
@@ -113,7 +117,7 @@ export default {
       const modelFiles = this.files.filter((file) => {
         console.log(`file: ${JSON.stringify(file)}`)
         console.log(`full: ${file.full}`)
-        const REGEX = /(.json|.obj)$/gi
+        const REGEX = /(.json|.obj|.js)$/gi
         const match = REGEX.test(file.full)
         console.log(`match: ${match}`)
         if (match) {
@@ -137,6 +141,7 @@ export default {
       this.camera.position.x = 0
       this.camera.position.y = 0
       this.camera.position.z = 10
+      this.camera.target = new THREE.Vector3(0, 150, 0)
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
       const ambient = light.ambientLight()
@@ -156,7 +161,7 @@ export default {
         texture.needsUpdate = true
       })
       manager.onProgress = function (url, loaded, total) {
-        console.log(`loaded: ${loaded}`)
+        console.log(`process loaded: ${loaded}`)
       }
       THREE.DefaultLoadingManager.onProgress = function (item, loaded, total) {
         console.log(item, loaded, total)
@@ -179,7 +184,32 @@ export default {
       // container.appendChild(this.renderer.domElement)
       window.addEventListener('resize', this.resize, false)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
-
+      if (this.url.endsWith('.js')) {
+        let loader = new THREE.JSONLoader(manager)
+        loader.load(this.url, function (geometry) {
+          that.showProgress = false
+          let mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
+            color: 0xffffff,
+            specular: 0xffffff,
+            shininess: 20,
+            morphTargets: true,
+            morphNormals: true,
+            vertexColors: THREE.FaceColors,
+            shading: THREE.SmoothShading,
+            wireframe: false,
+            opacity: 1.0
+          }))
+          mesh.scale.set(1.5, 1.5, 1.5)
+          that.scene.add(mesh)
+          that.mixer = new THREE.AnimationMixer(mesh)
+          let clip = THREE.AnimationClip.CreateFromMorphTargetSequence('gallop', geometry.morphTargets, 30)
+          that.mixer.clipAction(clip).setDuration(2).play()
+        }, function (xhr) {
+          console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
+          that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          console.log(`js loaded: ${that.progress}`)
+        })
+      }
       if (this.url.endsWith('.obj')) {
         let loader = new THREE.OBJLoader(manager)
         // let threeModel = null
@@ -250,16 +280,16 @@ export default {
     error (xhr) {
     },
     show () {
-      // this.camera.position.x += (this.mouseX - this.camera.position.x) * 0.05
-      // this.camera.position.y += (-this.mouseY - this.camera.position.y) * 0.05
+      // this.theta += 0.1
+      // this.camera.position.x = this.radius * Math.sin(THREE.Math.degToRad(this.theta))
+      // this.camera.position.z = this.radius * Math.cos(THREE.Math.degToRad(this.theta))
       this.camera.lookAt(this.scene.position)
-      this.renderer.render(this.scene, this.camera)
-      // this.controls.update()
-      if (this.count === 0) {
-        // this.modelPhotoData = this.renderer.domElement.toDataURL()
-        // const blob = file.toBlob(this.modelPhotoData)
-        // console.log(blob)
+      if (this.mixer) {
+        const time = Date.now()
+        this.mixer.update((time - this.prevTime) * 0.001)
+        this.prevTime = time
       }
+      this.renderer.render(this.scene, this.camera)
     },
     addFullListener () {
       document.addEventListener('fullscreenchange', this.exitFull)
