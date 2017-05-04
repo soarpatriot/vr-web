@@ -20,7 +20,7 @@
 					<span style="flex: 1;"></span>
 					<template v-if="logined">
 						<md-menu  md-align-trigger md-direction="bottom left">
-							<md-button md-menu-trigger>
+							<md-button class="logined-menu" md-menu-trigger>
 								{{user.name}}
 								<md-icon class="md-primary">people</md-icon>
 							</md-button>
@@ -130,7 +130,9 @@ export default {
   // background: rgba(0,0,0,.9);
   box-shadow: 0 1px 5px rgba(0,0,0,.15)
 }
-
+.logined-menu{
+  text-transform: none;
+}
  
 </style>
 
