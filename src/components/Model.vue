@@ -40,18 +40,23 @@
 </style>
 <script>
 // import * as file from '../assets/javascripts/file.js'
-import * as light from '../assets/javascripts/light.js'
+// import * as light from '../assets/javascripts/light.js'
 import * as THREE from 'three'
 import * as full from '../assets/javascripts/full.js'
+import * as model from '../assets/javascripts/model.js'
 var OBJLoader = require('../assets/venders/OBJLoader.js')
+var MTLLoader = require('../assets/venders/MTLLoader.js')
+var DDSLoader = require('../assets/venders/DDSLoader.js')
+MTLLoader(THREE)
 OBJLoader(THREE)
+DDSLoader(THREE)
 var OrbitControls = require('three-orbit-controls')(THREE)
 // import OrbitControls from 'orbit-controls-es6'
 // import * as OrbitControls from 'three-orbit-controls'
 // import * as OrbitControls from '../../node_modules/three/examples/js/controls/OrbitControls.js'
 export default {
   name: 'model',
-  props: ['files', 'fullScreen'],
+  props: ['file', 'fullScreen'],
   data () {
     return {
       url: '',
@@ -60,6 +65,7 @@ export default {
       showProgress: true,
       count: 0,
       modelPhotoData: '',
+      modelStyle: '',
       camera: null,
       scene: null,
       renderer: null,
@@ -79,8 +85,10 @@ export default {
   mounted () {
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
-    this.modelUrl()
-    this.textUrl()
+    this.url = model.modelUrl(this.file)
+    console.log(`model: ${model.modelType(this.file)}`)
+    this.textureUrl = model.modelMaterial(this.file)
+    this.modelStyle = model.modelType(this.file)
     this.first()
     this.addFullListener()
     this.animate()
@@ -96,39 +104,6 @@ export default {
       this.controls.update()
       this.show()
     },
-    textUrl () {
-      const textureFiles = this.files.filter((file) => {
-        console.log(`file: ${JSON.stringify(file)}`)
-        console.log(`full: ${file.full}`)
-        const REGEX = /(.jpg|.jpeg)$/gi
-        const match = REGEX.test(file.full)
-        console.log(`match: ${match}`)
-        if (match) {
-          return file
-        }
-      })
-      console.log(`full: ${textureFiles}`)
-      if (textureFiles.length > 0) {
-        console.log(`full: texture`)
-        this.textureUrl = textureFiles[0].full
-      }
-    },
-    modelUrl () {
-      const modelFiles = this.files.filter((file) => {
-        console.log(`file: ${JSON.stringify(file)}`)
-        console.log(`full: ${file.full}`)
-        const REGEX = /(.json|.obj|.js)$/gi
-        const match = REGEX.test(file.full)
-        console.log(`match: ${match}`)
-        if (match) {
-          return file
-        }
-      })
-      console.log(`full: ${modelFiles}`)
-      if (modelFiles.length > 0) {
-        this.url = modelFiles[0].full
-      }
-    },
     percent () {
       return window.innerHeight / window.innerWidth
     },
@@ -137,17 +112,20 @@ export default {
       let area = this.$refs.area
       let width = area.clientWidth
       let height = width * 0.75
-      this.camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000)
+      this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 2000)
       this.camera.position.x = 0
       this.camera.position.y = 0
       this.camera.position.z = 10
       this.camera.target = new THREE.Vector3(0, 150, 0)
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
-      const ambient = light.ambientLight()
-      // const ambient = new THREE.AmbientLight(0xffffff)
+      // let ambient = light.ambientLight()
+      let ambient = new THREE.AmbientLight(0x444444)
       this.scene.add(ambient)
 
+      let directionalLight = new THREE.DirectionalLight(0xffeedd)
+      directionalLight.position.set(0, 0, 1).normalize()
+      this.scene.add(directionalLight)
       // let directionalLight = light.directLight()
       // this.scene.add(directionalLight)
 
@@ -184,7 +162,7 @@ export default {
       // container.appendChild(this.renderer.domElement)
       window.addEventListener('resize', this.resize, false)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
-      if (this.url.endsWith('.js')) {
+      if (this.modelStyle === 'JS') {
         let loader = new THREE.JSONLoader(manager)
         loader.load(this.url, function (geometry) {
           that.showProgress = false
@@ -210,7 +188,31 @@ export default {
           console.log(`js loaded: ${that.progress}`)
         })
       }
-      if (this.url.endsWith('.obj')) {
+      if (this.modelStyle === 'OBJ_MTL') {
+        // THREE.Loader.Handlers.add(ma, new THREE.DDSLoader())
+        THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
+        let mtlLoader = new THREE.MTLLoader()
+        const baseUrl = `${this.file.parent}/`
+        mtlLoader.setBaseUrl(baseUrl)
+        // mtlLoader.setPath('http://localhost:3000/upload/20175/1494424374933/')
+        const MTL_URL = model.modelMtlUrl(this.file)
+        console.log(`MTL Url: ${MTL_URL}`)
+        mtlLoader.load(MTL_URL, function (materials) {
+          materials.preload()
+          let loader = new THREE.OBJLoader(manager)
+          loader.setMaterials(materials)
+          // loader.setPath('http://localhost:3000/upload/20175/1494424374933/')
+          loader.load(that.url, function (object) {
+            that.showProgress = false
+            // threeModel = object
+            // object.position.x = 0
+            object.position.y = -95
+            // object.position.z = -200
+            that.scene.add(object)
+          })
+        })
+      }
+      if (this.modelStyle === 'OBJ') {
         let loader = new THREE.OBJLoader(manager)
         // let threeModel = null
         // const renderArea = this.renderer.domElement

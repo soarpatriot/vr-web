@@ -18,7 +18,7 @@
     <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
       <span class="up-span md-raised md-primary"> 
          选择文件 
-				<input class="up-btn" @change="onFileChange" type="file" multiple></input>
+				<input class="up-btn" @change="onFileChange" type="file" name="model"  multiple></input>
       </span>
       <span v-show="hasError('post.file')" class="md-error">{{errorOne('post.file')}}</span>
 		</md-input-container>
@@ -112,10 +112,10 @@ export default {
       const POST_URL = `${process.env.API_URL}/posts`
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
-      const idArr = this.files.map((file) => file.id)
-      const ids = idArr.join(',')
-      console.log(`ready file: ${ids}`)
-      this.post.file_ids = idArr
+      // const idArr = this.files.map((file) => file.id)
+      // const ids = idArr.join(',')
+      // console.log(`ready file: ${ids}`)
+      this.post.file_id = this.files[0].id
       this.validate()
       if (!this.any()) {
         console.log('aa')
@@ -207,6 +207,8 @@ export default {
         filename: file.filename,
         mimetype: file.mimetype,
         relative: file.relative,
+        parent: file.parent,
+        parts: file.list,
         full: file.full,
         size: file.size
       }
@@ -220,17 +222,17 @@ export default {
       var that = this
       if (window.FormData) {
         var formData = new window.FormData()
-        formData.append('upload', file)
+        formData.append('model', file)
       }
       var xhr = new window.XMLHttpRequest()
       xhr.open('POST', UPLOAD_URL)
       xhr.onload = function () {
         if (xhr.status === 200) {
           const result = JSON.parse(xhr.responseText)
-          console.log(`上传成功: ${result[0].relative}`)
-          fileObj.relative = result[0].relative
+          console.log(`上传成功: ${JSON.stringify(result)}`)
+          fileObj.relative = result.relative
           fileObj.msg = '上传成功！'
-          that.saveFileToDb(result[0], function (response) {
+          that.saveFileToDb(result, function (response) {
             const id = response.body.data.id
             fileObj.id = id
             console.log(`id: ${id}`)

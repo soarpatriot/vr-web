@@ -6,7 +6,7 @@
 						<md-card md-with-hover>
 								<md-card-media class="stage">
                   <router-link :to="{ path: '/posts/'+ post.id, params: { id: 1 }}">
-                    <model :files="post.assets" :fullScreen="false"></model>
+                    <model v-if="post" :file="post.asset" :fullScreen="false"></model>
                   </router-link> 
 								<md-ink-ripple></md-ink-ripple>
 								</md-card-media>
