@@ -40,7 +40,7 @@
 </style>
 <script>
 // import * as file from '../assets/javascripts/file.js'
-// import * as light from '../assets/javascripts/light.js'
+import * as light from '../assets/javascripts/light.js'
 import * as THREE from 'three'
 import * as full from '../assets/javascripts/full.js'
 import * as model from '../assets/javascripts/model.js'
@@ -86,9 +86,11 @@ export default {
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
     this.url = model.modelUrl(this.file)
+    this.url = 'http://localhost:3000/upload/20175/1495526122592/Female02_slim.js'
     console.log(`model: ${model.modelType(this.file)}`)
-    this.textureUrl = model.modelMaterial(this.file)
+    // this.textureUrl = model.modelMaterial(this.file)
     this.modelStyle = model.modelType(this.file)
+    this.modelStyle = 'JS'
     this.first()
     this.addFullListener()
     this.animate()
@@ -119,25 +121,26 @@ export default {
       this.camera.target = new THREE.Vector3(0, 150, 0)
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
-      // let ambient = light.ambientLight()
-      let ambient = new THREE.AmbientLight(0x444444)
+      let ambient = light.ambientLight()
+      // let ambient = new THREE.AmbientLight(0x444444)
       this.scene.add(ambient)
 
-      let directionalLight = new THREE.DirectionalLight(0xffeedd)
-      directionalLight.position.set(0, 0, 1).normalize()
-      this.scene.add(directionalLight)
-      // let directionalLight = light.directLight()
+      // let directionalLight = new THREE.DirectionalLight(0xffeedd)
+      // directionalLight.position.set(0, 0, 1).normalize()
       // this.scene.add(directionalLight)
+      let directionalLight = light.directLight()
+      this.scene.add(directionalLight)
 
       let that = this
       let manager = new THREE.LoadingManager()
-      let texture = new THREE.Texture()
-      let imageLoader = new THREE.ImageLoader(manager)
-      imageLoader.crossOrigin = ''
-      imageLoader.load(this.textureUrl, function (image) {
-        texture.image = image
-        texture.needsUpdate = true
-      })
+      THREE.ImageUtils.crossOrigin = ''
+      // let texture = new THREE.Texture()
+      // let imageLoader = new THREE.ImageLoader(manager)
+      // imageLoader.crossOrigin = ''
+      // imageLoader.load(this.textureUrl, function (image) {
+      //  texture.image = image
+      //  texture.needsUpdate = true
+      // })
       manager.onProgress = function (url, loaded, total) {
         console.log(`process loaded: ${loaded}`)
       }
@@ -163,29 +166,39 @@ export default {
       window.addEventListener('resize', this.resize, false)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
       if (this.modelStyle === 'JS') {
-        let loader = new THREE.JSONLoader(manager)
-        loader.load(this.url, function (geometry) {
+        console.log(`url js: ${this.url}`)
+        THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
+        let loader = new THREE.JSONLoader()
+        loader.crossOrigin = ''
+        // loader.setTexturePath('')
+        loader.load(this.url, function (geometry, mat) {
+          console.log(`geometry: ${geometry} , materials: ${materials}`)
           that.showProgress = false
-          let mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({
-            color: 0xffffff,
-            specular: 0xffffff,
-            shininess: 20,
-            morphTargets: true,
-            morphNormals: true,
-            vertexColors: THREE.FaceColors,
-            shading: THREE.SmoothShading,
-            wireframe: false,
-            opacity: 1.0
-          }))
+          let materials = new THREE.MeshFaceMaterial(mat)
+          let mesh = new THREE.Mesh(geometry, materials)
+          // let mesh = mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(materials))
+          mesh.position.setY(-120)
           mesh.scale.set(1.5, 1.5, 1.5)
           that.scene.add(mesh)
-          that.mixer = new THREE.AnimationMixer(mesh)
-          let clip = THREE.AnimationClip.CreateFromMorphTargetSequence('gallop', geometry.morphTargets, 30)
-          that.mixer.clipAction(clip).setDuration(2).play()
+          const size = 100
+          const bottom = 0
+          const FLOOR = -250
+          for (var i = 0; i < materials.length; i++) {
+            let amesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(size, size), materials[i])
+            amesh.position.x = i * (size + 5) - ((materials.length - 1) * (size + 5) / 2)
+            amesh.position.y = FLOOR + size / 2 + bottom
+            amesh.position.z = -100
+            that.scene.add(amesh)
+          }
+          // that.mixer = new THREE.AnimationMixer(mesh)
+          // let clip = THREE.AnimationClip.CreateFromMorphTargetSequence('gallop', geometry.morphTargets, 30)
+          // that.mixer.clipAction(clip).setDuration(2).play()
         }, function (xhr) {
           console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
           that.progress = parseInt(xhr.loaded / xhr.total * 100)
           console.log(`js loaded: ${that.progress}`)
+        }, function () {
+          console.log('111 error')
         })
       }
       if (this.modelStyle === 'OBJ_MTL') {
@@ -213,14 +226,13 @@ export default {
         })
       }
       if (this.modelStyle === 'OBJ') {
+        console.log('OBJ style')
         let loader = new THREE.OBJLoader(manager)
-        // let threeModel = null
-        // const renderArea = this.renderer.domElement
         loader.load(this.url, function (object) {
           that.showProgress = false
           object.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
-              child.material.map = texture
+              // child.material.map = texture
             }
           })
           // threeModel = object
@@ -233,10 +245,12 @@ export default {
           console.log(`loaded: ${that.progress}`)
         })
       }
-      if (this.url.endsWith('.json')) {
+      if (this.modelStyle === 'JSON') {
         this.controls.maxDistance = 80
         this.controls.minDistance = 5
-        let objectLoader = new THREE.ObjectLoader()
+        console.log(`sdfasd`)
+        // let objectLoader = new THREE.ObjectLoader()
+        let objectLoader = new THREE.JSONLoader()
         objectLoader.load(this.url, function (obj) {
           that.showProgress = false
           that.scene.add(obj)

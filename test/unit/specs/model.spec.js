@@ -1,4 +1,4 @@
-import {modelType} from '../../src/assets/javascripts/model'
+import {modelType} from '../../../src/assets/javascripts/model'
 
 describe('modelType', () => {
   it('should render correct contents', () => {
