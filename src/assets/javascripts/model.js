@@ -6,6 +6,7 @@ function modelType(asset) {
   const parts = asset.parts
   const jsTypes = _.filter(parts, function(p) {return  /.js$/gi.test(p.data.name) }) 
   const binTypes = _.filter(parts, function(p) {return  /.bin$/gi.test(p.data.name) }) 
+  const objTypes = _.filter(parts, function(p) {return  /.obj$/gi.test(p.data.name) }) 
   const otherTypes = _.filter(parts, function(p) {return /(.json|.obj)$/gi.test(p.data.name) }) 
   const mtlType = _.filter(parts, function(p) {return /.mtl$/gi.test(p.data.name) }) 
   const REGEX = /(.json|.obj|.js)$/gi 
@@ -15,6 +16,9 @@ function modelType(asset) {
 
   if (jsTypes.length > 0 && binTypes.length > 0){
     return 'JS_BIN'
+  }
+  if (jsTypes.length > 0 && objTypes.length > 0){
+    return 'JS_OBJ'
   }
   if (jsTypes.length > 0) {
     return 'JS'

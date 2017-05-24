@@ -184,7 +184,7 @@ export default {
           console.log('111 error')
         })
       }
-      if (this.modelStyle === 'JS') {
+      if (this.modelStyle === 'JS_OBJ') {
         console.log(`url js: ${this.url}`)
         THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
         let loader = new THREE.JSONLoader()
@@ -196,6 +196,33 @@ export default {
           let materials = new THREE.MeshFaceMaterial(mat)
           let mesh = new THREE.Mesh(geometry, materials)
           // let mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(materials))
+          mesh.position.setY(-120)
+          mesh.scale.set(1.5, 1.5, 1.5)
+          that.scene.add(mesh)
+          that.mixer = new THREE.AnimationMixer(mesh)
+          let clip = THREE.AnimationClip.CreateFromMorphTargetSequence('gallop', geometry.morphTargets, 30)
+          that.mixer.clipAction(clip).setDuration(2).play()
+        }, function (xhr) {
+          console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
+          that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          console.log(`js loaded: ${that.progress}`)
+        }, function () {
+          console.log('111 error')
+        })
+      }
+      if (this.modelStyle === 'JS') {
+        let loader = new THREE.JSONLoader()
+        loader.crossOrigin = ''
+        // loader.setTexturePath('')
+        loader.load(this.url, function (geometry, mat) {
+          console.log(`geometry: ${geometry} , materials: ${materials}`)
+          that.showProgress = false
+          let materials = new THREE.MeshLambertMaterial({
+            vertexColors: THREE.FaceColors,
+            morphTargets: true,
+            overdraw: 0.5
+          })
+          let mesh = new THREE.Mesh(geometry, materials)
           mesh.position.setY(-120)
           mesh.scale.set(1.5, 1.5, 1.5)
           that.scene.add(mesh)
