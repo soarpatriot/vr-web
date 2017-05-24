@@ -4,7 +4,7 @@
       <div class="my-model">
         <md-card md-with-hover>
           <md-card-media class="stage">
-            <model v-if="post" :files="post.assets" :fullScreen="true"></model>
+            <model v-if="post" :file="post.asset" :fullScreen="true"></model>
           </md-card-media>
           <md-card-actions>
             <md-button class="md-icon-button">

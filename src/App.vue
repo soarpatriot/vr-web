@@ -3,7 +3,7 @@
     <div class="container home-model">
       <md-layout md-gutter>
           <md-layout md-flex-xsmall="100" md-flex-small="60" md-flex-medium="60">
-            <model v-if="files.length > 0" :files="files" :fullScreen="true"></model>
+            <model v-if="file" :file="file" :fullScreen="true"></model>
           </md-layout>
           <md-layout md-flex-xsmall="100" md-flex-small="40" md-flex-medium="40">
             <div class="site-intro">
@@ -55,7 +55,7 @@ export default {
   },
   data () {
     return {
-      files: []
+      file: null
     }
   },
 
@@ -63,7 +63,7 @@ export default {
     const HIGH_URL = `${process.env.API_URL}/highlights/lastest`
 
     this.$http.get(HIGH_URL).then((response) => {
-      this.files = response.body.data.assets
+      this.file = response.body.data.asset
     }, (response) => {
       console.log(`error: ${JSON.stringify(response)}`)
     })
