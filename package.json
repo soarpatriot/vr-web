@@ -19,6 +19,7 @@
     "bourbon-neat": "^1.8.0",
     "breakpoint-sass": "^2.7.0",
     "compass": "^0.1.1",
+    "lodash": "^4.17.4",
     "material-design-icons": "^3.0.1",
     "orbit-controls-es6": "^1.0.8",
     "susy": "^2.2.12",

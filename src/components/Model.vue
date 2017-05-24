@@ -43,13 +43,15 @@
 import * as light from '../assets/javascripts/light.js'
 import * as THREE from 'three'
 import * as full from '../assets/javascripts/full.js'
-import * as model from '../assets/javascripts/model.js'
+import * as m from '../assets/javascripts/model.js'
 var OBJLoader = require('../assets/venders/OBJLoader.js')
 var MTLLoader = require('../assets/venders/MTLLoader.js')
 var DDSLoader = require('../assets/venders/DDSLoader.js')
+var BinaryLoader = require('../assets/venders/BinaryLoader.js')
 MTLLoader(THREE)
 OBJLoader(THREE)
 DDSLoader(THREE)
+BinaryLoader(THREE)
 var OrbitControls = require('three-orbit-controls')(THREE)
 // import OrbitControls from 'orbit-controls-es6'
 // import * as OrbitControls from 'three-orbit-controls'
@@ -85,12 +87,8 @@ export default {
   mounted () {
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
-    this.url = model.modelUrl(this.file)
-    this.url = 'http://localhost:3000/upload/20175/1495526122592/Female02_slim.js'
-    console.log(`model: ${model.modelType(this.file)}`)
-    // this.textureUrl = model.modelMaterial(this.file)
-    this.modelStyle = model.modelType(this.file)
-    this.modelStyle = 'JS'
+    this.url = m.modelUrl(this.file)
+    this.modelStyle = m.modelType(this.file)
     this.first()
     this.addFullListener()
     this.animate()
@@ -165,6 +163,27 @@ export default {
       // container.appendChild(this.renderer.domElement)
       window.addEventListener('resize', this.resize, false)
       // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
+      if (this.modelStyle === 'JS_BIN') {
+        let loader = new THREE.BinaryLoader()
+        loader.crossOrigin = ''
+        // loader.setTexturePath('')
+        loader.load(this.url, function (geometry, mat) {
+          console.log(`geometry: ${geometry} , materials: ${materials}`)
+          that.showProgress = false
+          let materials = new THREE.MultiMaterial(mat)
+          let mesh = new THREE.Mesh(geometry, materials)
+          mesh.position.setY(-120)
+          mesh.scale.set(1, 1, 1)
+          mesh.dynamic = true
+          that.scene.add(mesh)
+        }, function (xhr) {
+          console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
+          that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          console.log(`js loaded: ${that.progress}`)
+        }, function () {
+          console.log('111 error')
+        })
+      }
       if (this.modelStyle === 'JS') {
         console.log(`url js: ${this.url}`)
         THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
@@ -176,23 +195,13 @@ export default {
           that.showProgress = false
           let materials = new THREE.MeshFaceMaterial(mat)
           let mesh = new THREE.Mesh(geometry, materials)
-          // let mesh = mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(materials))
+          // let mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(materials))
           mesh.position.setY(-120)
           mesh.scale.set(1.5, 1.5, 1.5)
           that.scene.add(mesh)
-          const size = 100
-          const bottom = 0
-          const FLOOR = -250
-          for (var i = 0; i < materials.length; i++) {
-            let amesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(size, size), materials[i])
-            amesh.position.x = i * (size + 5) - ((materials.length - 1) * (size + 5) / 2)
-            amesh.position.y = FLOOR + size / 2 + bottom
-            amesh.position.z = -100
-            that.scene.add(amesh)
-          }
-          // that.mixer = new THREE.AnimationMixer(mesh)
-          // let clip = THREE.AnimationClip.CreateFromMorphTargetSequence('gallop', geometry.morphTargets, 30)
-          // that.mixer.clipAction(clip).setDuration(2).play()
+          that.mixer = new THREE.AnimationMixer(mesh)
+          let clip = THREE.AnimationClip.CreateFromMorphTargetSequence('gallop', geometry.morphTargets, 30)
+          that.mixer.clipAction(clip).setDuration(2).play()
         }, function (xhr) {
           console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
           that.progress = parseInt(xhr.loaded / xhr.total * 100)
@@ -208,7 +217,7 @@ export default {
         const baseUrl = `${this.file.parent}/`
         mtlLoader.setBaseUrl(baseUrl)
         // mtlLoader.setPath('http://localhost:3000/upload/20175/1494424374933/')
-        const MTL_URL = model.modelMtlUrl(this.file)
+        const MTL_URL = m.mtlUrl(this.file)
         console.log(`MTL Url: ${MTL_URL}`)
         mtlLoader.load(MTL_URL, function (materials) {
           materials.preload()

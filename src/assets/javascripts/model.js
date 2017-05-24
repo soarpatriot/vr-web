@@ -1,73 +1,62 @@
 
-export {modelType, modelUrl, modelMtlUrl, modelMaterial}
+export {modelType, modelUrl, mtlUrl}
+import * as _ from 'lodash'
 
 function modelType(asset) {
-  const js = asset.parts.find(findJs) 
-  const mtl = asset.parts.find(findMtl) 
-  const REGEX = /(.json|.obj|.js)$/gi
+  const parts = asset.parts
+  const jsTypes = _.filter(parts, function(p) {return  /.js$/gi.test(p.data.name) }) 
+  const binTypes = _.filter(parts, function(p) {return  /.bin$/gi.test(p.data.name) }) 
+  const otherTypes = _.filter(parts, function(p) {return /(.json|.obj)$/gi.test(p.data.name) }) 
+  const mtlType = _.filter(parts, function(p) {return /.mtl$/gi.test(p.data.name) }) 
+  const REGEX = /(.json|.obj|.js)$/gi 
   const arrs = modelUrl(asset).split(REGEX) 
   const type = arrs[1].slice(1).toUpperCase()
-  console.log(`js: ${js}`)
-  if(js) {
+
+
+  if (jsTypes.length > 0 && binTypes.length > 0){
+    return 'JS_BIN'
+  }
+  if (jsTypes.length > 0) {
     return 'JS'
   }
-  if(mtl && type === 'OBJ'){
+  if(mtlType.length > 0 && type === 'OBJ'){
     return 'OBJ_MTL'
   }
   return type
 }
 
 function modelUrl(asset) {
-  const part = asset.parts.find(findModel) 
-  console.log(`part:  ${JSON.stringify(part)}`)
-  return `${asset.parent}/${part.data.name}`
-}
-function modelMtlUrl(asset) {
-  const part = asset.parts.find(findMtl) 
-  return `${asset.parent}/${part.data.name}`
-}
-function modelMaterial(asset) {
-  const part = asset.parts.find(findMaterial) 
-  // console.log(`part: ${part}`)
-  if (part) {
-    return `${asset.parent}/${part.data.name}`
+  const parts = asset.parts 
+  const jsParts = _.filter(parts, function(p) { return /.js$/gi.test(p.data.name) }) 
+  const otherParts = _.filter(parts, function(p) {return /(.json|.obj)$/gi.test(p.data.name) }) 
+  console.log(`js parts: ${JSON.stringify(jsParts)}`)
+  if (jsParts.length > 0) {
+    return `${asset.parent}/${jsParts[0].data.name}`
+  }
+  if (otherParts.length > 0) {
+    return `${asset.parent}/${otherParts[0].data.name}`
   }
   return ``
 }
 
-function findMaterial(part) {
-  const REGEX = /(.jpg|.jpeg)$/gi
-  const match = REGEX.test(part.data.name)
-  return match 
-}
-function findModel(part) {
-  const jsMatch = findJs(part)
-  console.log(`js Match: ${jsMatch}`)
-  if(jsMatch){
-    return jsMatch
+function mtlUrl(asset) {
+  const parts = asset.parts 
+  const mtlParts = _.filter(parts, function(p) { return /.mtl$/gi.test(p.data.name) }) 
+  if (mtlParts.length > 0) {
+    return `${asset.parent}/${mtlParts[0].data.name}`
   }
-  const REGEX = /(.json|.obj|.js)$/gi
-  const match = REGEX.test(part.data.name)
-  return match 
-} 
-
-function findJs(part) {
-  const REGEX = /.js$/gi
-  return endWith(REGEX, part.data.name)
-  // console.log(`findjs match: ${match}`)
-  // return match
+  return ``
 }
 
 
-function endWith(reg, name) {
-  return reg.test(name)
-} 
-
+function findJs(name) {
+  const REGEX = /.js$/gi
+  return REGEX.test(name)
+}
 
 function findMtl(part) {
   const REGEX = /.mtl$/gi
-  const match = REGEX.test(part.data.name)
-  return match 
+  return REGEX.test(part.data.name)
 } 
 
 
