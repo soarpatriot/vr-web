@@ -3,11 +3,11 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import VueMaterial from 'vue-material'
-import VeeValidate from 'vee-validate'
+// import VeeValidate from 'vee-validate'
 // import Icon from 'vue-svg-icon/Icon.vue'
 // import Icon from 'vui-icon'
 // import MaterialIcons from 'material-design-icons'
-import 'aframe'
+// import 'aframe'
 import 'vue-material/dist/vue-material.css'
 // import 'material-design-icons/iconfonts/MaterialIcons-Regular.eot'
 // import 'material-design-icons/iconfonts/MaterialIcons-Regular.svg'
@@ -20,7 +20,7 @@ import 'vue-material/dist/vue-material.css'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
 Vue.use(Vuex)
-Vue.use(VeeValidate)
+// Vue.use(VeeValidate)
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(VueResource)

@@ -57,8 +57,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "bourbon";
-@import "neat";
+@import "~breakpoint-sass/stylesheets/_breakpoint.scss";
+@import "~bourbon-neat/app/assets/stylesheets/_neat.scss";
 @import "../assets/scss/break.scss";
 // @import "../assets/scss/grid.scss";
 
