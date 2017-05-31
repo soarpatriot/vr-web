@@ -4,7 +4,6 @@ import router from './router'
 import VueResource from 'vue-resource'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import Navigrator from '@/components/Navigator'
 // import VueMaterial from 'vue-material'
 // import VeeValidate from 'vee-validate'
 // import Icon from 'vue-svg-icon/Icon.vue'
@@ -22,7 +21,6 @@ import Navigrator from '@/components/Navigator'
 // import Element from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
-Vue.component('Navigator', Navigator)
 Vue.use(VueResource)
 Vue.use(Vuex)
 Vue.use(Element)

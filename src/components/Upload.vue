@@ -1,6 +1,8 @@
 <template>
   <div class="upload" id="main">
+    <navigator/>
     <file/>
+    <vfooter/>
   </div>
 </template>
 <script>
@@ -12,11 +14,9 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../assets/scss/break.scss";
 @import "../assets/scss/grid.scss";
 .upload {
-  margin: 0 15px;
 }
 </style>

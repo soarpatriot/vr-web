@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Home from '@/components/Home'
 import Upload from '@/components/Upload'
-import Navigrator from '@/components/Navigator'
+import Navigator from '@/components/Navigator'
 import Vfooter from '@/components/Vfooter'
 import Login from '@/components/Login'
 

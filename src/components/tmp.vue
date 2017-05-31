@@ -149,4 +149,116 @@ ooooooo
 </template>
 
 
+    remove (index) {
+      this.files.splice(index, 1)
+    },
+    onFileChange (e) {
+      let files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.optFile(files)
+    },
+    onDragOver (e) {
+      e.preventDefault()
+      this.isDragOver = true
+    },
+    onDrop (e) {
+      e.preventDefault()
+      this.isDragOver = false
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.optFile(files)
+    },
+    optFile (files) {
+      for (let file of files) {
+        const name = file.name
+        const size = (file.size / 1024 / 1024).toFixed(2)
+        const type = file.type
+        let fileObj = {
+          image: false,
+          name: name,
+          size: size,
+          type: type,
+          progress: 0,
+          msg: 'ok',
+          relative: ''
+        }
+        if (this.isImage(files[0])) {
+          this.createImage(files[0])
+        } else {
+          this.removeImage()
+        }
+        this.add(fileObj)
+        this.upload(file, fileObj)
+      }
+    },
+    createImage (file) {
+      // var image = new Image()
+      var reader = new window.FileReader()
+      var vm = this
+
+      reader.onload = (e) => {
+        vm.image = e.target.result
+      }
+      reader.readAsDataURL(file)
+    },
+    removeImage: function (e) {
+      this.image = ''
+    },
+    isImage: function (file) {
+      var acceptedTypes = {
+        'image/png': true,
+        'image/jpeg': true,
+        'image/gif': true
+      }
+      return acceptedTypes[file.type] === true
+    },
+ 
+  upload: function (file, fileObj) {
+      const UPLOAD_URL = `${process.env.ASSETS_URL}/files`
+      var that = this
+      if (window.FormData) {
+        var formData = new window.FormData()
+        formData.append('model', file)
+      }
+      var xhr = new window.XMLHttpRequest()
+      xhr.open('POST', UPLOAD_URL)
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const result = JSON.parse(xhr.responseText)
+          console.log(`上传成功: ${JSON.stringify(result)}`)
+          fileObj.relative = result.relative
+          fileObj.msg = '上传成功！'
+          that.saveFileToDb(result, function (response) {
+            const id = response.body.data.id
+            fileObj.id = id
+            console.log(`id: ${id}`)
+          }, function (response) {
+            console.log('response')
+          })
+          // window.localStorage.setItem('files', xhr.responseText)
+          console.log(`上传成功: ${xhr.responseText}`)
+        } else {
+          fileObj.msg = '上传出错，请重试！'
+          // fileObj.msg = '上传出错，请重试！'
+          console.log('出错了')
+        }
+      }
+      xhr.onerror = function () {
+        that.msg = '服务没有响应！'
+        console.log('远程服务器错误')
+      }
+      xhr.upload.onprogress = function (event) {
+        if (event.lengthComputable) {
+          var complete = (event.loaded / event.total * 100 | 0)
+          console.log(complete)
+          that.progress = complete
+          fileObj.progress = complete
+        }
+      }
+      xhr.send(formData)
+    }
 

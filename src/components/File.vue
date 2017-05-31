@@ -1,6 +1,12 @@
 <template>
   <div class="container upload-container">
-  <h2>上传我的模型</h2>
+  <h2 class="upload-title">上传我的模型</h2>
+  <p>
+  <el-alert v-if="!!errorMsg"
+    :title="errorMsg"
+    type="error">
+  </el-alert>
+  </p>
    <el-form ref="form" :rules="rules" :model="post" label-width="80px">
     <el-form-item label="标题" prop="title">
       <el-input v-model="post.title"></el-input>
@@ -11,9 +17,10 @@
     <el-form-item label="" prop="file">
       <el-upload class="model-upload" 
          accept="application/zip" name="model" 
-         drag action="http://localhost:3000/files"
+         drag :action="uploadUrl"
          :file-list="fileList"
          :on-success="handleSuccess"
+         :on-error="handleError"
          :on-change="fileChange"> 
          <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -47,6 +54,11 @@ export default {
         description: '',
         file: null
       },
+      assetId: 0,
+      errorMsg: '',
+      uploadUrl: `${process.env.ASSETS_URL}/files`,
+      postUrl: `${process.env.API_URL}/posts`,
+      assetUrl: `${process.env.API_URL}/assets`,
       rules: {
         title: [
           { required: true, message: '请输入标题', trigger: 'blur' },
@@ -59,86 +71,44 @@ export default {
         file: [
           { validator: validateFile, trigger: 'blur' }
         ]
-      },
- 
-      files: [],
-      errors: [],
-      url: 'http://localhost:3000/files',
-      isDragOver: false,
-      image: '',
-      name: '',
-      size: '',
-      type: '',
-      progress: 0,
-      done: false,
-      msg: ''
+      }
     }
   },
   methods: {
     fileChange (file, fileList) {
+      this.assetId = 0
+      this.errorMsg = '' 
       this.fileList = [file]
     },
     handleSuccess (response, file, fileList){
       console.log(`response: ${JSON.stringify(response)}`)
+      let that = this;
       this.saveFileToDb(response, function (res) {
-        const id = res.body.data.id
-        console.log(`id: ${id}`)
+        that.assetId = res.body.data.id
+        console.log(`id: ${that.assetId}`)
       }, function (response) {
+        that.errorMsg = '十分抱歉，保存文件错误，请重试！' 
         console.log('response')
       })
     },
-    add (file) {
-      // url: 'http://assets.dreamreality.cn/files',
-      this.files.push(file)
-    },
-    validate () {
-      this.errors = []
-      if (this.post.title === '') {
-        let error = {field: 'post.title', type: 'required', tip: '请填写标题！'}
-        this.errors.push(error)
-      }
-      if (this.post.description === '') {
-        let error = {field: 'post.description', type: 'required', tip: '请填写描述！'}
-        this.errors.push(error)
-      }
-      // console.log(`file: ${this.post.file}`)
-      if (this.files.length <= 0) {
-        let error = {field: 'post.file', type: 'required', tip: '请上传文件！'}
-        this.errors.push(error)
-      }
-      console.log(`errors: ${this.errors.length}`)
-    },
-    any () {
-      return this.errors.length > 0
-    },
-    hasError (field) {
-      let errors = this.errorArray(field)
-      return errors.length > 0
-    },
-    errorOne (field) {
-      let errors = this.errorArray(field)
-      if (errors && errors.length > 0) {
-        return errors[0].tip
-      }
-    },
-    errorArray (field) {
-      return this.errors.filter(error => error.field === field)
+    handleError(err, file, fileList) {
+      this.errorMsg = '十分抱歉，上传过程出现错误，请重试！' 
     },
     onSubmit (formName) {
+      let that = this
       this.$refs[formName].validate((valid) => {
+          that.errorMsg = ''
           if (valid) {
             alert('submit!')
-            const POST_URL = `${process.env.API_URL}/posts`
             let token = window.localStorage.getItem('token')
             let tokenStr = `Token: ${token}`
             // const idArr = this.files.map((file) => file.id)
             // const ids = idArr.join(',')
             // console.log(`ready file: ${ids}`)
-            this.post.file_id = this.files[0].id
-            this.validate()
-            if (!this.any()) {
-              console.log('aa')
-              this.$http.post(POST_URL, { post: this.post }, { headers: {
+            // const assetId = this.fileList[0].id
+            if (this.assetId) {
+              this.post.file_id = this.assetId
+              this.$http.post(this.postUrl, { post: this.post }, { headers: {
                 'api-token': tokenStr
               }
               }).then((response) => {
@@ -149,6 +119,8 @@ export default {
                 console.log(`error: ${response}`)
               })
               console.log(`data: ${this.post}`)
+            } else {
+              that.errorMsg = '十分抱歉，保存文件错误，请重试！' 
             }
           } else {
             console.log('error submit!!')
@@ -156,77 +128,9 @@ export default {
           }
       })
     },
-    remove (index) {
-      this.files.splice(index, 1)
-    },
-    onFileChange (e) {
-      let files = e.target.files || e.dataTransfer.files
-      if (!files.length) {
-        return
-      }
-      this.optFile(files)
-    },
-    onDragOver (e) {
-      e.preventDefault()
-      this.isDragOver = true
-    },
-    onDrop (e) {
-      e.preventDefault()
-      this.isDragOver = false
-      var files = e.target.files || e.dataTransfer.files
-      if (!files.length) {
-        return
-      }
-      this.optFile(files)
-    },
-    optFile (files) {
-      for (let file of files) {
-        const name = file.name
-        const size = (file.size / 1024 / 1024).toFixed(2)
-        const type = file.type
-        let fileObj = {
-          image: false,
-          name: name,
-          size: size,
-          type: type,
-          progress: 0,
-          msg: 'ok',
-          relative: ''
-        }
-        if (this.isImage(files[0])) {
-          this.createImage(files[0])
-        } else {
-          this.removeImage()
-        }
-        this.add(fileObj)
-        this.upload(file, fileObj)
-      }
-    },
-    createImage (file) {
-      // var image = new Image()
-      var reader = new window.FileReader()
-      var vm = this
-
-      reader.onload = (e) => {
-        vm.image = e.target.result
-      }
-      reader.readAsDataURL(file)
-    },
-    removeImage: function (e) {
-      this.image = ''
-    },
-    isImage: function (file) {
-      var acceptedTypes = {
-        'image/png': true,
-        'image/jpeg': true,
-        'image/gif': true
-      }
-      return acceptedTypes[file.type] === true
-    },
     saveFileToDb: function (file, success, error) {
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
-      const FILE_URL = `${process.env.API_URL}/assets`
       const fileObj = {
         filename: file.filename,
         mimetype: file.mimetype,
@@ -238,52 +142,8 @@ export default {
       }
       // const fileResult = response.body.data
       // console.log(`success: ${JSON.stringify(fileResult)}`)
-      this.$http.post(FILE_URL, { asset: fileObj },
+      this.$http.post(this.assetUrl, { asset: fileObj },
         { headers: {'api-token': tokenStr} }).then(success, error)
-    },
-    upload: function (file, fileObj) {
-      const UPLOAD_URL = `${process.env.ASSETS_URL}/files`
-      var that = this
-      if (window.FormData) {
-        var formData = new window.FormData()
-        formData.append('model', file)
-      }
-      var xhr = new window.XMLHttpRequest()
-      xhr.open('POST', UPLOAD_URL)
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          const result = JSON.parse(xhr.responseText)
-          console.log(`上传成功: ${JSON.stringify(result)}`)
-          fileObj.relative = result.relative
-          fileObj.msg = '上传成功！'
-          that.saveFileToDb(result, function (response) {
-            const id = response.body.data.id
-            fileObj.id = id
-            console.log(`id: ${id}`)
-          }, function (response) {
-            console.log('response')
-          })
-          // window.localStorage.setItem('files', xhr.responseText)
-          console.log(`上传成功: ${xhr.responseText}`)
-        } else {
-          fileObj.msg = '上传出错，请重试！'
-          // fileObj.msg = '上传出错，请重试！'
-          console.log('出错了')
-        }
-      }
-      xhr.onerror = function () {
-        that.msg = '服务没有响应！'
-        console.log('远程服务器错误')
-      }
-      xhr.upload.onprogress = function (event) {
-        if (event.lengthComputable) {
-          var complete = (event.loaded / event.total * 100 | 0)
-          console.log(complete)
-          that.progress = complete
-          fileObj.progress = complete
-        }
-      }
-      xhr.send(formData)
     }
   }
 
@@ -361,7 +221,9 @@ export default {
   margin-top: 20px;
   text-align: center;
 }
-
+.upload-title{
+  text-align: center;
+}
 </style>
 
 <style lang="scss">
@@ -373,8 +235,5 @@ export default {
   .el-upload-dragger{
     width: 100%;
   }
-
 }
-
-
 </style>
