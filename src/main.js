@@ -1,14 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VueRouter from 'vue-router'
+import router from './router'
 import VueResource from 'vue-resource'
-import VueMaterial from 'vue-material'
+import Element from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
+import Navigrator from '@/components/Navigator'
+// import VueMaterial from 'vue-material'
 // import VeeValidate from 'vee-validate'
 // import Icon from 'vue-svg-icon/Icon.vue'
 // import Icon from 'vui-icon'
 // import MaterialIcons from 'material-design-icons'
 // import 'aframe'
-import 'vue-material/dist/vue-material.css'
+// import 'vue-material/dist/vue-material.css'
 // import 'material-design-icons/iconfonts/MaterialIcons-Regular.eot'
 // import 'material-design-icons/iconfonts/MaterialIcons-Regular.svg'
 // import 'material-design-icons/iconfonts/MaterialIcons-Regular.ttf'
@@ -19,16 +22,17 @@ import 'vue-material/dist/vue-material.css'
 // import Element from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
-Vue.use(Vuex)
-// Vue.use(VeeValidate)
-Vue.use(VueMaterial)
-Vue.use(VueRouter)
+Vue.component('Navigator', Navigator)
 Vue.use(VueResource)
+Vue.use(Vuex)
+Vue.use(Element)
+// Vue.use(VeeValidate)
+// Vue.use(VueMaterial)
 // Vue.use(VuiIcon)
 
 // Vue.component('icon', Icon)
 // Icon.inject('full-screen')
-
+/**
 Vue.material.registerTheme({
   default: {
     primary: 'blue',
@@ -40,61 +44,11 @@ Vue.material.registerTheme({
     primary: 'black',
     accent: 'pink'
   }
-})
+}) **/
 // Vue.material.setCurrentTheme('black')
 Vue.config.debug = true
 
 import App from './App'
-import Upload from './Upload'
-import Login from './Login'
-import Register from './Register'
-
-import PostShow from './posts/Show'
-import Display from './posts/Index'
-import One from './posts/One'
-import Navbar from './components/Navbar'
-import Vfooter from './components/Vfooter'
-
-Vue.component('navbar', Navbar)
-Vue.component('vfooter', Vfooter)
-// const Bar = { template: '<div>bar</div>' }
-// 创建一个路由器实例
-// 并且配置路由规则
-const router = new VueRouter({
-  mode: 'history',
-  base: __dirname,
-  routes: [
-    {
-      path: '/',
-      component: App
-    },
-    {
-      path: '/bar',
-      component: One
-    },
-    {
-      path: '/login',
-      component: Login
-    },
-    {
-      path: '/register',
-      component: Register
-    },
-    {
-      path: '/upload',
-      component: Upload
-    },
-    {
-      path: '/posts',
-      component: Display
-    },
-    {
-      path: '/posts/:id',
-      component: PostShow
-    }
-  ]
-})
-
 // vue store
 const store = new Vuex.Store({
   state: {
@@ -113,9 +67,12 @@ const store = new Vuex.Store({
 // 路由器会创建一个 App 实例，并且挂载到选择符 #app 匹配的元素上。
 
 new Vue({
+  el: '#app',
   store,
-  router: router
-}).$mount('#app')
+  router,
+  template: '<App/>',
+  components: { App }
+})
 /* eslint-disable no-new new Vue({
   el: '#app',
   template: '<App/>',

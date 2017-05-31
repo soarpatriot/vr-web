@@ -1,45 +1,53 @@
 <template>
   <div id="main">
+    <Navigator/>
     <div class="container login-container">
-      <h1 class="h1">登录</h1>
-      <form class="upload-form" novalidate @submit.stop.prevent="submit">
-        <div class="tip" v-show="!!msg"> 
-          <label class="md-error">{{msg}}</label>
-        </div>
-        <md-input-container>
-          <label>用户名／邮箱</label>
-          <md-input v-model="user.email" required></md-input>
-        </md-input-container>
-        <md-input-container md-has-password>
-          <label>密码</label>
-          <md-input v-model="user.password" type="password"></md-input>
-        </md-input-container> 
-        <md-button type="submit" class="md-raised md-primary">登录</md-button>
-
-      </form> 
-     
+      <h2 class="h1">登录</h2>
+      <div class="login-area">
+				<el-form ref="form" :rules="rules" :model="user" label-width="80px">
+						<el-form-item label="用户名：" prop="email">
+								<el-input v-model="user.email"></el-input>
+						</el-form-item>
+						<el-form-item label="密码：" prop="password">
+								<el-input v-model="user.password"></el-input>
+						</el-form-item>
+						<el-form-item>
+								<el-button type="primary" @click="onSubmit">登陆</el-button>
+						</el-form-item>
+				</el-form>
+      </div>
+        
     </div>
   </div>
 </template>
 
 <script>
-import Icon from 'vue-icons'
+import Navigator from './Navigator'
 export default {
   name: 'app',
   components: {
-    Icon
+    Navigator
   },
   data () {
     return {
-      msg: '',
       user: {
         email: '',
         password: ''
+      },
+      rules: {
+        email: [
+          { required: true, message: '请输入名称', trigger: 'blur' },
+          { min: 1, max: 30, message: '长度在 30 个字符内', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { min: 8, max: 30, message: '长度在 8 到 30 个字符', trigger: 'blur' }
+        ]
       }
     }
   },
   methods: {
-    submit () {
+    onSubmit () {
       const REG_URL = `${process.env.API_URL}/login`
       this.$http.post(REG_URL, { session: this.user }).then((response) => {
         // console.log(`success: ${JSON.stringify(response)}`)
@@ -62,8 +70,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./assets/scss/break.scss";
-@import "./assets/scss/grid.scss";
+@import "../assets/scss/break.scss";
+@import "../assets/scss/grid.scss";
 .h1{
  text-align: center;
 }

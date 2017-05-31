@@ -18,8 +18,6 @@
 .model-area{
   width: 100%;
   position: relative;
-  height: 0;
-  padding-bottom: 75%;
 }
 .model{
   width: 100%;

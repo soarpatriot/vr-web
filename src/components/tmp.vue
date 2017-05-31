@@ -113,3 +113,40 @@
       })
  
     //<img :src="image" class="file-img"/>
+ooooooo
+
+
+
+
+   <template v-if="!done">
+   <form class="upload-form" novalidate @submit.stop.prevent="submit">
+    <bar v-for="(file, index) in files" :file="file" @remove="remove"></bar>
+
+    <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
+      <span class="up-span md-raised md-primary"> 
+         选择文件 
+				<input class="up-btn" @change="onFileChange" type="file" name="model"  multiple></input>
+      </span>
+      <span v-show="hasError('post.file')" class="md-error">{{errorOne('post.file')}}</span>
+		</md-input-container>
+
+
+    <div 
+      v-bind:class="[{'drag-over': isDragOver}, 'drag-area']"
+      @dragover="onDragOver"
+      @drop="onDrop">
+      拖拽到这里上传
+    </div>
+    <div class="opt-area">
+      <md-button type="submit" class="md-raised md-primary">发布</md-button>
+    </div>
+    </form> 
+    </template>
+    <template v-else>
+      <p>模型已上传成功</p>
+    </template>
+  </div>
+</template>
+
+
+

@@ -1,5 +1,6 @@
 
-@import '../../../node_modules/breakpoint-sass/stylesheets/_breakpoint.scss';
+@import '~breakpoint-sass/stylesheets/_breakpoint.scss';
+@import '~mappy-breakpoints/mappy-breakpoints';
 
 $mobile-small: 240px;
 $mobile-large: 320px;
@@ -8,9 +9,15 @@ $tablet-large: 768px;
 $screen-small: 1024px;
 $screen-large: 1280px;
 
-$xs: max-width $tablet-small;
+$xs: $tablet-small;
 $sm: $tablet-small+1 $tablet-large; 
 $md: $tablet-large+1 $screen-small;
 $lg: $screen-small+1;
-
+/**
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+)**/
 

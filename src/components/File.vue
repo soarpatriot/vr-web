@@ -1,61 +1,66 @@
 <template>
   <div class="container upload-container">
-   <template v-if="!done">
-   <h1>上传我的VR</h1>
-   <form class="upload-form" novalidate @submit.stop.prevent="submit">
-		<md-input-container :class="{ 'md-input-invalid': hasError('post.title') }">
-			<label>标题</label>
-			<md-input v-model.trim="post.title" @change="validate" debounce="500" required></md-input>
-      <span v-show="hasError('post.title')" class="md-error">{{errorOne('post.title')}}</span>
-		</md-input-container>
-	  <md-input-container :class="{ 'md-input-invalid': hasError('post.description') }">
-			<label>描述</label>
-			<md-textarea v-model.trim="post.description" @change="validate" debounce="500" required></md-textarea>
-      <span v-show="hasError('post.description')" class="md-error">{{errorOne('post.description')}}</span>
-		</md-input-container>
-    <bar v-for="(file, index) in files" :file="file" @remove="remove"></bar>
+  <h2>上传我的模型</h2>
+   <el-form ref="form" :rules="rules" :model="post" label-width="80px">
+    <el-form-item label="标题" prop="title">
+      <el-input v-model="post.title"></el-input>
+    </el-form-item>
+    <el-form-item label="描述" prop="description">
+      <el-input type="textarea" v-model="post.description"> </el-input>
+    </el-form-item>
+    <el-form-item label="" prop="file">
+      <el-upload class="model-upload" 
+         accept="application/zip" name="model" 
+         drag action="http://localhost:3000/files"
+         :file-list="fileList"
+         :on-success="handleSuccess"
+         :on-change="fileChange"> 
+         <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip">只能上传zip文件，且不超过50MB</div>
+      </el-upload>
+    </el-form-item>
+    <el-form-item>
+        <el-button type="primary" @click="onSubmit('form')">发布</el-button>
+    </el-form-item>
 
-    <md-input-container :class="{ 'md-input-invalid': hasError('post.file') }">
-      <span class="up-span md-raised md-primary"> 
-         选择文件 
-				<input class="up-btn" @change="onFileChange" type="file" name="model"  multiple></input>
-      </span>
-      <span v-show="hasError('post.file')" class="md-error">{{errorOne('post.file')}}</span>
-		</md-input-container>
-
-
-    <div 
-      v-bind:class="[{'drag-over': isDragOver}, 'drag-area']"
-      @dragover="onDragOver"
-      @drop="onDrop">
-      拖拽到这里上传
-    </div>
-    <div class="opt-area">
-      <md-button type="submit" class="md-raised md-primary">发布</md-button>
-    </div>
-    </form> 
-    </template>
-    <template v-else>
-      <p>模型已上传成功</p>
-    </template>
+   </el-form>
   </div>
 </template>
-
 <script>
-import Bar from './Bar'
 export default {
   name: 'file',
   components: {
-    Bar
   },
-
   data () {
+    let validateFile = (rule, value, callback) => {
+      if (this.fileList.length <= 0 ){
+        callback(new Error('请上传文件!'))
+      }else {
+        callback()
+      }
+    }
     return {
+      fileList: [],
       post: {
         title: '',
         description: '',
         file: null
       },
+      rules: {
+        title: [
+          { required: true, message: '请输入标题', trigger: 'blur' },
+          { min: 1, max: 30, message: '长度在 30 个字符内', trigger: 'blur' }
+        ],
+        description: [
+          { required: true, message: '请输入描述', trigger: 'blur' },
+          { min: 1, max: 255, message: '长度在 255 个字符内', trigger: 'blur' }
+        ],
+        file: [
+          { validator: validateFile, trigger: 'blur' }
+        ]
+      },
+ 
       files: [],
       errors: [],
       url: 'http://localhost:3000/files',
@@ -70,6 +75,18 @@ export default {
     }
   },
   methods: {
+    fileChange (file, fileList) {
+      this.fileList = [file]
+    },
+    handleSuccess (response, file, fileList){
+      console.log(`response: ${JSON.stringify(response)}`)
+      this.saveFileToDb(response, function (res) {
+        const id = res.body.data.id
+        console.log(`id: ${id}`)
+      }, function (response) {
+        console.log('response')
+      })
+    },
     add (file) {
       // url: 'http://assets.dreamreality.cn/files',
       this.files.push(file)
@@ -107,30 +124,37 @@ export default {
     errorArray (field) {
       return this.errors.filter(error => error.field === field)
     },
-    submit (e) {
-      // let files = window.localStorage.getItem('files')
-      const POST_URL = `${process.env.API_URL}/posts`
-      let token = window.localStorage.getItem('token')
-      let tokenStr = `Token: ${token}`
-      // const idArr = this.files.map((file) => file.id)
-      // const ids = idArr.join(',')
-      // console.log(`ready file: ${ids}`)
-      this.post.file_id = this.files[0].id
-      this.validate()
-      if (!this.any()) {
-        console.log('aa')
-        this.$http.post(POST_URL, { post: this.post }, { headers: {
-          'api-token': tokenStr
-        }
-        }).then((response) => {
-          console.log(`success: ${response}`)
-          this.done = true
-          window.localStorage.removeItem('files')
-        }, (response) => {
-          console.log(`error: ${response}`)
-        })
-        console.log(`data: ${this.post}`)
-      }
+    onSubmit (formName) {
+      this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!')
+            const POST_URL = `${process.env.API_URL}/posts`
+            let token = window.localStorage.getItem('token')
+            let tokenStr = `Token: ${token}`
+            // const idArr = this.files.map((file) => file.id)
+            // const ids = idArr.join(',')
+            // console.log(`ready file: ${ids}`)
+            this.post.file_id = this.files[0].id
+            this.validate()
+            if (!this.any()) {
+              console.log('aa')
+              this.$http.post(POST_URL, { post: this.post }, { headers: {
+                'api-token': tokenStr
+              }
+              }).then((response) => {
+                console.log(`success: ${response}`)
+                this.done = true
+                window.localStorage.removeItem('files')
+              }, (response) => {
+                console.log(`error: ${response}`)
+              })
+              console.log(`data: ${this.post}`)
+            }
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+      })
     },
     remove (index) {
       this.files.splice(index, 1)
@@ -272,7 +296,7 @@ export default {
 .upload-container{
   padding-top: 30px;
   @include breakpoint($lg){
-		width: 50%;
+		width: 400px;
  
   }
   @include breakpoint($md){
@@ -337,5 +361,20 @@ export default {
   margin-top: 20px;
   text-align: center;
 }
+
 </style>
 
+<style lang="scss">
+.model-upload{
+  .el-upload{
+    width: 100%;
+    display: block;
+  }
+  .el-upload-dragger{
+    width: 100%;
+  }
+
+}
+
+
+</style>

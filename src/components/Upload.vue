@@ -4,20 +4,18 @@
   </div>
 </template>
 <script>
-import File from './components/File'
-import Icon from 'vue-icons'
+import File from './File'
 export default {
-  name: 'app',
+  name: 'upload',
   components: {
-    File,
-    Icon
+    File
   }
 }
 </script>
 
 <style lang="scss">
-@import "./assets/scss/break.scss";
-@import "./assets/scss/grid.scss";
+@import "../assets/scss/break.scss";
+@import "../assets/scss/grid.scss";
 .upload {
   margin: 0 15px;
 }
