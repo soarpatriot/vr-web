@@ -4,7 +4,9 @@
   <p>
   <el-alert v-if="!!errorMsg"
     :title="errorMsg"
-    type="error">
+    :closable="false"
+    type="error"
+    show-icon>
   </el-alert>
   </p>
    <el-form ref="form" :rules="rules" :model="post" label-width="80px">
@@ -99,7 +101,6 @@ export default {
       this.$refs[formName].validate((valid) => {
           that.errorMsg = ''
           if (valid) {
-            alert('submit!')
             let token = window.localStorage.getItem('token')
             let tokenStr = `Token: ${token}`
             // const idArr = this.files.map((file) => file.id)
@@ -113,8 +114,9 @@ export default {
               }
               }).then((response) => {
                 console.log(`success: ${response}`)
-                this.done = true
-                window.localStorage.removeItem('files')
+                // window.localStorage.removeItem('files')
+                window.location.href = '#/my'
+                // this.$router.push({path: '#/my'})
               }, (response) => {
                 console.log(`error: ${response}`)
               })

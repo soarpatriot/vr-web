@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Home from '@/components/Home'
+import My from '@/components/My'
 import Upload from '@/components/Upload'
 import Navigator from '@/components/Navigator'
 import Vfooter from '@/components/Vfooter'
@@ -28,6 +29,10 @@ export default new Router({
       name: 'upload',
       component: Upload
     },
- 
+    {
+      path: '/my',
+      name: 'my',
+      component: My
+    }
   ]
 })
