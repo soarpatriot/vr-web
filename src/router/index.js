@@ -7,6 +7,8 @@ import Upload from '@/components/Upload'
 import Navigator from '@/components/Navigator'
 import Vfooter from '@/components/Vfooter'
 import Login from '@/components/Login'
+import Post from '@/components/Post'
+import Show from '@/components/Show'
 
 Vue.component('Navigator', Navigator)
 Vue.component('Vfooter', Vfooter)
@@ -23,6 +25,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/posts',
+      name: 'post',
+      component: Post
+    },
+    {
+      path: '/posts/:id',
+      name: 'show',
+      component: Show
     },
     {
       path: '/post/new',
