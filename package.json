@@ -13,6 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "bourbon": "^4.2.7",
     "bourbon-neat": "^1.8.0",
     "breakpoint-sass": "^2.7.1",

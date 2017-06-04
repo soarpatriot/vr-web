@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from './router'
 import VueResource from 'vue-resource'
+import axios from 'axios'
 import Element from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 // import VueMaterial from 'vue-material'
@@ -22,8 +23,11 @@ import 'element-ui/lib/theme-default/index.css'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
 Vue.use(VueResource)
+Vue.use(axios)
 Vue.use(Vuex)
 Vue.use(Element)
+
+Vue.http.headers.custom['page-number'] = 1
 // Vue.use(VeeValidate)
 // Vue.use(VueMaterial)
 // Vue.use(VuiIcon)

@@ -127,6 +127,8 @@
   };
 </script>
 <style lang='scss' scoped>
+@import "../assets/scss/break.scss";
+@import "../assets/scss/grid.scss";
   .headerWrapper {
     height: 80px;
   }
@@ -137,13 +139,17 @@
     top: 0;
     left: 0;
     width: 100%;
-    line-height: &height;
+    line-height: 80px;
     z-index: 100;
     position: relative;
 
     .container {
       height: 100%;
       box-sizing: border-box;
+      @include breakpoint($md){
+        padding: 0 20px;
+      }
+
     }
 
     h1 {
@@ -199,6 +205,8 @@
       display: none;
     }
     .nav-item {
+      font-weight: 300;
+      font-size: 14px;
       margin: 0;
       float: left;
       list-style: none;

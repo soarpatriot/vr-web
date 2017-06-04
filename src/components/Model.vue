@@ -145,7 +145,7 @@ export default {
       }
 
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true, alpha: true})
-      this.renderer.setClearColor(0x000000, 0.1)
+      this.renderer.setClearColor(0x000000, 0.75)
       this.renderer.setPixelRatio(window.devicePixelRatio)
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
       this.controls.target.set(0, 0, 0)
@@ -306,7 +306,7 @@ export default {
       if (container) {
         console.log(`container resize: ${container.clientWidth}`)
         let width = container.clientWidth
-        let height = width * 0.75
+        let height = width * 0.6
         if (activated) {
           width = window.innerWidth
           height = window.innerHeight

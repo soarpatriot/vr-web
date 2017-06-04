@@ -2,17 +2,17 @@
 @import '~breakpoint-sass/stylesheets/_breakpoint.scss';
 @import '~mappy-breakpoints/mappy-breakpoints';
 
-$mobile-small: 240px;
-$mobile-large: 320px;
-$tablet-small: 480px;
-$tablet-large: 768px;
-$screen-small: 1024px;
-$screen-large: 1280px;
+// $mobile-small: 240px;
+// $mobile-large: 320px;
+// $tablet-small: 480px;
+$mobile: 768px;
+$tablet: 992px;
+$screen: 1200px;
 
-$xs: $tablet-small;
-$sm: $tablet-small+1 $tablet-large; 
-$md: $tablet-large+1 $screen-small;
-$lg: $screen-small+1;
+$xs: $mobile;
+$sm: $mobile+1 $tablet; 
+$md: $tablet+1 $screen;
+$lg: $screen+1;
 /**
 $breakpoints: (
   sm: 576px,
