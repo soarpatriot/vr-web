@@ -6,6 +6,7 @@ import My from '@/components/My'
 import Upload from '@/components/Upload'
 import Navigator from '@/components/Navigator'
 import Vfooter from '@/components/Vfooter'
+import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Post from '@/components/Post'
 import Show from '@/components/Show'
@@ -25,6 +26,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/posts',

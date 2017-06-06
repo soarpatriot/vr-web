@@ -23,11 +23,9 @@ import 'element-ui/lib/theme-default/index.css'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
 Vue.use(VueResource)
-Vue.use(axios)
 Vue.use(Vuex)
 Vue.use(Element)
 
-Vue.http.headers.custom['page-number'] = 1
 // Vue.use(VeeValidate)
 // Vue.use(VueMaterial)
 // Vue.use(VuiIcon)
