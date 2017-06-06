@@ -36,7 +36,7 @@
 							<span> / </span>
 							<span class="nav-lang">
 								<router-link
-									:to="`/login`">注册
+									:to="`/register`">注册
 								</router-link>
 							</span>
             </template>

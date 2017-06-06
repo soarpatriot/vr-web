@@ -12,7 +12,7 @@
 								<el-input v-model="user.password"></el-input>
 						</el-form-item>
 						<el-form-item>
-								<el-button type="primary" @click="onSubmit">登陆</el-button>
+								<el-button type="primary" @click="onSubmit('form')">登陆</el-button>
 						</el-form-item>
 				</el-form>
       </div>
@@ -47,21 +47,25 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit (formName) {
       const REG_URL = `${process.env.API_URL}/login`
-      this.$http.post(REG_URL, { session: this.user }).then((response) => {
-        // console.log(`success: ${JSON.stringify(response)}`)
-        // console.log(`success: ${response.body.token}`)
-        // this.$store.commit('login')
-        window.localStorage.setItem('token', response.body.token)
-        window.location.href = '/'
-        // this.$router.push('/')
-      }, (response) => {
-        const status = response.status
-        if (status === 0) {
-          this.msg = '服务暂时连接不上，请重试！'
-        } else {
-          this.msg = response.body.msg
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$http.post(REG_URL, { session: this.user }).then((response) => {
+            // console.log(`success: ${JSON.stringify(response)}`)
+            // console.log(`success: ${response.body.token}`)
+            // this.$store.commit('login')
+            window.localStorage.setItem('token', response.body.token)
+            window.location.href = '/'
+            // this.$router.push('/')
+          }, (response) => {
+            const status = response.status
+            if (status === 0) {
+              this.msg = '服务暂时连接不上，请重试！'
+            } else {
+              this.msg = response.body.msg
+            }
+          })
         }
       })
     }
