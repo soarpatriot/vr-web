@@ -4,12 +4,15 @@
     <div class="container login-container">
       <h2 class="h1">登录</h2>
       <div class="login-area">
+        <div class="msg" v-if="!!msg">
+          <el-alert :title="msg" type="warning" showIcon :closable="false"></el-alert>
+        </div>
 				<el-form ref="form" :rules="rules" :model="user" label-width="80px">
 						<el-form-item label="用户名：" prop="email">
 								<el-input v-model="user.email"></el-input>
 						</el-form-item>
 						<el-form-item label="密码：" prop="password">
-								<el-input v-model="user.password"></el-input>
+								<el-input type="password" v-model="user.password"></el-input>
 						</el-form-item>
 						<el-form-item>
 								<el-button type="primary" @click="onSubmit('form')">登陆</el-button>
@@ -30,6 +33,7 @@ export default {
   },
   data () {
     return {
+      msg: '',
       user: {
         email: '',
         password: ''
@@ -83,6 +87,9 @@ export default {
  color: #ff5722;
  padding: 10px 20px;
  background-color: rgba(0, 0, 0, 0.15);
+}
+.msg{
+  margin: 10px auto;
 }
 .login-container{
   padding-top: 30px;
