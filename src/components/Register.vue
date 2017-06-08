@@ -3,6 +3,10 @@
     <Navigator/>
     <div class="container login-container">
       <h2 class="title">注册</h2>
+      <div class="msg" v-if="!!msg">
+        <el-alert :title="msg" type="warning" showIcon :closable="false"></el-alert>
+      </div>
+
       <el-form ref="register"  :rules="rules" label-position="left" :model="form" label-width="100px">
         <el-form-item label="用户名：" prop="name">
             <el-input v-model="form.name"></el-input>
@@ -12,10 +16,10 @@
             <el-input v-model="form.email"></el-input>
         </el-form-item>
         <el-form-item label="密码：" prop="password">
-            <el-input v-model="form.password"></el-input>
+            <el-input type="password" v-model="form.password"></el-input>
         </el-form-item>
         <el-form-item label="密码确认：" prop="passwordConfirm">
-            <el-input v-model="form.passwordConfirm"></el-input>
+            <el-input type="password" v-model="form.passwordConfirm"></el-input>
         </el-form-item>
  
         <el-form-item>
@@ -28,6 +32,7 @@
 </template>
 
 <script>
+import * as error from '../assets/javascripts/error.js'
 export default {
   name: 'app',
   components: {
@@ -41,6 +46,7 @@ export default {
       }
     }
     return {
+      msg: '',
       form: {
         name: '',
         email: '',
@@ -80,7 +86,10 @@ export default {
             // window.localStorage.setItem('token', response.data token)
             // this.$route._router.go('/')
           }, (response) => {
-            console.log(`error: ${response}`)
+            const errors = response.body.errors
+            console.log(`error: ${JSON.stringify(response.body.errors)}`)
+            this.msg = error.tip(errors) 
+            console.log(`error: ${JSON.stringify(this.msg)}`)
           })
         } else {
           console.log('not valid')

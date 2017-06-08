@@ -44,7 +44,7 @@ describe('modelType', () => {
   it('should return js type', () => {
     const mType = m.modelType(asset)
     expect(mType)
-      .to.equal('JS')
+      .to.equal('JS_OBJ')
   })
   it('should return js type', () => {
     const mType = m.modelType(asset2)
