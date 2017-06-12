@@ -5,7 +5,12 @@
       <el-row :gutter="10">
         <el-col :xs="24" :sm="12" :md="6" v-for="(post, index) in posts" :key="post" class="m-col">
           <el-card :body-style="{ padding: '0px' }">
-            <model v-if="post" :file="post.asset" :fullScreen="false"></model>
+            <template v-if="post.cover">
+              <img class="model-snapshot" :src="post.cover.data.full"/>
+            </template>
+            <template v-else>
+              <img class="model-snapshot" src="../assets/images/3d.svg"/>
+            </template>
             <div class="info">
               <span>好吃的汉堡</span>
               <div class="bottom clearfix">
@@ -92,5 +97,8 @@ export default {
   font-size: 14px; 
   padding: 0 10px;
 }
-
+.model-snapshot{
+  width: 100%;
+  height: 214px;
+}
 </style>
