@@ -2,7 +2,13 @@
   <div class="model-area" ref="area">
     <canvas ref="model" class="model">
     </canvas>
+    <transition name="el-zoom-in-center">
+      <img :src="snapshot" v-show="showCover" class="transition-box photo-cover"/>
+    </transition>
     <div class="extra" v-show="fullScreen">
+      <el-button type="text" @click="photo">
+        <img src="../assets/images/camera.svg" class="camera">
+      </el-button>
       <md-button class="md-icon-button" @click.native="full">
         <md-icon md-src="/static/images/full-screen.svg"></md-icon>
       </md-button>
@@ -15,6 +21,18 @@
 </template>
 
 <style lang="scss">
+.camera{
+  width: 42px;
+  height: 42px;
+}
+.photo-cover{
+  top: 0;
+  border: 5px solid #fff;
+  position: absolute;
+  width: 100%;
+  height: 100%; 
+  transform:rotate(-10deg);
+}
 .model-area{
   width: 100%;
   position: relative;
@@ -24,7 +42,7 @@
 }
 .extra{
   position: absolute;
-  right: 0;
+  right: 10px;
   bottom: 5px;
 }
 .progress-bar{
@@ -59,6 +77,10 @@ export default {
   props: ['file', 'fullScreen'],
   data () {
     return {
+      id: 0,
+      showCover: false,
+      snapshot: '',
+      snapshotUrl: `${process.env.ASSETS_URL}/files/snapshot`,
       url: '',
       textureUrl: '',
       progress: 0,
@@ -83,6 +105,7 @@ export default {
     }
   },
   mounted () {
+    this.id = this.$route.params.id
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
     this.url = m.modelUrl(this.file)
@@ -92,6 +115,55 @@ export default {
     this.animate()
   },
   methods: {
+    photo () {
+      this.showCover = true
+      // const dataUrl = this.renderer.domElement.toDataURL('image/png')
+      const COVER_URL = `${process.env.API_URL}/covers`
+      let token = window.localStorage.getItem('token')
+      let tokenStr = `Token: ${token}`
+ 
+      this.snapshot = this.renderer.domElement.toDataURL() 
+      // this.snapshot = 'data:image/png;base64,'+Base64.encode(blob)
+      this.renderer.domElement.toBlob((blob) => {
+        let fd = new FormData()
+        fd.append('post_id', this.id)
+        fd.append('avatar', blob, 'snap.jpg')
+        console.log(`id: ${this.id}`)
+        this.$http.post(this.snapshotUrl, fd)
+          .then((response) => {
+            const result = response.body
+            const cover = {
+              post_id: this.id,
+              filename: result.originalname,
+              mimetype: result.mimetype,
+              full: result.full,
+              size: result.size,
+              parent: result.path 
+            } 
+            this.$http.post(COVER_URL, { cover: cover }, { headers: {
+                'api-token': tokenStr
+              }
+            }).then((response) => {
+              // window.location.href = '/' 
+              console.log(`success: ${response}`)
+              // window.localStorage.setItem('token', response.data token)
+              // this.$route._router.go('/')
+            }, (response) => {
+              const errors = response.body.errors
+              console.log(`error: ${JSON.stringify(response.body.errors)}`)
+              this.msg = error.tip(errors) 
+              console.log(`error: ${JSON.stringify(this.msg)}`)
+            })
+            console.log(`response ${JSON.stringify(response)}`)
+          }).catch((err) => {
+            console.log(`err ${err}`)
+          })
+      })
+      setTimeout(() => {
+        this.showCover = false
+      }, 3000)
+      // console.log(`sdf ${dataUrl}`)
+    },
     full () {
       let element = this.$refs.model
       full.requestFull(element)
