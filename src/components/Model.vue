@@ -9,13 +9,12 @@
       <el-button type="text" @click="photo">
         <img src="../assets/images/camera.svg" class="camera">
       </el-button>
-      <md-button class="md-icon-button" @click.native="full">
-        <md-icon md-src="/static/images/full-screen.svg"></md-icon>
-      </md-button>
+      <el-button type="text" @click.native="full">
+        <img src="../assets/images/full-screen.svg" class="camera">
+      </el-button>
     </div>
     <div class="progress-bar" v-show="showProgress">
-      <div>{{progress}}%</div>
-      <md-progress :md-progress="progress" class="progress"></md-progress>
+      <el-progress type="circle" :percentage="progress"></el-progress>
     </div>
   </div>
 </template>

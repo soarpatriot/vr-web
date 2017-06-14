@@ -18,12 +18,14 @@
               :to="`/posts`">浏览
             </router-link>
           </li>
+          <template v-if="logined">
           <li class="nav-item">
             <router-link
               active-class="active"
               :to="`/post/new`">上传
             </router-link>
           </li>
+          </template>
         </ul>
         <ul class="nav-right">
           <li class="nav-item">
@@ -76,12 +78,12 @@
 			let token = window.localStorage.getItem('token')
 			const USER_URL = `${process.env.API_URL}/validate`
 			if (token) {
+        this.logined = true
 				let tokenStr = `Token: ${token}`
 				console.log(`token: ${tokenStr}`)
 				this.$http.get(USER_URL, { headers: {
 					'api-token': tokenStr
 				} }).then((response) => {
-					this.logined = true
 					this.user = response.body
 					// console.log(`token success: ${JSON.stringify(response)}`)
 				}, (response) => {
@@ -104,7 +106,6 @@
         this.$router.push(this.$route.path.replace(this.lang, targetLang));
       },
       logout () {
-				console.log('fff')
 				this.logined = false
 				window.localStorage.removeItem('token')
 				window.location.href = '/'
