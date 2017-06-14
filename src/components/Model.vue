@@ -301,7 +301,8 @@ export default {
           that.mixer.clipAction(clip).setDuration(2).play()
         }, function (xhr) {
           console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
-          that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          const total = xhr.total === 0 ? 200000 : xhr.total
+          that.progress = parseInt(xhr.loaded / total * 100)
           console.log(`js loaded: ${that.progress}`)
         }, function () {
           console.log('111 error')

@@ -5,8 +5,9 @@
 				<el-row :gutter="10">
 					<el-col :span="16" class="m-col">
 						<el-card :body-style="{ padding: '0px' }">
-              <model v-if="post" :file="post.asset" :fullScreen="true" :showCamera="true"></model>
-							<div style="padding: 14px;">
+              <model v-if="post" :file="post.asset" :fullScreen="true"
+:showCamera="showCamera"></model>
+							<div style="padding: 14px;" v-if="post" >
                 <span>{{post.title}}</span>
 								<div class="bottom clearfix">
 									<time class="time"></time>
@@ -29,14 +30,17 @@ export default {
   },
   data () {
     return {
-      post: null
+      post: null,
+      showCamera: false
     }
   },
   created () {
     let id = this.$route.params.id
-    // let token = window.localStorage.getItem('token')
+    let token = window.localStorage.getItem('token')
     const POST_URL = `${process.env.API_URL}/posts/${id}`
-    // if (token) {
+    if (token) {
+      this.showCamera = true
+    }
     //  let tokenStr = `Token: ${token}`
     //  console.log(`token: ${tokenStr}`)
     this.$http.get(POST_URL, { headers: {
