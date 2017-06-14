@@ -81,15 +81,16 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http.post(REG_URL, { user: this.form }).then((response) => {
-            window.location.href = '/' 
+            // window.location.href = '/' 
+            this.$router.push({path:'regged'})
             // console.log(`success: ${response}`)
             // window.localStorage.setItem('token', response.data token)
             // this.$route._router.go('/')
           }, (response) => {
             const errors = response.body.errors
-            console.log(`error: ${JSON.stringify(response.body.errors)}`)
+            // console.log(`error: ${JSON.stringify(response.body.errors)}`)
             this.msg = error.tip(errors) 
-            console.log(`error: ${JSON.stringify(this.msg)}`)
+            // console.log(`error: ${JSON.stringify(this.msg)}`)
           })
         } else {
           console.log('not valid')

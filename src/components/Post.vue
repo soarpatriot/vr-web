@@ -1,9 +1,9 @@
 <template>
   <div id="main">
     <navigator/>
-    <div class="container">
+    <div class="container post-container">
       <el-row :gutter="10">
-        <el-col :xs="24" :sm="12" :md="6" v-for="(post, index) in posts" :key="post" class="m-col">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="(post, index) in posts" :key="post" class="m-col">
           <el-card :body-style="{ padding: '0px' }">
             <template v-if="post.cover">
               <img class="model-snapshot" :src="post.cover.data.full"/>
@@ -12,7 +12,7 @@
               <img class="model-snapshot" src="../assets/images/3d.svg"/>
             </template>
             <div class="info">
-              <span>好吃的汉堡</span>
+              <span>{{post.title}}</span>
               <div class="bottom clearfix">
                 <time class="time"></time>
                 <router-link :to="{ path: '/posts/'+ post.id, params: { id: 1 }}">
@@ -99,6 +99,17 @@ export default {
 }
 .model-snapshot{
   width: 100%;
-  height: 214px;
+  @include breakpoint($lg){
+    height: 214px;
+  }
+  @include breakpoint($md){
+    height: 214px;
+  }
+  @include breakpoint($sm){
+    height: 320px;
+  }
+}
+.post-container{
+  margin-top: 40px;
 }
 </style>

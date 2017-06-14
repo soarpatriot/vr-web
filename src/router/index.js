@@ -7,6 +7,7 @@ import Upload from '@/components/Upload'
 import Navigator from '@/components/Navigator'
 import Vfooter from '@/components/Vfooter'
 import Register from '@/components/Register'
+import RegTip from '@/components/RegTip'
 import Login from '@/components/Login'
 import Post from '@/components/Post'
 import Show from '@/components/Show'
@@ -31,6 +32,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/regged',
+      name: 'RegTip',
+      component: RegTip
     },
     {
       path: '/posts',

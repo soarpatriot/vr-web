@@ -5,11 +5,11 @@
     <transition name="el-zoom-in-center">
       <img :src="snapshot" v-show="showCover" class="transition-box photo-cover"/>
     </transition>
-    <div class="extra" v-show="fullScreen">
-      <el-button type="text" @click="photo">
+    <div class="extra">
+      <el-button type="text" @click="photo" v-show="showCamera">
         <img src="../assets/images/camera.svg" class="camera">
       </el-button>
-      <el-button type="text" @click.native="full">
+      <el-button type="text" @click.native="full" v-show="fullScreen">
         <img src="../assets/images/full-screen.svg" class="camera">
       </el-button>
     </div>
@@ -58,6 +58,7 @@
 import * as light from '../assets/javascripts/light.js'
 import * as THREE from 'three'
 import * as full from '../assets/javascripts/full.js'
+import * as error from '../assets/javascripts/error.js'
 import * as m from '../assets/javascripts/model.js'
 var OBJLoader = require('../assets/venders/OBJLoader.js')
 var MTLLoader = require('../assets/venders/MTLLoader.js')
@@ -73,7 +74,7 @@ var OrbitControls = require('three-orbit-controls')(THREE)
 // import * as OrbitControls from '../../node_modules/three/examples/js/controls/OrbitControls.js'
 export default {
   name: 'model',
-  props: ['file', 'fullScreen'],
+  props: ['file', 'fullScreen', 'showCamera'],
   data () {
     return {
       id: 0,

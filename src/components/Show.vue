@@ -5,15 +5,13 @@
 				<el-row :gutter="10">
 					<el-col :span="16" class="m-col">
 						<el-card :body-style="{ padding: '0px' }">
-              <model v-if="post" :file="post.asset" :fullScreen="true"></model>
+              <model v-if="post" :file="post.asset" :fullScreen="true" :showCamera="true"></model>
 							<div style="padding: 14px;">
-								<span>好吃的汉堡</span>
+                <span>{{post.title}}</span>
 								<div class="bottom clearfix">
 									<time class="time"></time>
-                  <router-link :to="{ path: '/posts/'+ post.id, params: { id: 1 }}">
-									  <el-button type="text" class="button">查看</el-button>
-                  </router-link> 
 								</div>
+                <p>{{post.description}}</p>
 							</div>
 						</el-card>
 					</el-col>

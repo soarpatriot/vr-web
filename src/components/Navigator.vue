@@ -43,6 +43,13 @@
 							</span>
             </template>
             <template v-else="!login">
+
+						  <span v-if="user">
+                <img src="../assets/images/user.svg" class="user-icon">
+								{{user.name}}
+							</span>
+ 
+
 							<span class="nav-lang" @click="logout">
 									退出
 							</span>
@@ -59,6 +66,7 @@
   export default {
     data() {
       return {
+        user: null,
         logined: false,
         active: '',
         isHome: false,
@@ -73,6 +81,9 @@
           this.headerStyle.backgroundColor = `rgba(32, 160, 255, ${ this.isHome ? '0' : '1' })`;
         }
       }
+    },
+    mounted () {
+
     },
     created () {
 			let token = window.localStorage.getItem('token')
@@ -90,8 +101,8 @@
 					console.log(`error: ${JSON.stringify(response)}`)
 				})
 			}
-    },
  
+    },
     computed: {
       lang() {
         return this.$route.path.split('/')[1] || 'zh-CN';
@@ -302,6 +313,11 @@
         vertical-align: top;
       }
     }
+  }
+  .user-icon{
+    width: 26px;
+    display: inline-block;
+    vertical-align: middle;
   }
 </style>
 
