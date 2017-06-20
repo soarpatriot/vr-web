@@ -99,14 +99,14 @@ export default {
 }
 .model-snapshot{
   width: 100%;
-  @include breakpoint($lg){
-    height: 214px;
+  @include breakpoint($sm){
   }
   @include breakpoint($md){
     height: 214px;
   }
-  @include breakpoint($sm){
-    height: 320px;
+
+  @include breakpoint($lg){
+    height: 214px;
   }
 }
 .post-container{

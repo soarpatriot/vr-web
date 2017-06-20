@@ -21,8 +21,8 @@
 
 <style lang="scss">
 .camera{
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
 }
 .photo-cover{
   top: 0;
@@ -52,7 +52,8 @@
   color: #2196f3;
   left: 25%;
   width: 50%;
-  top: 45%; 
+  top: 50%; 
+  margin-top: -73px;
 }
 </style>
 <script>
