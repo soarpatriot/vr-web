@@ -2,8 +2,14 @@
 @mixin clearfix() {
     &:before,
     &:after {
-      content: "";
+      content: " ";
       display: table;
+      height: 0;
+      line-height: 0;
+      overflow: hidden;
+      font-size: 0;
+    }
+    &:after{
       clear: both;
     }
 }

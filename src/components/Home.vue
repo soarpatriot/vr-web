@@ -1,19 +1,16 @@
 <template>
   <div class="home">
-    <navigator/>
-    <div class="container">
+    <div class="fluid-container stage">
+      <navigator/>
       <el-row class="display">
         <el-col :xs="24" :sm="16">
           <model v-if="post" :file="post.asset" :fullScreen="true"></model>
         </el-col>
         <el-col :xs="24" :sm="8">
-          <div class="intro">
-            <div class="site-slogn">
-              发布，分享，发现唯美3D模型，在线VR
-            </div>
-          </div>
         </el-col>
       </el-row> 
+    </div>
+    <div class="fluid-container">
       <el-row class="site-service">
         <el-col :xs="24" :sm="8">
           <div>
@@ -46,8 +43,6 @@
 
       </el-row> 
  
-      <div class="stage">
-      </div>
     </div>
     <vfooter/>
   </div>
@@ -79,21 +74,22 @@ export default {
 }
 
 </script>
+<style lang="scss">
+@import "../assets/scss/vr.scss";
+</style>
 <style lang="scss" scoped>
-@import "../assets/scss/break.scss";
-@import "../assets/scss/grid.scss";
+@import "../assets/scss/vr.scss";
 .home {
   min-height: 400px;
 }
 .stage{
-  width: 100%;
-  @include breakpoint($lg){
-    width: 65%;
-  }
+  // background: #404040;
+  min-height: 200px;
+  background: #404040;
 }
 .display{
-  // background: #666; 
-  background: #666 url(/static/images/conbg.png) 0 0 repeat; 
+  // background: #65697f; 
+  // background: #666 url(/static/images/conbg.png) 0 0 repeat; 
 }
 .intro{
   display: table; 

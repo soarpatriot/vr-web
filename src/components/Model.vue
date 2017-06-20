@@ -33,11 +33,13 @@
   transform:rotate(-10deg);
 }
 .model-area{
+  background: #fff;
   width: 100%;
   position: relative;
 }
 .model{
   width: 100%;
+  vertical-align: middle;
 }
 .extra{
   position: absolute;

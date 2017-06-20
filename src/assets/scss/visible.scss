@@ -1,0 +1,32 @@
+
+@import "./utils";
+@import "./variables";
+@import "./break";
+
+.visible-xs {
+  display: none; 
+  @media (min-width: 0) and (max-width: $sm) {
+    display: block; 
+  }
+}
+.hidden-xs {
+  display: block; 
+  @media (min-width: 0) and (max-width: $sm) {
+    display: none; 
+  }
+}
+$breakpoints: $grid-breakpoints;
+@each $breakpoint in map-keys($breakpoints) {
+  .visible-#{$breakpoint} {
+    display: none; 
+    @include media-breakpoint-only($breakpoint, $breakpoints) {
+      display: block; 
+    }
+  }
+  .hidden-#{$breakpoint} {
+    display: block; 
+    @include media-breakpoint-only($breakpoint, $breakpoints) {
+      display: none; 
+    }
+  }
+}

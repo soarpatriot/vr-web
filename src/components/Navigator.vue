@@ -1,17 +1,94 @@
 <template>
-  <div class="headerWrapper">
+  <div class="header-wrapper">
     <header class="header"
     ref="header"
     :style="headerStyle"
     :class="{
+      'scrolled': isScrolled,
       'header-home': isHome
     }">
-      <div class="container">
-        <h1><router-link :to="`/`">
-         <img src="../assets/images/cloud.svg" class="nav-logo">
-         <img src="../assets/images/cloud.svg" class="nav-logo-small">
-        </router-link></h1>
-        <ul class="nav">
+      <div class="fluid-container">
+        <div class="large container">
+          <ul class="nav">
+            <li class="nav-item">
+              <router-link :to="`/`" class="img-wrapper">
+                <span>
+                  <img src="../assets/images/cloud.svg" class="nav-logo">
+                </span> 
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                active-class="active"
+                :to="`/posts`">浏览
+              </router-link>
+            </li>
+            <template v-if="logined">
+            <li class="nav-item">
+              <router-link
+                active-class="active"
+                :to="`/post/new`">上传
+              </router-link>
+            </li>
+            </template>
+          </ul>
+          <ul class="nav-right">
+            <li class="nav-item">
+              <template v-if="!logined">
+                <span class="nav-lang">
+                <router-link
+                  :to="`/login`">登陆
+                </router-link>
+                </span>
+                <span> / </span>
+                <span class="nav-lang">
+                  <router-link
+                    :to="`/register`">注册
+                  </router-link>
+                </span>
+              </template>
+              <template v-else="!login">
+                <div class="img-wrapper">
+                  <span v-if="user">
+                    <img src="../assets/images/user.svg" class="user-icon">
+                  </span>
+                  &nbsp;
+                  <span v-if="user">
+                    {{user.name}}
+                  </span>
+                  &nbsp;
+                  <span class="nav-lang" @click="logout">
+                      退出
+                  </span>
+                </div>
+   
+              </template>
+            </li>
+            
+          </ul>
+   
+        </div>
+        <div class="small container" :class="{'back-change': isDropdown}">
+          <ul class="nav">
+            <li class="nav-item logo-item">
+              <router-link :to="`/`" class="img-wrapper">
+                <span>
+                  <img src="../assets/images/cloud.svg" class="nav-logo-small">
+                </span>
+              </router-link>
+            </li>
+          </ul>
+          <ul class="nav-right">
+            <li class="nav-item">
+              <a href="#" class="img-wrapper" @click="toggle">
+                <span>
+                  <img src="../assets/images/hamburg.svg" class="hamburg">
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <ul class="nav-sm" :class="{'dropdown': isDropdown}">
           <li class="nav-item">
             <router-link
               active-class="active"
@@ -19,46 +96,43 @@
             </router-link>
           </li>
           <template v-if="logined">
-          <li class="nav-item">
-            <router-link
-              active-class="active"
-              :to="`/post/new`">上传
-            </router-link>
-          </li>
+            <li class="nav-item">
+              <router-link
+                active-class="active"
+                :to="`/post/new`">上传
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <div class="img-wrapper user-info">
+                <span v-if="user">
+                  <img src="../assets/images/user-black.svg" class="user-icon">
+                </span>
+                &nbsp;
+                <span v-if="user">
+                  {{user.name}}
+                </span>
+                <a href="#" @click="logout">
+                  退出
+                </a>
+              </div>
+            </li>
           </template>
-        </ul>
-        <ul class="nav-right">
-          <li class="nav-item">
-            <template v-if="!logined">
-							<span class="nav-lang">
-							<router-link
-								:to="`/login`">登陆
-							</router-link>
-							</span>
-							<span> / </span>
-							<span class="nav-lang">
-								<router-link
-									:to="`/register`">注册
-								</router-link>
-							</span>
-            </template>
-            <template v-else="!login">
+          <template v-if="!logined">
+            <li class="nav-item">
+              <router-link
+                :to="`/login`">登陆
+              </router-link>
+            </li>
+            <li class="nav-item">
+                <router-link
+                  :to="`/register`">注册
+                </router-link>
+            </li>
+          </template>
+        </ul> 
 
-						  <span v-if="user">
-                <img src="../assets/images/user.svg" class="user-icon">
-								{{user.name}}
-							</span>
- 
-
-							<span class="nav-lang" @click="logout">
-									退出
-							</span>
- 
-            </template>
-          </li>
-        </ul>
- 
       </div>
+      
     </header>
   </div>
 </template>
@@ -68,7 +142,9 @@
       return {
         user: null,
         logined: false,
+        isDropdown: false,
         active: '',
+        isScrolled: false,
         isHome: false,
         headerStyle: {}
       };
@@ -77,13 +153,10 @@
       '$route.path': {
         immediate: true,
         handler() {
-          this.isHome = /^home/.test(this.$route.name);
+          this.isHome = /^Home/.test(this.$route.name);
           this.headerStyle.backgroundColor = `rgba(32, 160, 255, ${ this.isHome ? '0' : '1' })`;
         }
       }
-    },
-    mounted () {
-
     },
     created () {
 			let token = window.localStorage.getItem('token')
@@ -111,12 +184,18 @@
       }
     },
     methods: {
+      toggle(e) {
+        e.preventDefault()
+        this.isDropdown = !this.isDropdown
+        console.log(`${this.isDropdown}`)
+      },
       switchLang(targetLang) {
         if (this.lang === targetLang) return;
         localStorage.setItem('ELEMENT_LANGUAGE', targetLang);
         this.$router.push(this.$route.path.replace(this.lang, targetLang));
       },
-      logout () {
+      logout (e) {
+        e.preventDefault()
 				this.logined = false
 				window.localStorage.removeItem('token')
 				window.location.href = '/'
@@ -130,42 +209,71 @@
       }
       scroll(() => {
         if (this.isHome) {
-          const threshold = 200;
-          let alpha = Math.min((document.documentElement.scrollTop || document.body.scrollTop), threshold) / threshold;
-          this.$refs.header.style.backgroundColor = `rgba(32, 160, 255, ${ alpha })`;
+          if(window.scrollY > 40){
+            this.isScrolled = true
+          } else {
+            this.isScrolled = false
+          }
+ 
+          // const threshold = 200;
+          // let alpha = Math.min((document.documentElement.scrollTop || document.body.scrollTop), threshold) / threshold;
+          // this.$refs.header.style.backgroundColor = `rgba(32, 160, 255, ${ alpha })`;
         }
       });
     }
   };
 </script>
+<style lang='scss'>
+@import "../assets/scss/vr.scss";
+</style>
 <style lang='scss' scoped>
 @import "../assets/scss/break.scss";
 @import "../assets/scss/grid.scss";
-  .headerWrapper {
-    height: 80px;
+* {
+  margin: 0;
+  padding: 0;
+}
+ul {
+  -webkit-padding-start: 0px;
+}
+.large {
+  position: relative;
+  display: block;
+  @include media-breakpoint-down(sm){
+        display: none;
+  } 
+}
+.small {
+  display: none;
+  @include media-breakpoint-down(sm){
+    position: relative;
+    display: block;
+  } 
+}
+.back-change{
+  // background: #fff; 
+} 
+  .header-wrapper{
+    height: 60px;
+    position: relative;
+  }
+  .scrolled {
+    display: none;
   }
   .header {
-    height: 80px;
+    height: 60px;
     background-color: rgba(32, 160, 255, 1);
     color: #fff;
     top: 0;
     left: 0;
     width: 100%;
-    line-height: 80px;
+    line-height: 60px;
     z-index: 100;
     position: relative;
 
-    .container {
-      height: 100%;
-      box-sizing: border-box;
-      @include breakpoint($md){
-        padding: 0 20px;
-      }
-
-    }
-
-    h1 {
+     h1 {
       margin: 0;
+      padding: 0; 
       float: left;
       font-size: 32px;
       font-weight: normal;
@@ -192,16 +300,49 @@
     .nav {
       float: left;
       height: 100%;
-      line-height: 80px;
+      line-height: 60px;
       background: transparent;
       @utils-clearfix;
       padding: 0;
       margin: 0;
     }
+    .nav-sm {
+      line-height: 60px;
+      transition: max-height 0.5s linear;
+      max-height: 0;
+      overflow: hidden;
+      background: #fff;
+      @utils-clearfix;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      float: none;
+      position: absolute;
+      left: 0;
+      top: 60px; 
+      .nav-item{
+        float: none;
+        margin-left: 0;
+        display: block;
+        span {
+          color: #404040;
+        }
+        a {
+          display: block;
+          width: 100%;
+          height: 60px;
+          line-height: 60px;
+          color: #404040;
+        }
+      }
+    }
+    .dropdown{
+      max-height: 500px;
+    } 
     .nav-right{
       float: right;
       height: 100%;
-      line-height: 80px;
+      line-height: 60px;
       background: transparent;
       @utils-clearfix;
       padding: 0;
@@ -210,26 +351,23 @@
     }
     .nav-logo,
     .nav-logo-small {
-      width: 76px;
-      vertical-align: sub;
+      display: inline-block;
+      width: 40px;
+      vertical-align: middle;
     }
-    .nav-logo-small {
-      display: none;
-    }
+
     .nav-item {
       font-weight: 300;
-      font-size: 14px;
+      font-size: 16px;
       margin: 0;
       float: left;
       list-style: none;
       position: relative;
       cursor: pointer;
       margin-left: 20px;
-    
       &:last-child {
-        cursor: default;
-        margin-left: 34px;
         span {
+          cursor: default;
           opacity: .8;
         }
 
@@ -246,11 +384,9 @@
           }
         }
       }
-
       a {
         text-decoration: none;
         color: #fff;
-        display: block;
         padding: 0 20px;
         opacity: .8;
         &.active,
@@ -274,51 +410,45 @@
         }
       }
     }
+    .logo-item{
+      margin-left: 0;
+    } 
+ 
+
   }
   .header-home {
+    z-index: 10;
     position: fixed;
     top: 0;
     background-color: rgba(32, 160, 255, 0);
   }
 
-  @media (max-width: 850px) {
-    .header {
-      .nav-logo {
-        display: none;
-      }
-      .nav-logo-small {
-        display: inline-block;
-      }
-      .nav-item {
-        margin-left: 6px;
-
-        &:last-child {
-          margin-left: 10px;
-        }
-         
-        a {
-          padding: 0 5px;
-        }
-      }
-    }
-  }
-  @media (max-width: 700px) {
-    .header {
-      .container {
-        padding: 0 12px;
-      }
-      .nav-item a,
-      .nav-lang {
-        font-size: 12px;
-        vertical-align: top;
-      }
-    }
-  }
-  .user-icon{
-    width: 26px;
-    display: inline-block;
+.user-icon{
+  width: 26px;
+  vertical-align: middle;
+}
+.hamburg{
+  width: 26px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.nav-container{
+  padding: 0 20px;
+}
+.img-wrapper{
+  height: 60px;
+  display: table;
+  span {
+    display: table-cell;
     vertical-align: middle;
   }
+  img {
+    float: left;
+  }
+}
+.user-info{
+  padding: 0 20px;
+}
 </style>
 
 
