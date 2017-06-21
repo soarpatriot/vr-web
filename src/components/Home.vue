@@ -6,7 +6,12 @@
         <el-col :xs="24" :sm="16">
           <model v-if="post" :file="post.asset" :fullScreen="true"></model>
         </el-col>
-        <el-col :xs="24" :sm="8">
+        <el-col :xs="24" :sm="8" class="intro">
+          <div class="site-slogn">
+            <div class="site-content">
+              <h1>发现，分享，发布在线VR 3D模型</h1>
+            </div>
+          </div>
         </el-col>
       </el-row> 
     </div>
@@ -17,7 +22,7 @@
             <img src="/static/images/upload.png">
           </div>
           <p>
-            无限上传你的VR，模型 
+            无限上传3D模型 
           </p>
  
         </el-col>
@@ -92,21 +97,26 @@ export default {
   // background: #666 url(/static/images/conbg.png) 0 0 repeat; 
 }
 .intro{
-  display: table; 
   .site-slogn{
+    height: 400px;
+    display: table; 
     color: #fff;
-    height: 200px; 
     padding: 0 40px;
-    display: table-cell;
-    vertical-align: middle;
-		@include breakpoint($lg){
-      height: 400px; 
-		}
-		@include breakpoint($md){
-      height: 380px; 
-		}
-
-
+    .site-content{
+      display: table-cell;
+      vertical-align: middle;
+    }
+    h1 {
+      font-weight: 400;
+    }      
+ 
+    @include media-breakpoint-down(sm){
+      height: 100px;
+      h1 {
+        font-weight: 400;
+        font-size: 16px;
+      }      
+    } 
   }
 }
 .site-service{
