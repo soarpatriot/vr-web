@@ -49,11 +49,11 @@
               </template>
               <template v-else="!login">
                 <div class="img-wrapper">
-                  <span v-if="user">
+                  <span v-if="user" class="span-cur-default">
                     <img src="../assets/images/user.svg" class="user-icon">
                   </span>
                   &nbsp;
-                  <span v-if="user">
+                  <span v-if="user" class="span-cur-default">
                     {{user.name}}
                   </span>
                   &nbsp;
@@ -69,24 +69,37 @@
    
         </div>
         <div class="small container" :class="{'back-change': isDropdown}">
-          <ul class="nav">
-            <li class="nav-item logo-item">
-              <router-link :to="`/`" class="img-wrapper">
-                <span>
-                  <img src="../assets/images/cloud.svg" class="nav-logo-small">
-                </span>
-              </router-link>
-            </li>
-          </ul>
-          <ul class="nav-right">
-            <li class="nav-item">
-              <a href="#" class="img-wrapper" @click="toggle">
-                <span>
-                  <img src="../assets/images/hamburg.svg" class="hamburg">
-                </span>
-              </a>
-            </li>
-          </ul>
+          <el-row>
+            <el-col :xs="6">
+            <ul class="nav">
+              <li class="nav-item logo-item">
+                <router-link :to="`/`" class="img-wrapper">
+                  <span>
+                    <img src="../assets/images/cloud.svg" class="nav-logo-small">
+                  </span>
+                </router-link>
+              </li>
+            </ul>
+            </el-col>
+            <el-col :xs="12">
+              <div class="title-display">
+                <router-link :to="`/`" class="title-link">
+                  三维云
+                </router-link>
+              </div>  
+            </el-col>
+            <el-col :xs="6">
+            <ul class="nav-right">
+              <li class="nav-item">
+                <a href="#" class="img-wrapper" @click="toggle">
+                  <span>
+                    <img src="../assets/images/hamburg.svg" class="hamburg">
+                  </span>
+                </a>
+              </li>
+            </ul>
+            </el-col>
+          </el-row>
         </div>
         <ul class="nav-sm" :class="{'dropdown': isDropdown}">
           <li class="nav-item">
@@ -347,7 +360,6 @@ ul {
       @utils-clearfix;
       padding: 0;
       margin: 0;
- 
     }
     .nav-logo,
     .nav-logo-small {
@@ -365,25 +377,27 @@ ul {
       position: relative;
       cursor: pointer;
       margin-left: 20px;
-      &:last-child {
-        span {
-          cursor: default;
-          opacity: .8;
-        }
+      &:last-child{
+        opacity: .8;
+      }
+      .span-cur-default {
+        cursor: default;
+        opacity: .8;
+      }
 
-        .nav-lang {
-          cursor: pointer;
-          display: inline-block;
-          height: 100%;
-          &:hover {
-            opacity: 1;
-          }
-          &.active {
-            font-weight: 700;
-            opacity: 1;
-          }
+      .nav-lang {
+        cursor: pointer;
+        display: inline-block;
+        height: 100%;
+        &:hover {
+          opacity: 1;
+        }
+        &.active {
+          font-weight: 700;
+          opacity: 1;
         }
       }
+   
       a {
         text-decoration: none;
         color: #fff;
@@ -448,6 +462,16 @@ ul {
 }
 .user-info{
   padding: 0 20px;
+}
+.title-display{
+  margin: 0 auto;
+  color: #fff;
+  text-align: center;
+  
+}
+.title-link{
+  text-decoration: none;
+  color: #fff;
 }
 </style>
 
