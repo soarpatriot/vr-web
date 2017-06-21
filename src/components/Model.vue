@@ -33,6 +33,7 @@
   transform:rotate(-10deg);
 }
 .model-area{
+  cursor: pointer;
   background: #fff;
   width: 100%;
   position: relative;
