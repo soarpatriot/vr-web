@@ -157,16 +157,16 @@ export default {
 @import "../assets/scss/grid.scss";
 .upload-container{
   padding-top: 30px;
-  @include breakpoint($lg){
-		width: 400px;
- 
+  @include breakpoint($xs){
+		width: 90%;
   }
   @include breakpoint($md){
-		width: 80%;
- 
+		width: 60%;
+  }
+  @include breakpoint($lg){
+		width: 400px;
   }
  
-
 }
 .up-span{
   position: relative;
