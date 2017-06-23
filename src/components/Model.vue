@@ -189,7 +189,7 @@ export default {
       this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 2000)
       this.camera.position.x = 0
       this.camera.position.y = 0
-      this.camera.position.z = 10
+      this.camera.position.z = 1000
       this.camera.target = new THREE.Vector3(0, 150, 0)
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
@@ -229,8 +229,8 @@ export default {
       // let controls = new OrbitControls(this.camera, container)
       // let controls = new THREE.TrackballControls(this.camera, container)
       // this.controls.enabled = true
-      this.controls.maxDistance = 800
-      this.controls.minDistance = 200
+      this.controls.maxDistance = 2000
+      this.controls.minDistance = 100
       this.controls.addEventListener('mousemove', this.show)
       // this.renderer.setSize(this.width, this.height)
       this.renderer.setSize(width, height)
