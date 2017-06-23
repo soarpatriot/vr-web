@@ -3,7 +3,7 @@
     <navigator/>
     <div class="container">
 				<el-row :gutter="10">
-					<el-col :span="16" class="m-col">
+					<el-col :md="16" :sm="24">
 						<el-card :body-style="{ padding: '0px' }">
               <model v-if="post" :file="post.asset" :fullScreen="true"
 :showCamera="showCamera"></model>
@@ -57,8 +57,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.my-model{
-  margin-top: 50px;
-  width: 80%;
+@import "../assets/scss/break.scss";
+.el-card {
+  @include media-breakpoint-down('sm') {
+    border: 0;
+  } 
 }
 </style>

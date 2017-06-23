@@ -90,6 +90,13 @@ export default {
 @import "~bourbon-neat/app/assets/stylesheets/_neat.scss";
 @import "../assets/scss/break.scss";
 // @import "../assets/scss/grid.scss";
+.el-card {
+  @include media-breakpoint-down('sm') {
+    border: 0;
+    border-radius: 0;
+  } 
+}
+
 .m-col{
   margin-bottom: 10px;
 }
@@ -111,5 +118,8 @@ export default {
 }
 .post-container{
   margin-top: 40px;
+  @include media-breakpoint-down('sm') {
+    margin-top: 0;
+  } 
 }
 </style>
