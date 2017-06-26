@@ -160,6 +160,9 @@ export default {
   @include breakpoint($xs){
 		width: 90%;
   }
+  @include breakpoint($sm){
+		width: 75%;
+  }
   @include breakpoint($md){
 		width: 60%;
   }

@@ -6,18 +6,19 @@
         <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="(post, index) in posts" :key="post" class="m-col">
           <el-card :body-style="{ padding: '0px' }">
             <template v-if="post.cover">
-              <img class="model-snapshot" :src="post.cover.data.full"/>
+              <router-link :to="{ path: '/posts/'+ post.id, params: { id: 1 }}">
+                <img class="model-snapshot" :src="post.cover.data.full"/>
+              </router-link> 
             </template>
             <template v-else>
-              <img class="model-snapshot" src="../assets/images/3d.svg"/>
+              <router-link :to="{ path: '/posts/'+ post.id, params: { id: 1 }}">
+                <img class="model-snapshot" src="../assets/images/3d.svg"/>
+              </router-link> 
             </template>
             <div class="info">
               <span>{{post.title}}</span>
               <div class="bottom clearfix">
                 <time class="time"></time>
-                <router-link :to="{ path: '/posts/'+ post.id, params: { id: 1 }}">
-                  <el-button type="text" class="button">查看</el-button>
-                </router-link> 
               </div>
             </div>
           </el-card>
@@ -102,7 +103,7 @@ export default {
 }
 .info{
   font-size: 14px; 
-  padding: 0 10px;
+  padding: 10px;
 }
 .model-snapshot{
   width: 100%;
