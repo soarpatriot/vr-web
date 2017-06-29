@@ -1,25 +1,7 @@
 <template>
   <div id="main">
-    <navigator/>
-    <div class="container">
-				<el-row :gutter="10">
-					<el-col :md="16" :sm="24">
-						<el-card :body-style="{ padding: '0px' }">
-              <model v-if="post" :id="post.id" :file="post.asset" :fullScreen="true"
-:showCamera="showCamera"></model>
-							<div style="padding: 14px;" v-if="post" >
-                <span>{{post.title}}</span>
-								<div class="bottom clearfix">
-									<time class="time"></time>
-								</div>
-                <p>{{post.description}}</p>
-							</div>
-						</el-card>
-					</el-col>
-				</el-row>
-    </div>
-    <vfooter/>
- </div>
+    <model v-if="post" :file="post.asset" :fullScreen="true"></model>
+  </div>
 </template>
 <script>
 import Model from '../components/Model'

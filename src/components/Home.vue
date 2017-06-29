@@ -4,7 +4,7 @@
       <navigator/>
       <el-row class="display">
         <el-col :xs="24" :sm="16">
-          <model v-if="post" :file="post.asset" :fullScreen="true"></model>
+          <model v-if="post" :id="post.id" :file="post.asset" :fullScreen="true"></model>
         </el-col>
         <el-col :xs="24" :sm="8" class="intro">
           <div class="site-slogn">

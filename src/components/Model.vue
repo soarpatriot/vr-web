@@ -6,13 +6,32 @@
       <img :src="snapshot" v-show="showCover" class="transition-box photo-cover"/>
     </transition>
     <div class="extra">
+			<el-popover
+				ref="popover4"
+				placement="top"
+				trigger="click">
+				<el-alert
+					title="拷贝如下代码嵌入模型到自己的网站"
+					type="info"
+					:description="embedUrl"
+          :closable="false"
+					show-icon>
+				</el-alert>
+	
+			</el-popover>
+
+
+      <el-button type="text" v-popover:popover4>
+        <img src="../assets/images/embed.svg" class="camera">
+      </el-button>
+ 
       <el-button type="text" @click="photo" v-show="showCamera">
         <img src="../assets/images/camera.svg" class="camera">
       </el-button>
       <el-button type="text" @click.native="full" v-show="fullScreen">
         <img src="../assets/images/full-screen.svg" class="camera">
       </el-button>
-    </div>
+	  </div>
     <div class="progress-bar" v-show="showProgress">
       <el-progress type="circle" :percentage="progress"></el-progress>
     </div>
@@ -78,14 +97,14 @@ var OrbitControls = require('three-orbit-controls')(THREE)
 // import * as OrbitControls from '../../node_modules/three/examples/js/controls/OrbitControls.js'
 export default {
   name: 'model',
-  props: ['file', 'fullScreen', 'showCamera'],
+  props: ['id', 'file', 'fullScreen', 'showCamera'],
   data () {
     return {
-      id: 0,
       showCover: false,
       snapshot: '',
       snapshotUrl: `${process.env.ASSETS_URL}/files/snapshot`,
       url: '',
+      embedUrl: '',
       textureUrl: '',
       progress: 0,
       showProgress: true,
@@ -109,7 +128,6 @@ export default {
     }
   },
   mounted () {
-    this.id = this.$route.params.id
     this.windowHalfX = window.innerWidth / 2
     this.windowHalfY = window.innerHeight / 2
     this.url = m.modelUrl(this.file)
@@ -117,6 +135,8 @@ export default {
     this.first()
     this.addFullListener()
     this.animate()
+    const EMBED_URL = `${process.env.HOST}/#/embed/${this.id}`
+    this.embedUrl = `<iframe width="560" height="420" src="${EMBED_URL}" frameborder="0" allowfullscreen></iframe>`
   },
   methods: {
     photo () {

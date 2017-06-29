@@ -11,6 +11,8 @@ import RegTip from '@/components/RegTip'
 import Login from '@/components/Login'
 import Post from '@/components/Post'
 import Show from '@/components/Show'
+import Embed from '@/components/Embed'
+import E from '@/components/E'
 
 Vue.component('Navigator', Navigator)
 Vue.component('Vfooter', Vfooter)
@@ -57,6 +59,18 @@ export default new Router({
       path: '/my',
       name: 'my',
       component: My
+    },
+    {
+      path: '/embed/:id',
+      name: 'embed',
+      component: Embed
+    },
+    {
+      path: '/e',
+      name: 'e',
+      component: E
     }
+
+
   ]
 })
