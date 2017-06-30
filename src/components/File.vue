@@ -115,9 +115,12 @@ export default {
               }).then((response) => {
                 console.log(`success: ${response}`)
                 // window.localStorage.removeItem('files')
-                window.location.href = '#/my'
+                const id = response.data.data.id 
+                const POST_URL = `${process.env.HOST}/#/posts/${id}`
+                window.location.href = `${POST_URL}`
                 // this.$router.push({path: '#/my'})
               }, (response) => {
+                that.errorMsg = '十分抱歉，模型保存错误，请重试！' 
                 console.log(`error: ${response}`)
               })
               console.log(`data: ${this.post}`)
