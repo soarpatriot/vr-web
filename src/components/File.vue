@@ -137,6 +137,7 @@ export default {
       let token = window.localStorage.getItem('token')
       let tokenStr = `Token: ${token}`
       const fileObj = {
+        murl: file.murl,
         filename: file.filename,
         mimetype: file.mimetype,
         relative: file.relative,

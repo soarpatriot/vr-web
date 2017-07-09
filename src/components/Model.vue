@@ -336,7 +336,7 @@ export default {
         // THREE.Loader.Handlers.add(ma, new THREE.DDSLoader())
         THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
         let mtlLoader = new THREE.MTLLoader()
-        const baseUrl = `${this.file.parent}/`
+        const baseUrl = `${this.file.murl}/`
         mtlLoader.setBaseUrl(baseUrl)
         // mtlLoader.setPath('http://localhost:3000/upload/20175/1494424374933/')
         const MTL_URL = m.mtlUrl(this.file)
