@@ -266,7 +266,7 @@ export default {
           that.showProgress = false
           let materials = new THREE.MultiMaterial(mat)
           let mesh = new THREE.Mesh(geometry, materials)
-          mesh.position.setY(-120)
+          mesh.position.setY(-10)
           mesh.scale.set(1, 1, 1)
           mesh.dynamic = true
           that.scene.add(mesh)
