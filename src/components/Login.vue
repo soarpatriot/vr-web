@@ -8,7 +8,7 @@
           <el-alert :title="msg" type="warning" showIcon :closable="false"></el-alert>
         </div>
 				<el-form ref="form" :rules="rules" :model="user" label-width="80px">
-						<el-form-item label="用户名：" prop="email">
+						<el-form-item label="邮箱：" prop="email">
 								<el-input v-model="user.email"></el-input>
 						</el-form-item>
 						<el-form-item label="密码：" prop="password">

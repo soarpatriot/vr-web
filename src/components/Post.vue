@@ -2,7 +2,7 @@
   <div id="main">
     <navigator/>
     <div class="container post-container">
-      <el-row :gutter="10">
+      <el-row>
         <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="(post, index) in posts" :key="post" class="m-col">
           <el-card :body-style="{ padding: '0px' }">
             <template v-if="post.cover">
@@ -97,9 +97,20 @@ export default {
     border-radius: 0;
   } 
 }
-
+.el-row {
+  margin-left: -5px;
+  margin-right: -5px;
+  @include media-breakpoint-down('sm') {
+    margin-left: 0;
+    margin-right: 0;
+  } 
+}
 .m-col{
   margin-bottom: 10px;
+  @include media-breakpoint-up('md') {
+    padding-left: 5px;
+    padding-right: 5px;
+  } 
 }
 .info{
   font-size: 14px; 

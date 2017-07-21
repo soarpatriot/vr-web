@@ -60,6 +60,7 @@
 .model{
   width: 100%;
   vertical-align: middle;
+  background: rgba(0, 0, 0, .75); 
 }
 .extra{
   position: absolute;
@@ -241,7 +242,8 @@ export default {
       }
 
       this.renderer = new THREE.WebGLRenderer({canvas: container, preserveDrawingBuffer: true, alpha: true})
-      this.renderer.setClearColor(0x000000, 0.75)
+      this.renderer.setClearColor(0x000000, 0)
+      // this.renderer.setClearColor(0xf0f0f0)
       this.renderer.setPixelRatio(window.devicePixelRatio)
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
       this.controls.target.set(0, 0, 0)
@@ -252,11 +254,9 @@ export default {
       this.controls.maxDistance = 2000
       this.controls.minDistance = 100
       this.controls.addEventListener('mousemove', this.show)
-      // this.renderer.setSize(this.width, this.height)
       this.renderer.setSize(width, height)
-      // container.appendChild(this.renderer.domElement)
       window.addEventListener('resize', this.resize, false)
-      // document.addEventListener('mousemove', this.onDocumentMouseMove, false)
+
       if (this.modelStyle === 'JS_BIN') {
         let loader = new THREE.BinaryLoader()
         loader.crossOrigin = ''
@@ -413,10 +413,6 @@ export default {
         console.log(`width: ${width}`)
         this.renderer.setSize(width, height)
       }
-    },
-    onDocumentMouseMove (event) {
-      this.mouseX = (event.clientX - this.windowHalfX) / 2
-      this.mouseY = (event.clientY - this.windowHalfY) / 2
     },
     progress (xhr) {
       if (xhr.lengthComputable) {

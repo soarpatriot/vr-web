@@ -1,8 +1,8 @@
 <template>
   <div id="main">
     <navigator/>
-    <div class="container">
-				<el-row :gutter="10">
+    <div class="container show-container">
+				<el-row>
 					<el-col :md="16" :sm="24">
 						<el-card :body-style="{ padding: '0px' }">
               <model v-if="post" :id="post.id" :file="post.asset" :fullScreen="true"
@@ -57,10 +57,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import "~breakpoint-sass/stylesheets/_breakpoint.scss";
+@import "~bourbon-neat/app/assets/stylesheets/_neat.scss";
 @import "../assets/scss/break.scss";
 .el-card {
   @include media-breakpoint-down('sm') {
     border: 0;
+    border-radius: 0;
+  } 
+}
+.show-container {
+  @include media-breakpoint-up('sm') {
+    margin-top: 40px;
   } 
 }
 </style>
