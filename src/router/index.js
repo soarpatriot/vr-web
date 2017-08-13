@@ -13,7 +13,7 @@ import Post from '@/components/Post'
 import Show from '@/components/Show'
 import Embed from '@/components/Embed'
 import E from '@/components/E'
-
+import Activation from '@/components/Activation'
 Vue.component('Navigator', Navigator)
 Vue.component('Vfooter', Vfooter)
 Vue.use(Router)
@@ -34,6 +34,11 @@ export default new Router({
       path: '/register',
       name: 'Register',
       component: Register
+    },
+    {
+      path: '/activation',
+      name: 'Activation',
+      component: Activation
     },
     {
       path: '/regged',
@@ -70,7 +75,5 @@ export default new Router({
       name: 'e',
       component: E
     }
-
-
   ]
 })
