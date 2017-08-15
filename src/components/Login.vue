@@ -97,10 +97,11 @@ export default {
   padding-right: 20px;
   
   @include breakpoint($lg){
-		width: 50%;
+		width: 40%;
   }
   @include breakpoint($md){
-		width: 80%;
+		width: 50%;
   }
+
 }
 </style>
