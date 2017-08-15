@@ -206,12 +206,18 @@ export default {
       let container = this.$refs.model
       let area = this.$refs.area
       let width = area.clientWidth
+      // let width = window.innerWidth
+      // let height = window.innerHeight
       let height = width * 0.75
-      this.camera = new THREE.PerspectiveCamera(50, width / height, 1, 2000)
-      this.camera.position.x = 0
-      this.camera.position.y = 0
-      this.camera.position.z = 1000
-      this.camera.target = new THREE.Vector3(0, 150, 0)
+      // this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000)
+      this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 100000)
+      this.camera.position.set(2000, 5000, 5000)
+      this.camera.aspect = width / height
+      this.camera.updateProjectionMatrix()
+      // this.camera.position.x = 0
+      // this.camera.position.y = 0
+      // this.camera.position.z = 1000
+      // this.camera.target = new THREE.Vector3(0, 150, 0)
       this.scene = new THREE.Scene()
       // this.scene.position.y = -20
       let ambient = light.ambientLight()
@@ -255,6 +261,7 @@ export default {
       this.controls.minDistance = 100
       this.controls.addEventListener('mousemove', this.show)
       this.renderer.setSize(width, height)
+      
       window.addEventListener('resize', this.resize, false)
 
       if (this.modelStyle === 'JS_BIN') {
@@ -392,8 +399,8 @@ export default {
       }
     },
     fullSize (event) {
-      // this.camera.aspect = window.clientWidth / window.clientHeight
-      // this.camera.updateProjectionMatrix()
+      this.camera.aspect = window.clientWidth / window.clientHeight
+      this.camera.updateProjectionMatrix()
       console.log(`client: ${window.clientWidth}`)
       this.renderer.setSize(window.clientWidth, window.clientHeight)
     },
@@ -403,11 +410,18 @@ export default {
       if (container) {
         console.log(`container resize: ${container.clientWidth}`)
         let width = container.clientWidth
-        let height = width * 0.6
+        let height = width * 0.75
+        // let width = window.innerWidth
+        // let  height = window.innerHeight
+        this.camera.aspect = window.innerWidth / window.innerHeight
+        this.camera.updateProjectionMatrix()
         if (activated) {
           width = window.innerWidth
           height = window.innerHeight
         }
+        this.camera.aspect = width / height
+        this.camera.updateProjectionMatrix()
+ 
         // console.log(`client in resize: ${window.clientWidth}`)
         console.log(`height: ${height}`)
         console.log(`width: ${width}`)
