@@ -267,9 +267,10 @@ export default {
       if (this.modelStyle === 'JS_BIN') {
         let loader = new THREE.BinaryLoader()
         loader.crossOrigin = ''
+        loader.setCrossOrigin('')
         // loader.setTexturePath('')
         loader.load(this.url, function (geometry, mat) {
-          console.log(`geometry: ${geometry} , materials: ${materials}`)
+          console.log(`geometry: ${geometry} , js bin mat: ${mat}`)
           that.showProgress = false
           let materials = new THREE.MultiMaterial(mat)
           let mesh = new THREE.Mesh(geometry, materials)
@@ -340,19 +341,20 @@ export default {
         })
       }
       if (this.modelStyle === 'OBJ_MTL') {
-        // THREE.Loader.Handlers.add(ma, new THREE.DDSLoader())
         THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
-        let mtlLoader = new THREE.MTLLoader()
         const baseUrl = `${this.file.murl}/`
-        mtlLoader.setBaseUrl(baseUrl)
-        // mtlLoader.setPath('http://localhost:3000/upload/20175/1494424374933/')
+        THREE.ImageUtils.crossOrigin = ''
+        let textureLoader = new THREE.TextureLoader()
+        THREE.Loader.Handlers.add( /\.jpg$/i, textureLoader)
+        let mtlLoader = new THREE.MTLLoader()
+        mtlLoader.setTexturePath(baseUrl)
+        mtlLoader.setCrossOrigin('')
         const MTL_URL = m.mtlUrl(this.file)
         console.log(`MTL Url: ${MTL_URL}`)
         mtlLoader.load(MTL_URL, function (materials) {
           materials.preload()
           let loader = new THREE.OBJLoader(manager)
           loader.setMaterials(materials)
-          // loader.setPath('http://localhost:3000/upload/20175/1494424374933/')
           loader.load(that.url, function (object) {
             that.showProgress = false
             // threeModel = object

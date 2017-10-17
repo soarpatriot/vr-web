@@ -13,10 +13,11 @@ function modelType(asset) {
   const arrs = modelUrl(asset).split(REGEX) 
   const type = arrs[1].slice(1).toUpperCase()
 
-
+  //remove js bin type
   if (jsTypes.length > 0 && binTypes.length > 0){
     return 'JS_BIN'
   }
+
   if (jsTypes.length > 0 && objTypes.length > 0){
     return 'JS_OBJ'
   }
