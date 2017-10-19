@@ -84,6 +84,8 @@ import * as THREE from 'three'
 import * as full from '../assets/javascripts/full.js'
 import * as error from '../assets/javascripts/error.js'
 import * as m from '../assets/javascripts/model.js'
+import * as camera from '../assets/javascripts/camera.js'
+import * as controls from '../assets/javascripts/controls.js'
 var OBJLoader = require('../assets/venders/OBJLoader.js')
 var MTLLoader = require('../assets/venders/MTLLoader.js')
 var DDSLoader = require('../assets/venders/DDSLoader.js')
@@ -92,10 +94,6 @@ MTLLoader(THREE)
 OBJLoader(THREE)
 DDSLoader(THREE)
 BinaryLoader(THREE)
-var OrbitControls = require('three-orbit-controls')(THREE)
-// import OrbitControls from 'orbit-controls-es6'
-// import * as OrbitControls from 'three-orbit-controls'
-// import * as OrbitControls from '../../node_modules/three/examples/js/controls/OrbitControls.js'
 export default {
   name: 'model',
   props: ['id', 'file', 'fullScreen', 'showCamera'],
@@ -169,13 +167,10 @@ export default {
                 'api-token': tokenStr
               }
             }).then((response) => {
-              // window.location.href = '/' 
               console.log(`success: ${response}`)
-              // window.localStorage.setItem('token', response.data token)
-              // this.$route._router.go('/')
             }, (response) => {
               const errors = response.body.errors
-              console.log(`error: ${JSON.stringify(response.body.errors)}`)
+              // console.log(`error: ${JSON.stringify(response.body.errors)}`)
               this.msg = error.tip(errors) 
               console.log(`error: ${JSON.stringify(this.msg)}`)
             })
@@ -187,59 +182,32 @@ export default {
       setTimeout(() => {
         this.showCover = false
       }, 3000)
-      // console.log(`sdf ${dataUrl}`)
     },
     full () {
       let element = this.$refs.model
       full.requestFull(element)
-      // this.fullSize()
     },
     animate () {
       window.requestAnimationFrame(this.animate)
       this.controls.update()
       this.show()
     },
-    percent () {
-      return window.innerHeight / window.innerWidth
-    },
     first () {
       let container = this.$refs.model
       let area = this.$refs.area
       let width = area.clientWidth
-      // let width = window.innerWidth
-      // let height = window.innerHeight
       let height = width * 0.75
-      // this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000)
-      this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 100000)
-      this.camera.position.set(2000, 5000, 5000)
-      this.camera.aspect = width / height
-      this.camera.updateProjectionMatrix()
-      // this.camera.position.x = 0
-      // this.camera.position.y = 0
-      // this.camera.position.z = 1000
-      // this.camera.target = new THREE.Vector3(0, 150, 0)
+      this.camera = camera.myCamera(width, height)
       this.scene = new THREE.Scene()
-      // this.scene.position.y = -20
       let ambient = light.ambientLight()
-      // let ambient = new THREE.AmbientLight(0x444444)
       this.scene.add(ambient)
 
-      // let directionalLight = new THREE.DirectionalLight(0xffeedd)
-      // directionalLight.position.set(0, 0, 1).normalize()
-      // this.scene.add(directionalLight)
       let directionalLight = light.directLight()
       this.scene.add(directionalLight)
 
       let that = this
       let manager = new THREE.LoadingManager()
       THREE.ImageUtils.crossOrigin = ''
-      // let texture = new THREE.Texture()
-      // let imageLoader = new THREE.ImageLoader(manager)
-      // imageLoader.crossOrigin = ''
-      // imageLoader.load(this.textureUrl, function (image) {
-      //  texture.image = image
-      //  texture.needsUpdate = true
-      // })
       manager.onProgress = function (url, loaded, total) {
         console.log(`process loaded: ${loaded}`)
       }
@@ -251,14 +219,7 @@ export default {
       this.renderer.setClearColor(0x000000, 0)
       // this.renderer.setClearColor(0xf0f0f0)
       this.renderer.setPixelRatio(window.devicePixelRatio)
-      this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-      this.controls.target.set(0, 0, 0)
-      this.controls.update()
-      // let controls = new OrbitControls(this.camera, container)
-      // let controls = new THREE.TrackballControls(this.camera, container)
-      // this.controls.enabled = true
-      this.controls.maxDistance = 2000
-      this.controls.minDistance = 100
+      this.controls = controls.myControls(this.camera, this.renderer.domElement) 
       this.controls.addEventListener('mousemove', this.show)
       this.renderer.setSize(width, height)
       
@@ -268,7 +229,6 @@ export default {
         let loader = new THREE.BinaryLoader()
         loader.crossOrigin = ''
         loader.setCrossOrigin('')
-        // loader.setTexturePath('')
         loader.load(this.url, function (geometry, mat) {
           console.log(`geometry: ${geometry} , js bin mat: ${mat}`)
           that.showProgress = false
@@ -291,13 +251,11 @@ export default {
         THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
         let loader = new THREE.JSONLoader()
         loader.crossOrigin = ''
-        // loader.setTexturePath('')
         loader.load(this.url, function (geometry, mat) {
           console.log(`geometry: ${geometry} , materials: ${materials}`)
           that.showProgress = false
           let materials = new THREE.MeshFaceMaterial(mat)
           let mesh = new THREE.Mesh(geometry, materials)
-          // let mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(materials))
           mesh.position.setY(-120)
           mesh.scale.set(1.5, 1.5, 1.5)
           that.scene.add(mesh)
@@ -375,8 +333,6 @@ export default {
               // child.material.map = texture
             }
           })
-          // threeModel = object
-          // object.position.x = 0
           object.position.y = -95
           // object.position.z = -200
           that.scene.add(object)
@@ -388,8 +344,7 @@ export default {
       if (this.modelStyle === 'JSON') {
         this.controls.maxDistance = 80
         this.controls.minDistance = 5
-        console.log(`sdfasd`)
-        // let objectLoader = new THREE.ObjectLoader()
+        console.log(`JSON`)
         let objectLoader = new THREE.JSONLoader()
         objectLoader.load(this.url, function (obj) {
           that.showProgress = false
@@ -403,7 +358,6 @@ export default {
     fullSize (event) {
       this.camera.aspect = window.clientWidth / window.clientHeight
       this.camera.updateProjectionMatrix()
-      console.log(`client: ${window.clientWidth}`)
       this.renderer.setSize(window.clientWidth, window.clientHeight)
     },
     resize (event) {

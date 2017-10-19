@@ -53,15 +53,29 @@ function mtlUrl(asset) {
   return ``
 }
 
+function loadMtlObj(file) {
+  THREE.Loader.Handlers.add(/\.dds$/i, new THREE.DDSLoader())
+  THREE.Loader.Handlers.add( /\.jpg$/i, textureLoader)
+  THREE.ImageUtils.crossOrigin = ''
+  let textureLoader = new THREE.TextureLoader()
+  let mtlLoader = new THREE.MTLLoader()
+  const baseUrl = `${file.murl}/`
+  mtlLoader.setTexturePath(baseUrl)
+  mtlLoader.setCrossOrigin('')
 
-function findJs(name) {
-  const REGEX = /.js$/gi
-  return REGEX.test(name)
+  const MTL_URL = m.mtlUrl(this.file)
+  console.log(`MTL Url: ${MTL_URL}`)
+  mtlLoader.load(MTL_URL, function (materials) {
+    materials.preload()
+    let loader = new THREE.OBJLoader(manager)
+    loader.setMaterials(materials)
+    loader.load(that.url, function (object) {
+      that.showProgress = false
+      // threeModel = object
+      // object.position.x = 0
+      object.position.y = -95
+      // object.position.z = -200
+      that.scene.add(object)
+    })
+  })
 }
-
-function findMtl(part) {
-  const REGEX = /.mtl$/gi
-  return REGEX.test(part.data.name)
-} 
-
-
