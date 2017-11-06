@@ -4,15 +4,7 @@
     <div class="container login-container">
       <h2 class="title">注册成功</h2>
       <div>
-        <p class="reg-tip">您已成功注册账号，
-          立即
-          <router-link
-              class="login-link"
-              active-class="active"
-              :to="`/login`">登陆
-          </router-link>
- 
-          体验3D之旅。
+        <p class="reg-tip">您已成功注册账号，一封激活邮件已发送到您的邮箱，请在5小时内激活。激活后方可使用服务
         </p>
         
       </div>
