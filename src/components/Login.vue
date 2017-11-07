@@ -16,6 +16,10 @@
 						</el-form-item>
 						<el-form-item>
 								<el-button type="primary" @click="onSubmit('form')">登陆</el-button>
+                <router-link class="a-link"
+                  :to="`/reactivation`"> 激活账号
+                </router-link>
+	
 						</el-form-item>
 				</el-form>
       </div>
@@ -80,6 +84,11 @@ export default {
 <style lang="scss">
 @import "../assets/scss/break.scss";
 @import "../assets/scss/grid.scss";
+.a-link{
+  float: right;
+  margin: 0 10px;
+  text-decoration: none;
+}
 .h1{
  text-align: center;
 }

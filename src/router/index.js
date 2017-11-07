@@ -14,6 +14,7 @@ import Show from '@/components/Show'
 import Embed from '@/components/Embed'
 import E from '@/components/E'
 import Activation from '@/components/Activation'
+import Reactivation from '@/components/Reactivation'
 Vue.component('Navigator', Navigator)
 Vue.component('Vfooter', Vfooter)
 Vue.use(Router)
@@ -39,6 +40,11 @@ export default new Router({
       path: '/activation',
       name: 'Activation',
       component: Activation
+    },
+    {
+      path: '/reactivation',
+      name: 'Reactivation',
+      component: Reactivation
     },
     {
       path: '/regged',
