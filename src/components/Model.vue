@@ -94,6 +94,7 @@ MTLLoader(THREE)
 OBJLoader(THREE)
 DDSLoader(THREE)
 BinaryLoader(THREE)
+THREE.Cache.enabled = true
 export default {
   name: 'model',
   props: ['id', 'file', 'fullScreen', 'showCamera'],

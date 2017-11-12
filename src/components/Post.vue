@@ -18,7 +18,7 @@
             <div class="info">
               <span>{{post.title}}</span>
               <div class="bottom clearfix">
-                <time class="time"></time>
+                <time class="time">{{post.from_now}}</time>
               </div>
             </div>
           </el-card>
@@ -133,5 +133,10 @@ export default {
   @include media-breakpoint-down('sm') {
     margin-top: 0;
   } 
+}
+.time{
+  text-align: right;
+  color: #878D99;
+  font-size: 12px;
 }
 </style>
