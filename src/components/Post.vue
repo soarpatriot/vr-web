@@ -2,8 +2,8 @@
   <div id="main">
     <navigator/>
     <div class="container post-container">
-      <el-row>
-        <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="(post, index) in posts" :key="post" class="m-col">
+      <el-row :gutter="10">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="(post, index) in posts" :key="index" class="m-col">
           <el-card :body-style="{ padding: '0px' }">
             <template v-if="post.cover">
               <router-link :to="{ path: '/posts/'+ post.id, params: { id: 1 }}">
@@ -15,10 +15,12 @@
                 <img class="model-snapshot" src="../assets/images/3d.svg"/>
               </router-link> 
             </template>
-            <div class="info">
-              <span>{{post.title}}</span>
+            <div class="info clearfix">
+              <div>{{post.title}}</div>
               <div class="bottom clearfix">
                 <time class="time">{{post.from_now}}</time>
+                <span class="dot">&middot;</span>
+                <span class="author">{{post.user_name}}</span>
               </div>
             </div>
           </el-card>
@@ -108,11 +110,12 @@ export default {
 .m-col{
   margin-bottom: 10px;
   @include media-breakpoint-up('md') {
-    padding-left: 5px;
-    padding-right: 5px;
+    // padding-left: 5px;
+    // padding-right: 5px;
   } 
 }
 .info{
+  position: relative;
   font-size: 14px; 
   padding: 10px;
 }
@@ -135,8 +138,27 @@ export default {
   } 
 }
 .time{
-  text-align: right;
   color: #878D99;
+}
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	content: "";
+}
+.clearfix:after {
+  clear: both
+}
+.dot{
+  display: incline-block;
+  vertical-align: middle;
+  font-size: 24px;
+  color: #5A5E66;
+}
+.author{
+  color: #878D99;
+}
+.bottom{
+  float: right;
   font-size: 12px;
 }
 </style>
