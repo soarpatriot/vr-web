@@ -1,5 +1,5 @@
 set :stage, :production
-set :server_name, "www.sanweiyun.com"
+set :server_name, "10.3.22.60"
 set :branch, "master"
 set :deploy_to, "/data/www/vr-web"
 set :user, "soar"

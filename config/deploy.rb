@@ -23,7 +23,7 @@ set :repo_url, 'git@github.com:soarpatriot/vr-web.git'
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, fetch(:linked_files, []).push('config/prod.secret.exs','config/prod.exs')
+# set :linked_files, fetch(:linked_files, []).push('docker-compose.yml','docker/Dockerfile')
 
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, [])
@@ -36,17 +36,27 @@ set :linked_dirs, fetch(:linked_dirs, [])
 set :keep_releases, 5
 # set :phoenix_mix_env -> 'prod' #default fetch(:mix_env)
 namespace :deploy do
+
+  after :publishing, :upload do 
+    invoke "docker:upload_compose"
+    invoke "docker:upload_dockerfile"
+  end
+
+  #task :upload do 
+  #  invoke "docker:upload_compose"
+  #  invoke "docker:upload_docker"
+  #end
   task :build do
     on roles(:all), in: :sequence do
       within current_path  do
-        # execute :docker, 'run --rm -v /data:/data soar/vr-web install'     
-        execute :docker, 'run --rm -v /data:/data --name vr-web soar/vr-web run build'     
+        execute :"docker-compose", "up -d"
       end
  
     end
   end
  
-  after :publishing, "build"
+  after :published, "build"
+  # after :publishing, "build"
   #  after :published, "restart"
 end
 
