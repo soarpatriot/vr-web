@@ -1,8 +1,11 @@
 FROM node:8.9.1
 MAINTAINER soar <85624529@qq.com>
 
-RUN adduser <%= fetch(:user) %>
-USER <%= fetch(:user) %>
+# RUN adduser <%= fetch(:user) %>
+# USER <%= fetch(:user) %>
 
-RUN npm --registry https://registry.npm.taobao.org info underscore
-
+RUN echo "sass_binary_site=https://npm.taobao.org/mirrors/node-sass" >> ~/.npmrc &&\
+    echo "electron_mirror=https://npm.taobao.org/mirrors/electron" >> ~/.npmrc &&\
+    echo "phantomjs_cdnurl=http://npm.taobao.org/mirrors/phantomjs" >> ~/.npmrc &&\
+    echo "registry=https://registry.npm.taobao.org" >> ~/.npmrc
+# WORKDIR <%= current_path %>
