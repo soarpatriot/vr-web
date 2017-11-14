@@ -49,7 +49,7 @@ namespace :deploy do
   task :build do
     on roles(:all), in: :sequence do
       within current_path  do
-        execute :"docker", "rm webui"
+        execute :"docker", "container prune -f"
         execute :"docker-compose", "down"
         execute :"docker-compose", "up -d"
       end
