@@ -2,8 +2,10 @@ version: '3'
 services: 
   webui: 
     build: docker
-    image: soar/webui:1.0.9
+    image: soar/webui:1.10.0
     container_name: webui
     volumes: 
       - <%= fetch(:deploy_to) %>:/data/www/vr-web
-    command: bash -c "cd <%= fetch(:deploy_to) %>/current && npm install && npm run build"
+    command: bash -c "cd <%= fetch(:deploy_to) %>/current && npm install && npm run build \
+                      && chown -R  <%= fetch(:user) %> <%= fetch(:deploy_to) %>/shared/node_modules \
+                      && chown -R  <%= fetch(:user) %> <%= fetch(:deploy_to) %>/current/dist"
