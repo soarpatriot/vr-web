@@ -4,6 +4,7 @@ services:
     build: docker
     image: soar/webui:1.10.10
     container_name: webui
+    network_mode: "bridge"
     volumes: 
       - <%= fetch(:deploy_to) %>:/data/www/vr-web
     command: bash -c "cd <%= fetch(:deploy_to) %>/current && npm install && npm run build"
