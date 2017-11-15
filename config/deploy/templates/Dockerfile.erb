@@ -1,8 +1,12 @@
 FROM node:8.9.1
 MAINTAINER soar <85624529@qq.com>
 
-# RUN adduser <%= fetch(:user) %>
+# RUN useradd -ms /bin/bash <%= fetch(:user) %> \
+#    && mkdir -p /data/www/vr-web \
+#    && chown -R <%= fetch(:user) %> /data/www/vr-web
+
 # USER <%= fetch(:user) %>
+VOLUME /data/www/vr-web
 
 RUN echo "sass_binary_site=https://npm.taobao.org/mirrors/node-sass" >> ~/.npmrc &&\
     echo "electron_mirror=https://npm.taobao.org/mirrors/electron" >> ~/.npmrc &&\
