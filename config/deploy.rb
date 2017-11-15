@@ -60,5 +60,13 @@ namespace :deploy do
   after :published, "build"
   # after :publishing, "build"
   #  after :published, "restart"
+  before :cleanup, :change_right
+
+  task :change_right do
+    on roles(:all), in: :sequence do
+      execute :"sudo", "chown -R #{fetch(:user)}  #{fetch(:deploy_to)}/releases"
+      execute :"sudo", "chown -R #{fetch(:user)}  #{fetch(:deploy_to)}/shared/node_modules"
+    end
+  end
 end
 
