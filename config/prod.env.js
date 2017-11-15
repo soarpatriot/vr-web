@@ -1,6 +1,6 @@
 module.exports = {
-  HOST: '"http://www.sanweiyun.com"',
+  HOST: '"https://www.sanweiyun.com"',
   NODE_ENV: '"production"',
-  API_URL: '"http://api.sanweiyun.com"',
+  API_URL: '"https://api.sanweiyun.com"',
   ASSETS_URL: '"https://assets.dreamreality.cn"'
 }
