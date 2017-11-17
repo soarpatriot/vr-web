@@ -7,13 +7,17 @@
 						<el-card :body-style="{ padding: '0px' }">
               <model v-if="post" :id="post.id" :file="post.asset" :fullScreen="true"
 :showCamera="showCamera"></model>
-							<div style="padding: 14px;" v-if="post" >
-                <span>{{post.title}}</span>
-								<div class="bottom clearfix">
-									<time class="time"></time>
-								</div>
-                <p>{{post.description}}</p>
-							</div>
+              <div class="info clearfix" v-if="post">
+                <div>{{post.title}}</div>
+                <hr class="split"/>
+                <div class="description">{{post.description}}</div>
+                <div class="bottom clearfix">
+                  <time class="time">{{post.from_now}}</time>
+                  <span class="dot">&middot;</span>
+                  <span class="author">{{post.user_name}}</span>
+                </div>
+              </div>
+ 
 						</el-card>
 					</el-col>
 				</el-row>
@@ -70,5 +74,40 @@ export default {
   @include media-breakpoint-up('sm') {
     margin-top: 40px;
   } 
+}
+.info{
+  padding: 10px;
+}
+.time{
+  color: #878D99;
+}
+.description{
+  color: #5A5E66;
+}
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	content: "";
+}
+.clearfix:after {
+  clear: both
+}
+.dot{
+  display: incline-block;
+  vertical-align: middle;
+  font-size: 24px;
+  color: #5A5E66;
+}
+.author{
+  color: #878D99;
+}
+.bottom{
+  float: right;
+  font-size: 12px;
+}
+.split{
+  height: 0;
+  border: 1px solid #E6EBF5;
+  color: #EDF2FC;
 }
 </style>
