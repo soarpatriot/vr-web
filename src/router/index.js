@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import Home from '@/components/Home'
 import My from '@/components/My'
 import Upload from '@/components/Upload'
+import Profile from '@/components/profile'
 import Navigator from '@/components/Navigator'
 import Vfooter from '@/components/Vfooter'
 import Register from '@/components/Register'
@@ -25,6 +26,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     },
     {
       path: '/login',

@@ -24,6 +24,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import 'element-ui/lib/theme-default/index.css'
 // Vue.use(Element)
 Vue.use(VueResource)
+// Vue.use(axios)
 Vue.use(Vuex)
 Vue.use(Element)
 
