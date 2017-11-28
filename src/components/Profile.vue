@@ -1,48 +1,62 @@
 <template>
-  <el-upload
-    class="avatar-uploader"
-    :action="QINIU_URL"
-    :show-file-list="false"
-    :data="extraInfo"
-    :on-success="handleAvatarSuccess"
-    :before-upload="beforeAvatarUpload">
-    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-  </el-upload> 
- 
-</template>
+  <div id="main">
+    <navigator/>
+    <div class="container">
+      <div class="profile-container">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-upload
+              class="avatar-uploader"
+              :action="QINIU_URL"
+              :show-file-list="false"
+              :data="extraInfo"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload> 
 
-<style>
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
-</style>
+          </el-col>
+          <el-col :span="12">
+            <div class="avatar-change-area">
+                更改头像
+            </div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20" class="space">
+          <el-col :span="12">
+            昵称
+          </el-col>
+           <el-col :span="12">
+            {{user.name}}
+          </el-col>
+        </el-row>
+        <hr class="hr"/> 
+        <el-row :gutter="20" class="space">
+          <el-col :span="12">
+            邮箱
+          </el-col>
+           <el-col :span="12">
+            {{user.email}}
+          </el-col>
+        </el-row>
+        <hr class="hr"/> 
+      </div> 
+    </div> 
+    <vfooter/>
+
+  </div> 
+  </template>
 
 <script>
   import axios from 'axios'
   export default {
     data() {
       return {
+        user: {
+          name: '',
+          email: ''
+        },
         errorMsg: '',
         extraInfo: {
           token: 'sdfasd',
@@ -51,6 +65,23 @@
         QINIU_URL: "http://up-z1.qiniu.com",
         imageUrl: ''
       }
+    },
+    created () {
+      const USER_INFO_URL = `${process.env.API_URL}/users/me`
+      let token = window.localStorage.getItem('token')
+      let tokenStr = `Token: ${token}`
+      axios.get(USER_INFO_URL, {headers: {'api-token': tokenStr}})
+        .then((response) => {
+          const user= response.data.data
+          this.user = {
+            name: user.name,
+            email: user.email
+          }
+          console.log(`token: ${JSON.stringify(response)}`)
+        })
+        .catch((error) => {
+          console.log(`token error: ${error}`)
+        })
     },
     methods: {
       upload() {
@@ -90,4 +121,48 @@
     }
   }
 </script>
+<style scope="scoped">
+  .space{
+    margin-top: 40px;
+  }
+  .avatar-change-area{
+    height: 178px;
+    line-height: 178px;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .profile-container {
+    font-size: 14px;
+    width: 60%;
+    text-align: center;
+    margin: 40px auto;
+  }
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    display: block;
+  }
+  .hr {
+    border: 1px solid #EDF2FC;
+    height: 0;
+  }
+</style>
+
 
