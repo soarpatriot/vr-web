@@ -33,40 +33,46 @@
             </template>
           </ul>
           <ul class="nav-right">
-            <li class="nav-item">
               <template v-if="!logined">
-                <span class="nav-lang">
-                <router-link
-                  :to="`/login`">登陆
-                </router-link>
-                </span>
-                <span> / </span>
-                <span class="nav-lang">
-                  <router-link
-                    :to="`/register`">注册
-                  </router-link>
-                </span>
+                <li class="nav-item">
+									<span class="nav-lang">
+									<router-link
+										:to="`/login`">登陆
+									</router-link>
+									</span>
+									<span> / </span>
+									<span class="nav-lang">
+										<router-link
+											:to="`/register`">注册
+										</router-link>
+									</span>
+                </li>
               </template>
               <template v-else="!login">
-                <div class="img-wrapper">
-                  <span v-if="user" class="span-cur-default">
-                    <img src="../assets/images/user.svg" class="user-icon">
-                  </span>
-                  &nbsp;
-                  <span v-if="user" class="span-cur-default">
-                    {{user.name}}
-                  </span>
-                  &nbsp;
-                  <span class="nav-lang" @click="logout">
-                      退出
-                  </span>
-                </div>
-   
+                <li class="nav-item"> 
+									<div class="nav-dropdown" @click="handleDropdown" 
+										:class="{'is-active': dropdownVisible}">
+										<span>
+											<img src="../assets/images/user.svg" class="user-icon">
+											{{user.name}}
+											<i class="el-icon-arrow-down el-icon--right"></i>
+										</span>
+										<ul class="dropdown-menu">
+											<li>
+                        <router-link class="drop-link"
+                          :to="`/profile`">我的信息
+                        </router-link>
+											</li>
+                      <li>
+												<a href="#" class="drop-link" @click="logout">
+													退出
+												</a>
+											</li>
+										</ul>
+									</div>
+                </li>
               </template>
-            </li>
-            
           </ul>
-   
         </div>
         <div class="small container" :class="{'back-change': isDropdown}">
           <el-row>
@@ -153,7 +159,11 @@
   export default {
     data() {
       return {
-        user: null,
+        dropdownVisible: false,
+        user: {
+          name: '',
+          email: ''
+        },
         logined: false,
         isDropdown: false,
         active: '',
@@ -182,7 +192,6 @@
 					'api-token': tokenStr
 				} }).then((response) => {
 					this.user = response.body
-					// console.log(`token success: ${JSON.stringify(response)}`)
 				}, (response) => {
 					console.log(`error: ${JSON.stringify(response)}`)
 				})
@@ -211,8 +220,14 @@
         e.preventDefault()
 				this.logined = false
 				window.localStorage.removeItem('token')
-				window.location.href = '/'
-			}
+				// window.location.href = '/'
+			},
+      handleDropdownToggle() {
+        this.dropdownVisible = !this.dropdownVisible
+      },
+      handleDropdown() {
+        this.dropdownVisible = !this.dropdownVisible
+      }
     },
     mounted() {
       function scroll(fn) {
@@ -266,176 +281,176 @@ ul {
 .back-change{
   // background: #fff; 
 } 
-  .header-wrapper{
-    height: 60px;
-    position: relative;
-  }
-  .scrolled {
-    display: none;
-  }
-  .header {
-    height: 60px;
-    background-color: rgba(32, 160, 255, 1);
-    color: #fff;
-    top: 0;
-    left: 0;
-    width: 100%;
-    line-height: 60px;
-    z-index: 100;
-    position: relative;
+.header-wrapper{
+	height: 60px;
+	position: relative;
+}
+.scrolled {
+	display: none;
+}
+.header {
+	height: 60px;
+	background-color: rgba(32, 160, 255, 1);
+	color: #fff;
+	top: 0;
+	left: 0;
+	width: 100%;
+	line-height: 60px;
+	z-index: 100;
+	position: relative;
 
-     h1 {
-      margin: 0;
-      padding: 0; 
-      float: left;
-      font-size: 32px;
-      font-weight: normal;
+	 h1 {
+		margin: 0;
+		padding: 0; 
+		float: left;
+		font-size: 32px;
+		font-weight: normal;
 
-      a {
-        color: #fff;
-        text-decoration: none;
-        display: block;
-      }
+		a {
+			color: #fff;
+			text-decoration: none;
+			display: block;
+		}
 
-      span {
-        font-size: 12px;
-        display: inline-block;
-        width: 34px;
-        height: 18px;
-        border: 1px solid rgba(255, 255, 255, .5);
-        text-align: center;
-        line-height: 18px;
-        vertical-align: middle;
-        margin-left: 10px;
-        border-radius: 3px;
-      }
-    }
-    .nav {
-      float: left;
-      height: 100%;
-      line-height: 60px;
-      background: transparent;
-      @utils-clearfix;
-      padding: 0;
-      margin: 0;
-    }
-    .nav-sm {
-      line-height: 60px;
-      transition: max-height 0.5s linear;
-      max-height: 0;
-      overflow: hidden;
-      background: #fff;
-      @utils-clearfix;
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      float: none;
-      position: absolute;
-      left: 0;
-      top: 60px; 
-      .nav-item{
-        float: none;
-        margin-left: 0;
-        display: block;
-        span {
-          color: #404040;
-        }
-        a {
-          display: block;
-          width: 100%;
-          height: 60px;
-          line-height: 60px;
-          color: #404040;
-        }
-      }
-    }
-    .dropdown{
-      max-height: 500px;
-    } 
-    .nav-right{
-      float: right;
-      height: 100%;
-      line-height: 60px;
-      background: transparent;
-      @utils-clearfix;
-      padding: 0;
-      margin: 0;
-    }
-    .nav-logo,
-    .nav-logo-small {
-      display: inline-block;
-      width: 40px;
-      vertical-align: middle;
-    }
+		span {
+			font-size: 12px;
+			display: inline-block;
+			width: 34px;
+			height: 18px;
+			border: 1px solid rgba(255, 255, 255, .5);
+			text-align: center;
+			line-height: 18px;
+			vertical-align: middle;
+			margin-left: 10px;
+			border-radius: 3px;
+		}
+	}
+	.nav {
+		float: left;
+		height: 100%;
+		line-height: 60px;
+		background: transparent;
+		@utils-clearfix;
+		padding: 0;
+		margin: 0;
+	}
+	.nav-sm {
+		line-height: 60px;
+		transition: max-height 0.5s linear;
+		max-height: 0;
+		overflow: hidden;
+		background: #fff;
+		@utils-clearfix;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		float: none;
+		position: absolute;
+		left: 0;
+		top: 60px; 
+		.nav-item{
+			float: none;
+			margin-left: 0;
+			display: block;
+			span {
+				color: #404040;
+			}
+			a {
+				display: block;
+				width: 100%;
+				height: 60px;
+				line-height: 60px;
+				color: #404040;
+			}
+		}
+	}
+	.dropdown{
+		max-height: 500px;
+	} 
+	.nav-right{
+		float: right;
+		height: 100%;
+		line-height: 60px;
+		background: transparent;
+		@utils-clearfix;
+		padding: 0;
+		margin: 0;
+	}
+	.nav-logo,
+	.nav-logo-small {
+		display: inline-block;
+		width: 40px;
+		vertical-align: middle;
+	}
 
-    .nav-item {
-      font-weight: 300;
-      font-size: 16px;
-      margin: 0;
-      float: left;
-      list-style: none;
-      position: relative;
-      cursor: pointer;
-      margin-left: 20px;
-      &:last-child{
-        opacity: .8;
-      }
-      .span-cur-default {
-        cursor: default;
-        opacity: .8;
-      }
+	.nav-item {
+		font-weight: 400;
+		font-size: 16px;
+		margin: 0;
+		float: left;
+		list-style: none;
+		position: relative;
+		cursor: pointer;
+		margin-left: 20px;
+		&:last-child{
+			opacity: .8;
+		}
+		.span-cur-default {
+			cursor: default;
+			opacity: .8;
+		}
 
-      .nav-lang {
-        cursor: pointer;
-        display: inline-block;
-        height: 100%;
-        &:hover {
-          opacity: 1;
-        }
-        &.active {
-          font-weight: 700;
-          opacity: 1;
-        }
-      }
-   
-      a {
-        text-decoration: none;
-        color: #fff;
-        padding: 0 20px;
-        opacity: .8;
-        &.active,
-        &:hover {
-          opacity: 1;
-        }
-         
-        &.active {
-          font-weight: 700;
-        }
-
-        &.active::before {
-          content: '';
-          display: block;
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 4px;
-          background:#99d2fc;
-        }
-      }
-    }
-    .logo-item{
-      margin-left: 0;
-    } 
+		.nav-lang {
+			cursor: pointer;
+			display: inline-block;
+			height: 100%;
+			&:hover {
+				opacity: 1;
+			}
+			&.active {
+				font-weight: 400;
+				opacity: 1;
+			}
+		}
  
+		a {
+			text-decoration: none;
+			color: #fff;
+			padding: 0 20px;
+			opacity: .8;
+			&.active,
+			&:hover {
+				opacity: 1;
+			}
+			 
+			&.active {
+				font-weight: 400;
+			}
 
-  }
-  .header-home {
-    z-index: 10;
-    position: fixed;
-    top: 0;
-    background-color: rgba(32, 160, 255, 0);
-  }
+			&.active::before {
+				content: '';
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				height: 4px;
+				background:#99d2fc;
+			}
+		}
+	}
+	.logo-item{
+		margin-left: 0;
+	} 
+
+
+}
+.header-home {
+	z-index: 10;
+	position: fixed;
+	top: 0;
+	background-color: rgba(32, 160, 255, 0);
+}
 
 .user-icon{
   width: 26px;
@@ -473,6 +488,92 @@ ul {
   text-decoration: none;
   color: #fff;
 }
+.nav-dropdown {
+  position: relative;
+	margin-bottom: 6px;
+	padding-left: 18px;
+  cursor: default;
+	width: 100%;
+  list-style: none;
+	span {
+		display: block;
+		width: 100%;
+		font-size: 16px;
+		color: #fff;
+    opacity: 0.8;
+		line-height: 60px;
+		transition: .2s;
+		padding-bottom: 6px;
+		user-select: none;
+		&:hover {
+			 cursor: pointer;
+		}
+	}
+	i {
+		transition: .2s;
+		font-size: 12px;
+		// color: #979797;
+		transform: translateY(-2px);
+	}
+	&:hover {
+		span, i {
+      opacity: 1;
+		}
+	}
+  .dropdown-menu{
+    .drop-link{
+		  color: #2d2f33; 
+    }
+  }
+}
+.is-active {
+	span, i {
+    opactiy: 1;
+		// color: #409EFF;
+	}
+	i {
+		transform: rotateZ(180deg) translateY(3px);
+	}
+  .dropdown-menu{
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+    border: 1px solid #D8DCE5;
+  }
+}
+
+.dropdown-menu{
+  font-size: 14px;
+  line-height: 40px;
+  position: absolute;
+  max-height: 0;
+  list-style: none;
+  color: #2d2f33; 
+  overflow: hidden;
+  top: 60px;
+  left: 0;
+  border: 0;
+  width: 130px;
+	.drop-link{
+		color: #2d2f33; 
+	}
+  li{
+    position: relative;
+    background-color: #fff;
+    text-align: center;
+    &:hover {
+      background-color: #EDF2FC;
+		  color: #409EFF;
+		}
+	}
+
+}
+.dropdown-menu:after{  
+    content: " ";  
+    clear: both;  
+    display: block;  
+    visibility: hidden;  
+    height: 0;  
+}  
 </style>
 
 

@@ -262,3 +262,48 @@ ooooooo
       xhr.send(formData)
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+									<el-dropdown
+										trigger="click"
+										class="nav-dropdown"
+										:class="{ 'is-active': dropdownVisible }">
+									<span>
+                    <img src="../assets/images/user.svg" class="user-icon">
+                    {{user.name}}
+										<i class="el-icon-arrow-down el-icon--right"></i>
+									</span>
+									<el-dropdown-menu
+											slot="dropdown"
+											class="nav-dropdown-list"
+											@input="handleDropdownToggle">
+										<el-dropdown-item>
+                        <router-link
+                          :to="`/profile`">我的信息
+                        </router-link>
+										</el-dropdown-item>
+										<el-dropdown-item>
+                        <span class="nav-lang" @click="logout">
+                            退出
+                        </span>
+										</el-dropdown-item>
+	
+									</el-dropdown-menu>
+								</el-dropdown>
+
