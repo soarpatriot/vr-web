@@ -15,7 +15,7 @@
 								<el-input type="password" v-model="user.password"></el-input>
 						</el-form-item>
 						<el-form-item>
-								<el-button type="primary" @click="onSubmit('form')">登陆</el-button>
+								<el-button type="primary" @click="onSubmit('form')" plain>登陆</el-button>
                 <router-link class="a-link"
                   :to="`/reactivation`"> 激活账号
                 </router-link>
