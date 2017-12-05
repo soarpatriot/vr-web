@@ -53,7 +53,7 @@
 									<div class="nav-dropdown" @click="handleDropdown" 
 										:class="{'is-active': dropdownVisible}">
 										<span>
-											<img src="../assets/images/user.svg" class="user-icon">
+											<img :src="user.avatar_url" class="user-icon">
 											{{user.name}}
 											<i class="el-icon-arrow-down el-icon--right"></i>
 										</span>
@@ -124,7 +124,7 @@
             <li class="nav-item">
               <div class="img-wrapper user-info">
                 <span v-if="user">
-                  <img src="../assets/images/user-black.svg" class="user-icon">
+                  <img :src="user.avatar_url" class="user-icon">
                 </span>
                 &nbsp;
                 <span v-if="user">
@@ -162,7 +162,8 @@
         dropdownVisible: false,
         user: {
           name: '',
-          email: ''
+          email: '',
+          avatar_url: ''
         },
         logined: false,
         isDropdown: false,
@@ -192,6 +193,7 @@
 					'api-token': tokenStr
 				} }).then((response) => {
 					this.user = response.body
+          this.user.avatar_url = this.user.avatar_url || '../assets/images/user-black.svg'
 				}, (response) => {
 					console.log(`error: ${JSON.stringify(response)}`)
 				})
@@ -230,6 +232,13 @@
       }
     },
     mounted() {
+      const that = this
+      // add this for small ui dropdown display none
+      window.onresize = () => {
+        return (() => {
+          that.isDropdown = false 
+        })()
+      } 
       function scroll(fn) {
         window.addEventListener('scroll', () => {
           fn();
@@ -273,6 +282,7 @@ ul {
 }
 .small {
   display: none;
+  
   @include media-breakpoint-down(sm){
     position: relative;
     display: block;
@@ -455,7 +465,10 @@ ul {
 .user-icon{
   width: 26px;
   vertical-align: middle;
+  border: 1px solid rgba(12, 25, 38, .1);
+  // box-shadow: -2px -2px 1px 1px rgb(213,213,213) inset;
 }
+
 .hamburg{
   width: 26px;
   display: inline-block;
