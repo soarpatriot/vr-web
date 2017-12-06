@@ -4,39 +4,42 @@
     <div class="container">
       <div class="profile-container">
         <el-row :gutter="20">
-          <el-col :span="12">
+          <el-col :span="8" :offset="8">
+            <div class="avatar-wrapper">
+              <img :src="imageUrl" class="avatar">
+            </div>
+            <div class="progress-bar" :class="{'progressing': showProgress}">
+              <el-progress :percentage="percentage"></el-progress>
+            </div>
             <el-upload
               class="avatar-uploader"
               :action="QINIU_URL"
               :show-file-list="false"
               :data="extraInfo"
+              :drag="true"
+              :on-progress="handleProgress"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload">
-              <img v-if="imageUrl" :src="user.avatar_url" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              <i class="el-icon-plus avatar-uploader-icon">更改头像</i>
+              <p class="upload-tip">点击或拖动文件到此区域</p>
             </el-upload> 
 
           </el-col>
-          <el-col :span="12">
-            <div class="avatar-change-area">
-              <el-button  round>更改头像</el-button>
-            </div>
-          </el-col>
         </el-row>
         <el-row :gutter="20" class="space">
-          <el-col :span="12">
+          <el-col :span="8">
             昵称
           </el-col>
-           <el-col :span="12">
+           <el-col :span="16">
             {{user.name}}
           </el-col>
         </el-row>
         <hr class="hr"/> 
         <el-row :gutter="20" class="space">
-          <el-col :span="12">
+          <el-col :span="8">
             邮箱
           </el-col>
-           <el-col :span="12">
+           <el-col :span="16">
             {{user.email}}
           </el-col>
         </el-row>
@@ -59,6 +62,8 @@
           email: '',
           avatar_url: ''
         },
+        showProgress: false,
+        percentage: 0,
         errorMsg: '',
         extraInfo: {
           token: 'sdfasd',
@@ -79,9 +84,10 @@
             id: user.id,
             name: user.name,
             email: user.email,
-            avatar_url: user.avatar_url || this.imageUrl
+            avatar_url: user.avatar_url
           }
-          console.log(`token: ${JSON.stringify(response)}`)
+          this.imageUrl = user.avatar_url || this.imageUrl
+          // console.log(`token: ${JSON.stringify(response)}`)
         })
         .catch((error) => {
           console.log(`token error: ${error}`)
@@ -90,12 +96,18 @@
     methods: {
       upload() {
       },
+      handleProgress(event, file, fileList){
+        const percent = event.percent.toFixed(0)
+        this.percentage = parseInt(percent)
+        // console.log(percent)
+      },
       handleAvatarSuccess(res, file) {
-        const DOMAIN = "http://p03vsh3hj.bkt.clouddn.com"
+        const DOMAIN = `${process.env.STATIC_URL}`
         const SUFIX = "imageView2/1/w/200/h/200/q/75|imageslim"
         const IMG_URL = `${DOMAIN}/${res.key}?${SUFIX}`
-        console.log(JSON.stringify(res))
-        console.log(JSON.stringify(file))
+        this.showProgress = false
+        // console.log(JSON.stringify(res))
+        // console.log(JSON.stringify(file))
         // this.imageUrl = URL.createObjectURL(file.raw)
         this.imageUrl = IMG_URL
         const AVATAR_URL = `${process.env.API_URL}/users/${this.user.id}`
@@ -104,7 +116,7 @@
         let params = {avatar_url: IMG_URL}
         axios.put(AVATAR_URL, {user: params}, {headers: {'api-token': tokenStr}})
           .then((response) => {
-            console.log(`token: ${JSON.stringify(response)}`)
+            // console.log(`token: ${JSON.stringify(response)}`)
           })
           .catch((error) => {
             // that.errorMsg = '十分抱歉，模型保存错误，请重试！' 
@@ -114,11 +126,12 @@
       },
       beforeAvatarUpload(file) {
         let that = this
+        this.showProgress = true
         const isJPG = file.type === 'image/jpeg'
         const isLt2M = file.size / 1024 / 1024 < 2
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!')
-          return isJPG
+          // this.$message.error('上传头像图片只能是 JPG 格式!')
+          // return isJPG
         }
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不能超过 2MB!')
@@ -129,12 +142,12 @@
         let tokenStr = `Token: ${token}`
         return axios.post(TOKEN_URL, {}, {headers: {'api-token': tokenStr}})
           .then((response) => {
-            console.log(`token: ${JSON.stringify(response)}`)
+            // console.log(`token: ${JSON.stringify(response)}`)
             const extraInfo = {
               token: response.data.token
             }
             this.extraInfo = extraInfo
-            console.log(`token extra: ${JSON.stringify(this.extraInfo)}`)
+            // console.log(`token extra: ${JSON.stringify(this.extraInfo)}`)
           })
           .catch((error) => {
             that.errorMsg = '十分抱歉，模型保存错误，请重试！' 
@@ -147,6 +160,17 @@
 <style scope="scoped">
   .space{
     margin-top: 40px;
+  }
+  .el-upload-dragger{
+    padding: 0 20px;
+    width: 100%;
+    height: 64px;
+    &:hover{
+      .upload-tip{
+        display: block;
+      }
+    }
+ 
   }
   .avatar-change-area{
     height: 178px;
@@ -173,20 +197,38 @@
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
+    height: 64px;
+    line-height: 64px;
     text-align: center;
   }
   .avatar {
+    border: 3px solid #EDF2FC;
     background: #DFE4ED;
-    width: 178px;
-    display: block;
+    width: 100%;
+    max-width: 200px;
+    // width: 178px;
+    // display: block;
+  }
+  .upload-tip{
+    display: none;
+    position: absolute;
   }
   .hr {
     border: 1px dashed #EDF2FC;
     height: 0;
   }
+.avatar-wrapper{
+  text-align:center;
+  margin: 20px auto;
+}
+.progress-bar{
+  display:none;
+  text-align:center;
+  margin: 20px auto;
+}
+.progressing{
+  display:block
+}
 </style>
 
 

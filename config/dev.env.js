@@ -5,5 +5,6 @@ module.exports = merge(prodEnv, {
   HOST: '"http://localhost:8080"',
   NODE_ENV: '"development"',
   API_URL: '"http://localhost:4000"',
-  ASSETS_URL: '"http://localhost:3000"'
+  ASSETS_URL: '"http://localhost:3000"',
+  STATIC_URL: '"https://static.dreamreality.cn"'
 })
