@@ -240,6 +240,7 @@ export default {
           mesh.dynamic = true
           that.scene.add(mesh)
         }, function (xhr) {
+          that.showProgress = true
           console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
           that.progress = parseInt(xhr.loaded / xhr.total * 100)
           console.log(`js loaded: ${that.progress}`)
@@ -266,6 +267,7 @@ export default {
         }, function (xhr) {
           console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
           that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          that.showProgress = true
           console.log(`js loaded: ${that.progress}`)
         }, function () {
           console.log('111 error')
@@ -291,6 +293,7 @@ export default {
           let clip = THREE.AnimationClip.CreateFromMorphTargetSequence('gallop', geometry.morphTargets, 30)
           that.mixer.clipAction(clip).setDuration(2).play()
         }, function (xhr) {
+          that.showProgress = true
           console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
           const total = xhr.total === 0 ? 200000 : xhr.total
           that.progress = parseInt(xhr.loaded / total * 100)
@@ -321,6 +324,10 @@ export default {
             object.position.y = -95
             // object.position.z = -200
             that.scene.add(object)
+          }, function (xhr) {
+            that.progress = parseInt(xhr.loaded / xhr.total * 100)
+            that.showProgress = true
+            console.log(`loaded: ${that.progress}`)
           })
         })
       }
@@ -339,6 +346,7 @@ export default {
           that.scene.add(object)
         }, function (xhr) {
           that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          that.showProgress = true
           console.log(`loaded: ${that.progress}`)
         })
       }
@@ -352,6 +360,7 @@ export default {
           that.scene.add(obj)
         }, function (xhr) {
           that.progress = parseInt(xhr.loaded / xhr.total * 100)
+          that.showProgress = true
           console.log(`loaded: ${that.progress}`)
         })
       }
@@ -365,7 +374,7 @@ export default {
       const activated = full.activated()
       let container = this.$refs.area
       if (container) {
-        console.log(`container resize: ${container.clientWidth}`)
+        // console.log(`container resize: ${container.clientWidth}`)
         let width = container.clientWidth
         let height = width * 0.75
         // let width = window.innerWidth
@@ -380,8 +389,8 @@ export default {
         this.camera.updateProjectionMatrix()
  
         // console.log(`client in resize: ${window.clientWidth}`)
-        console.log(`height: ${height}`)
-        console.log(`width: ${width}`)
+        // console.log(`height: ${height}`)
+        // console.log(`width: ${width}`)
         this.renderer.setSize(width, height)
       }
     },
