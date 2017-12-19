@@ -69,6 +69,7 @@
 }
 .progress-bar{
   position: absolute;
+  display: block;
   text-align: center;
   color: #2196f3;
   left: 25%;
