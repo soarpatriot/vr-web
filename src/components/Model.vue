@@ -56,6 +56,16 @@
   background: #fff;
   width: 100%;
   position: relative;
+  .progress-bar{
+    position: absolute;
+    display: block;
+    text-align: center;
+    color: #2196f3;
+    left: 25%;
+    width: 50%;
+    top: 50%; 
+    margin-top: -73px;
+  }
 }
 .model{
   width: 100%;
@@ -66,16 +76,6 @@
   position: absolute;
   right: 10px;
   bottom: 5px;
-}
-.progress-bar{
-  position: absolute;
-  display: block;
-  text-align: center;
-  color: #2196f3;
-  left: 25%;
-  width: 50%;
-  top: 50%; 
-  margin-top: -73px;
 }
 </style>
 <script>
