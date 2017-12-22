@@ -39,6 +39,7 @@ THREE.BinaryLoader.prototype = {
 		var scope = this;
 
 		var jsonloader = new THREE.FileLoader( this.manager );
+    // jsonloader.setWithCredentials(false);
 		jsonloader.load( url, function ( data ) {
 
 			var json = JSON.parse( data );
@@ -46,6 +47,7 @@ THREE.BinaryLoader.prototype = {
 			var bufferUrl = binaryPath + json.buffers;
 
 			var bufferLoader = new THREE.FileLoader( scope.manager );
+      bufferLoader.setWithCredentials(false);
 			bufferLoader.setResponseType( 'arraybuffer' );
 			bufferLoader.load( bufferUrl, function ( bufData ) {
 
