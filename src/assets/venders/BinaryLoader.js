@@ -47,6 +47,7 @@ THREE.BinaryLoader.prototype = {
 			var bufferUrl = binaryPath + json.buffers;
 
 			var bufferLoader = new THREE.FileLoader( scope.manager );
+      bufferLoader.crossOrigin = '*';
       bufferLoader.setWithCredentials(false);
 			bufferLoader.setResponseType( 'arraybuffer' );
 			bufferLoader.load( bufferUrl, function ( bufData ) {
