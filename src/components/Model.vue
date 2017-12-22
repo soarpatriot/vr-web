@@ -53,7 +53,7 @@
 }
 .model-area{
   cursor: pointer;
-  background: #fff;
+  // background: #fff;
   width: 100%;
   position: relative;
   .progress-bar{
@@ -70,7 +70,7 @@
 .model{
   width: 100%;
   vertical-align: middle;
-  background: rgba(0, 0, 0, .75); 
+  // background: rgba(0, 0, 0, .75); 
 }
 .extra{
   position: absolute;
