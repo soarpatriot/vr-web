@@ -229,8 +229,8 @@ export default {
 
       if (this.modelStyle === 'JS_BIN') {
         let loader = new THREE.BinaryLoader()
-        loader.crossOrigin = ''
-        // loader.setCrossOrigin('')
+        // loader.crossOrigin = ''
+        loader.setCrossOrigin('*')
         loader.load(this.url, function (geometry, mat) {
           console.log(`geometry: ${geometry} , js bin mat: ${mat}`)
           that.showProgress = false
