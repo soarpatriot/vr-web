@@ -6,7 +6,7 @@
         <el-row :gutter="20">
           <el-col :span="8" :offset="8">
             <div class="avatar-wrapper">
-              <img :src="imageUrl" class="avatar">
+              <img :src="user.avatar_url" class="avatar">
             </div>
             <div class="progress-bar" :class="{'progressing': showProgress}">
               <el-progress :percentage="percentage"></el-progress>
@@ -53,6 +53,7 @@
 
 <script>
   import axios from 'axios'
+  import * as user from '../assets/javascripts/user.js'
   export default {
     data() {
       return {
@@ -74,24 +75,16 @@
       }
     },
     created () {
-      const USER_INFO_URL = `${process.env.API_URL}/users/me`
-      let token = window.localStorage.getItem('token')
-      let tokenStr = `Token: ${token}`
-      axios.get(USER_INFO_URL, {headers: {'api-token': tokenStr}})
-        .then((response) => {
-          const user= response.data.data
-          this.user = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            avatar_url: user.avatar_url
-          }
-          this.imageUrl = user.avatar_url || this.imageUrl
-          // console.log(`token: ${JSON.stringify(response)}`)
-        })
-        .catch((error) => {
-          console.log(`token error: ${error}`)
-        })
+      user.me((user) => {
+        this.user = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          avatar_url: user.avatar_url
+        }
+      }, (e) => {
+        console.log(`error: ${e}`)
+      })
     },
     methods: {
       upload() {

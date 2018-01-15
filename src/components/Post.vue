@@ -159,6 +159,7 @@ export default {
 }
 .bottom{
   float: right;
+  margin-right: 10px;
   font-size: 12px;
 }
 </style>

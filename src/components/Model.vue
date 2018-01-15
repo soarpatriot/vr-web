@@ -90,11 +90,13 @@ import * as controls from '../assets/javascripts/controls.js'
 var OBJLoader = require('../assets/venders/OBJLoader.js')
 var MTLLoader = require('../assets/venders/MTLLoader.js')
 var DDSLoader = require('../assets/venders/DDSLoader.js')
+let ColladaLoader = require('../assets/venders/ColladaLoader.js')
 var BinaryLoader = require('../assets/venders/BinaryLoader.js')
 MTLLoader(THREE)
 OBJLoader(THREE)
 DDSLoader(THREE)
 BinaryLoader(THREE)
+ColladaLoader(THREE)
 THREE.Cache.enabled = true
 export default {
   name: 'model',
@@ -226,6 +228,33 @@ export default {
       this.renderer.setSize(width, height)
       this.showProgress = true 
       window.addEventListener('resize', this.resize, false)
+      if (this.modelStyle === 'DAE') {
+        let loader = new THREE.ColladaLoader()
+        // loader.setCrossOrigin('*')
+				loader.load(this.url, (collada) => {
+					let dae = collada.scene;
+          this.showProgress = false
+					dae.traverse( function ( child ) {
+						if ( child instanceof THREE.Mesh ) {
+							// model does not have normals
+							child.material.flatShading = true
+						}
+					})
+					dae.scale.x = dae.scale.y = dae.scale.z = 100.0
+					dae.updateMatrix()
+          this.scene.add( dae );
+					// kinematics = collada.kinematics
+					// init();
+					// animate();
+        },  (total, currentLen)=> {
+          console.log(`xhr total  ${JSON.stringify(total)}, ${currentLen}`)
+          // console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
+          // this.progress = parseInt(xhr.loaded / xhr.total * 100)
+          // console.log(`js loaded: ${this.progress}`)
+ 
+          console.log('111 error')
+        })
+      }
 
       if (this.modelStyle === 'JS_BIN') {
         let loader = new THREE.BinaryLoader()

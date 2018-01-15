@@ -307,3 +307,36 @@ ooooooo
 									</el-dropdown-menu>
 								</el-dropdown>
 
+
+
+
+
+
+
+
+
+
+
+
+      const USER_INFO_URL = `${process.env.API_URL}/users/me`
+      let token = window.localStorage.getItem('token')
+      let tokenStr = `Token: ${token}`
+      axios.get(USER_INFO_URL, {headers: {'api-token': tokenStr}})
+        .then((response) => {
+          const user= response.data.data
+          this.user = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            avatar_url: user.avatar_url
+          }
+          this.imageUrl = user.avatar_url || this.imageUrl
+          // console.log(`token: ${JSON.stringify(response)}`)
+        })
+        .catch((error) => {
+          console.log(`token error: ${error}`)
+        })
+
+
+
+

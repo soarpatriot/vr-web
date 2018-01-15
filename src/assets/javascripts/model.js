@@ -4,14 +4,21 @@ import * as _ from 'lodash'
 
 function modelType(asset) {
   const parts = asset.parts
+  const daeTypes = _.filter(parts, function(p) {return  /.dae$/gi.test(p.data.name) }) 
   const jsTypes = _.filter(parts, function(p) {return  /.js$/gi.test(p.data.name) }) 
   const binTypes = _.filter(parts, function(p) {return  /.bin$/gi.test(p.data.name) }) 
   const objTypes = _.filter(parts, function(p) {return  /.obj$/gi.test(p.data.name) }) 
   const otherTypes = _.filter(parts, function(p) {return /(.json|.obj)$/gi.test(p.data.name) }) 
   const mtlType = _.filter(parts, function(p) {return /.mtl$/gi.test(p.data.name) }) 
-  const REGEX = /(.json|.obj|.js)$/gi 
+  const REGEX = /(.json|.obj|.js|.dae)$/gi 
   const arrs = modelUrl(asset).split(REGEX) 
   const type = arrs[1].slice(1).toUpperCase()
+
+  //remove js bin type
+  if (daeTypes.length > 0){
+    return 'DAE'
+  }
+
 
   //remove js bin type
   if (jsTypes.length > 0 && binTypes.length > 0){
@@ -30,11 +37,13 @@ function modelType(asset) {
   return type
 }
 
+
 function modelUrl(asset) {
   const parts = asset.parts 
   const jsParts = _.filter(parts, function(p) { return /.js$/gi.test(p.data.name) }) 
-  const otherParts = _.filter(parts, function(p) {return /(.json|.obj)$/gi.test(p.data.name) }) 
+  const otherParts = _.filter(parts, function(p) {return /(.json|.obj|.dae)$/gi.test(p.data.name) }) 
   console.log(`js parts: ${JSON.stringify(jsParts)}`)
+  console.log(`other parts: ${JSON.stringify(otherParts)}`)
   if (jsParts.length > 0) {
     return `${asset.parent}/${jsParts[0].data.name}`
   }

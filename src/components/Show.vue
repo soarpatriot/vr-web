@@ -2,8 +2,8 @@
   <div id="main">
     <navigator/>
     <div class="container show-container">
-				<el-row>
-					<el-col :md="16" :sm="24">
+				<el-row :gutter="30">
+					<el-col  :md="16" :sm="24">
 						<el-card :body-style="{ padding: '0px' }">
               <model v-if="post" :id="post.id" :file="post.asset" :fullScreen="true"
 :showCamera="showCamera"></model>
@@ -20,12 +20,18 @@
  
 						</el-card>
 					</el-col>
+					<el-col :md="8" :sm="24">
+            <div>
+              <img :src="user.avatar_url" class="avatar">
+            </div>
+					</el-col>
 				</el-row>
     </div>
     <vfooter/>
  </div>
 </template>
 <script>
+import * as user from '../assets/javascripts/user.js'
 import Model from '../components/Model'
 export default {
   name: 'post-show',
@@ -34,11 +40,28 @@ export default {
   },
   data () {
     return {
+      user: {
+        id: 0,
+        name: '',
+        email: '',
+        avatar_url: ''
+      },
       post: null,
       showCamera: false
     }
   },
   created () {
+    user.me((user) => {
+      this.user = {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar_url: user.avatar_url
+      }
+    }, (e) => {
+      console.log(`error: ${e}`)
+    })
+
     let id = this.$route.params.id
     let token = window.localStorage.getItem('token')
     const POST_URL = `${process.env.API_URL}/posts/${id}`
