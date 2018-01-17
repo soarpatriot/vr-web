@@ -246,13 +246,16 @@ export default {
 					// kinematics = collada.kinematics
 					// init();
 					// animate();
-        },  (total, currentLen)=> {
-          console.log(`xhr total  ${JSON.stringify(total)}, ${currentLen}`)
+        },  (xhr)=> {
+          // console.log(`xhr total  ${JSON.stringify(total)}, ${currentLen}`)
           // console.log(`js xhr: ${xhr.loaded}  ${xhr.total}`)
-          // this.progress = parseInt(xhr.loaded / xhr.total * 100)
-          // console.log(`js loaded: ${this.progress}`)
- 
-          console.log('111 error')
+          let pro = parseInt(xhr.loaded / this.file.size * 100)
+          if(pro > 100) {
+            this.progress = 100
+          } else {
+            this.progress = pro
+          }
+          console.log(`js loaded: ${this.progress}`)
         })
       }
 
