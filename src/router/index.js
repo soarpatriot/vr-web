@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
 import Home from '@/components/Home'
+import House from '@/components/House'
 import My from '@/components/My'
 import Upload from '@/components/Upload'
 import Profile from '@/components/Profile'
@@ -83,9 +84,9 @@ export default new Router({
       component: Embed
     },
     {
-      path: '/e',
-      name: 'e',
-      component: E
+      path: '/house',
+      name: 'house',
+      component: House
     }
   ]
 })
