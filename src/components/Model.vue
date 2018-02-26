@@ -355,6 +355,9 @@ export default {
             object.children[0].geometry.center()
             object.position.y = -95
             // object.position.z = -200
+            let helper = new THREE.BoundingBoxHelper(object, 0xff0000)
+            helper.update()
+            that.scene.add(helper)
             that.scene.add(object)
           }, function (xhr) {
             that.progress = parseInt(xhr.loaded / xhr.total * 100)
