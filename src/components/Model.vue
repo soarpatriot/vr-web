@@ -351,6 +351,8 @@ export default {
             that.showProgress = false
             // threeModel = object
             // object.position.x = 0
+            object.children[0].geometry.computeBoundingBox()
+            object.children[0].geometry.center()
             object.position.y = -95
             // object.position.z = -200
             that.scene.add(object)
