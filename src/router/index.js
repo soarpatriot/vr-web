@@ -17,6 +17,7 @@ import Embed from '@/components/Embed'
 import E from '@/components/E'
 import Activation from '@/components/Activation'
 import Reactivation from '@/components/Reactivation'
+import About from '@/components/About'
 Vue.component('Navigator', Navigator)
 Vue.component('Vfooter', Vfooter)
 Vue.use(Router)
@@ -83,6 +84,12 @@ export default new Router({
       name: 'embed',
       component: Embed
     },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
+    },
+
     {
       path: '/house',
       name: 'house',

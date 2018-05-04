@@ -23,6 +23,7 @@
                 :to="`/posts`">浏览
               </router-link>
             </li>
+
             <template v-if="logined">
             <li class="nav-item">
               <router-link
@@ -31,6 +32,13 @@
               </router-link>
             </li>
             </template>
+            <li class="nav-item">
+              <router-link
+                active-class="active"
+                :to="`/about`">关于
+              </router-link>
+            </li>
+ 
           </ul>
           <ul class="nav-right">
               <template v-if="!logined">
