@@ -122,6 +122,13 @@
               :to="`/posts`">浏览
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link
+              active-class="active"
+              :to="`/about`">关于
+            </router-link>
+          </li>
+ 
           <template v-if="logined">
             <li class="nav-item">
               <router-link
@@ -144,6 +151,7 @@
               </div>
             </li>
           </template>
+
           <template v-if="!logined">
             <li class="nav-item">
               <router-link
@@ -156,6 +164,7 @@
                 </router-link>
             </li>
           </template>
+
         </ul> 
 
       </div>
