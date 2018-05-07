@@ -4,6 +4,7 @@
       挑家具，用AR
     </h1>
     <div>
+    <img class="cover" src="https://static.dreamreality.cn/WechatIMG64.jpeg"/>
     <video class="video center" src="https://static.dreamreality.cn/WeChatSight63.mp4" controls="controls">
     </video>
  
@@ -132,7 +133,9 @@ export default {
 @import "~breakpoint-sass/stylesheets/_breakpoint.scss";
 @import "~bourbon-neat/app/assets/stylesheets/_neat.scss";
 @import "../assets/scss/break.scss";
-.video{
+.cover {
+}
+.video, .cover{
   display: block;
   margin: 0 auto;
   @include breakpoint($xs){
