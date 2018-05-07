@@ -1,7 +1,11 @@
 <template>
+
   <div id="main">
+    <div class="fluid-container stage">
+      <navigator/>
+ 
     <h1 class="center">
-      挑家具，用AR
+      挑家具，用三维云
     </h1>
     <div>
     <img class="cover" src="https://static.dreamreality.cn/WechatIMG64.jpeg"/>
@@ -117,6 +121,10 @@
       <p>微信（wechat）：18611143267 刘先生</p>
     </div>
   </div>
+    <vfooter/>
+    </div>
+  </div>
+
 </template>
 <script>
 export default {

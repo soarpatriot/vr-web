@@ -4,7 +4,10 @@
       <navigator/>
       <el-row class="display">
         <el-col :xs="24" :sm="16">
-          <model v-if="post" :id="post.id" :file="post.asset" :fullScreen="true"></model>
+          <three></three> 
+          <!-- 
+            <model v-if="post" :id="post.id" :file="post.asset" :fullScreen="true"></model>
+          -->
         </el-col>
         <el-col :xs="24" :sm="8" class="intro">
           <div class="site-slogn">
@@ -56,10 +59,12 @@
 <script>
 import Navigator from './Navigator'
 import Model from './Model'
+import Three from './Three'
 export default {
   name: 'home',
   components: {
     Navigator,
+    Three,
     Model
   },
   data () {
