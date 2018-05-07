@@ -3,6 +3,50 @@
     <navigator/>
     <div class="container post-container">
       <el-row :gutter="10">
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" class="m-col">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="sketchfab-embed-wrapper">
+              <iframe width="100%" height="260px" src="https://sketchfab.com/models/549f999e93434cef88026cf8580eef01/embed" frameborder="0" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel="" style="display:block">
+              </iframe> 
+
+            </div>
+
+          </el-card>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" class="m-col">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="sketchfab-embed-wrapper">
+              <iframe width="100%" height="260px" src="https://sketchfab.com/models/6a3761787b724a9baab4a78635638c44/embed" frameborder="0" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel="" style="display:block">
+              </iframe> 
+
+            </div>
+
+          </el-card>
+        </el-col>
+ 
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" class="m-col">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="sketchfab-embed-wrapper">
+              <iframe width="100%" height="260px" src="https://sketchfab.com/models/7aa6e0780cfe4e3ab2f6927ef23d63ac/embed" frameborder="0" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel="" style="display:block">
+              </iframe> 
+
+            </div>
+
+          </el-card>
+        </el-col>
+ 
+        <el-col :xs="24" :sm="12" :md="8" :lg="6" class="m-col">
+          <el-card :body-style="{ padding: '0px' }">
+            <div class="sketchfab-embed-wrapper">
+              <iframe width="100%" height="260px" src="https://sketchfab.com/models/4c62dfbc02fb402d9b171e1eb7ef7afd/embed" frameborder="0" allowvr allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" onmousewheel="" style="display:block">
+              </iframe> 
+
+            </div>
+
+          </el-card>
+        </el-col>
+ 
+        <!-- 
         <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="(post, index) in posts" :key="index" class="m-col">
           <el-card :body-style="{ padding: '0px' }">
             <template v-if="post.cover">
@@ -25,6 +69,8 @@
             </div>
           </el-card>
         </el-col>
+ 
+        -->
       </el-row>
       <div class="page">
         <el-pagination
