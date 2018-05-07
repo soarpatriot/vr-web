@@ -12,7 +12,7 @@
         <el-col :xs="24" :sm="8" class="intro">
           <div class="site-slogn">
             <div class="site-content">
-              <h1>发现，分享，发布在线VR 3D模型</h1>
+              <h1>发现，分享，发布在线AR 3D模型</h1>
             </div>
           </div>
         </el-col>
@@ -34,7 +34,7 @@
             <img src="/static/images/univer.png">
           </div>
           <p>
-            支持多种VR，3D模型 
+            支持多种AR，3D模型 
           </p>
  
         </el-col>
