@@ -1,0 +1,5 @@
+pipeline:
+  build: 
+    image: soar/webui:1.10.10
+    commands: 
+      - npm install
